@@ -1,6 +1,9 @@
 // src/Components/LoadingSpinner.jsx
 import React from "react";
-
+import Container from './Container';
+import Lottie from "lottie-react";
+// import errorImg from '../assets/error-404.png';
+import ErrorAnimation1 from "./../animation/Loading loop animation.json";
 
 const LoadingSpinner = () => {
   return (

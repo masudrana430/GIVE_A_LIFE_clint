@@ -2,6 +2,8 @@
 import { useState } from "react";
 import bdLocations from "../data/bdLocations.json";
 import Container from "../Components/Container";
+import Lottie from "lottie-react";
+import Find from "./../animation/Hematology.json";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -211,8 +213,19 @@ const SearchDonors = () => {
               </div>
 
               {!searched && !loading && (
-                <div className="h-40 flex items-center justify-center text-sm text-slate-500">
-                  Start by selecting a blood group, district and upazila.
+                <div>
+                  <Lottie
+                    animationData={Find}
+                    loop={true}
+                    style={{
+                      width: "190px",
+                      height: "190px",
+                      margin: "0 auto",
+                    }}
+                  />
+                  <div className="h-40 flex items-center justify-center text-sm text-slate-500">
+                    Start by selecting a blood group, district and upazila.
+                  </div>
                 </div>
               )}
 
@@ -225,6 +238,15 @@ const SearchDonors = () => {
 
               {!loading && searched && donors.length === 0 && (
                 <div className="h-40 flex flex-col items-center justify-center gap-2 text-sm text-slate-500">
+                  <Lottie
+                    animationData={Find}
+                    loop={true}
+                    style={{
+                      width: "190px",
+                      height: "190px",
+                      margin: "0 auto",
+                    }}
+                  />
                   <p>No donors found for this combination.</p>
                   <p className="text-xs">
                     Try a nearby upazila or broaden your district.
