@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -114,6 +115,13 @@ const BloodDonationRequestDetails = () => {
       setSuccessMsg(
         "You have confirmed this donation. Status is now in progress."
       );
+      const msg = "Thank you for donating! You are now assigned as donor.";
+      // setSuccess(msg);
+      // ✅ toast on success
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 2500,
+      });
       setModalOpen(false);
     } catch (error) {
       console.error(error);

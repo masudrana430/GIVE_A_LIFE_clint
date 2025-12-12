@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
-import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
+import { toast } from "react-toastify"; // ✅ add this
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -84,10 +84,26 @@ const DonationRequestDetails = () => {
       setRequest((prev) =>
         prev ? { ...prev, status: "inprogress", donor } : prev
       );
-      setSuccess("Thank you! You are now assigned as donor.");
+
+      const msg = "Thank you for donating! You are now assigned as donor.";
+      setSuccess(msg);
+
+      // ✅ toast on success
+      toast.success(msg, {
+        position: "top-right",
+        autoClose: 2500,
+      });
+
       setModalOpen(false);
     } catch (error) {
-      setErr(error.message || "Failed to confirm donation.");
+      const message = error.message || "Failed to confirm donation.";
+      setErr(message);
+
+      // ✅ toast on error
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 2500,
+      });
     } finally {
       setSaving(false);
       setTimeout(() => setSuccess(""), 2500);
