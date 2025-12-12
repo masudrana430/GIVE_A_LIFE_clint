@@ -7,7 +7,7 @@ import { FiUsers, FiDollarSign, FiDroplet } from "react-icons/fi";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const DashboardHome = () => {
   const { user } = useContext(AuthContext);
@@ -36,12 +36,9 @@ const DashboardHome = () => {
         const token = await user.getIdToken();
 
         if (role === "donor") {
-          const res = await fetch(
-            `${API_BASE}/donation-requests/me?limit=3`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+          const res = await fetch(`${API_BASE}/donation-requests/me?limit=3`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           if (!res.ok) throw new Error("Failed to load recent requests.");
           const data = await res.json();
           setRecentRequests(data.items || []);
@@ -87,8 +84,9 @@ const DashboardHome = () => {
             </h1>
             <p className="mt-1 text-sm text-slate-600">
               You are logged in as{" "}
-              <span className="font-semibold capitalize">{roleLabel}</span>. Manage
-              your activities and keep track of blood donation requests in one place.
+              <span className="font-semibold capitalize">{roleLabel}</span>.
+              Manage your activities and keep track of blood donation requests
+              in one place.
             </p>
           </div>
 
@@ -113,8 +111,8 @@ const DashboardHome = () => {
                 Recent Donation Requests
               </h2>
               <p className="text-xs text-slate-500">
-                Shows your last 3 requests. Use this to quickly monitor and update
-                their status.
+                Shows your last 3 requests. Use this to quickly monitor and
+                update their status.
               </p>
             </div>
             <div className="flex gap-2">

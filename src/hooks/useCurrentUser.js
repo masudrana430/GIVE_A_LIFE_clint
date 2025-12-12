@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const useCurrentUser = () => {
   const { user } = useContext(AuthContext);

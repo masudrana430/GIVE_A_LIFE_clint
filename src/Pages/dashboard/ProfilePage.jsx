@@ -6,7 +6,7 @@ import { FiEdit2, FiSave, FiX } from "react-icons/fi";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const ProfilePage = () => {
   const { user } = useContext(AuthContext);
@@ -193,8 +193,9 @@ const ProfilePage = () => {
             </h3>
             <p className="text-sm text-slate-500 mt-1">{formData.email}</p>
             <p className="mt-3 text-xs text-slate-500">
-              You can update your name, avatar URL and address details here. Email
-              is used for authentication and cannot be changed from this page.
+              You can update your name, avatar URL and address details here.
+              Email is used for authentication and cannot be changed from this
+              page.
             </p>
           </div>
         </div>
@@ -249,8 +250,8 @@ const ProfilePage = () => {
               placeholder="https://example.com/avatar.jpg"
             />
             <span className="text-[11px] text-slate-400 mt-1">
-              Paste a direct image URL. Changes will reflect in your dashboard and
-              navbar avatar.
+              Paste a direct image URL. Changes will reflect in your dashboard
+              and navbar avatar.
             </span>
           </div>
 

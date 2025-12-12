@@ -4,7 +4,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const statusColorClasses = {
   pending: "bg-amber-50 text-amber-700 border-amber-200",
@@ -219,9 +219,7 @@ const DonationRequestDetails = () => {
               <p className="mt-1 text-sm text-emerald-900 font-semibold">
                 {request.donor.name}
               </p>
-              <p className="text-xs text-emerald-800">
-                {request.donor.email}
-              </p>
+              <p className="text-xs text-emerald-800">{request.donor.email}</p>
             </div>
           )}
         </div>
@@ -237,16 +235,8 @@ const DonationRequestDetails = () => {
         </div>
       </div>
 
-      {err && (
-        <p className="text-error text-sm mt-3">
-          {err}
-        </p>
-      )}
-      {success && (
-        <p className="text-success text-sm mt-3">
-          {success}
-        </p>
-      )}
+      {err && <p className="text-error text-sm mt-3">{err}</p>}
+      {success && <p className="text-success text-sm mt-3">{success}</p>}
 
       {/* Donate button only when pending */}
       {request.status === "pending" && (
@@ -280,11 +270,7 @@ const DonationRequestDetails = () => {
               <p className="text-xs text-slate-600">{user.email}</p>
             </div>
 
-            {err && (
-              <p className="text-error text-sm mb-2">
-                {err}
-              </p>
-            )}
+            {err && <p className="text-error text-sm mb-2">{err}</p>}
 
             <div className="flex justify-end gap-2 mt-2">
               <button

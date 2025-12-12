@@ -16,7 +16,7 @@ import {
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 const statusFilters = ["all", "pending", "inprogress", "done", "canceled"];
 
 const statusChipClass = (status) => {
@@ -330,9 +330,7 @@ const AllDonationRequestsPage = () => {
                     {/* Actions */}
                     <td className="align-middle">
                       <div className="flex justify-end flex-wrap gap-1">
-                        {["pending", "inprogress"].includes(
-                          reqItem.status
-                        ) && (
+                        {["pending", "inprogress"].includes(reqItem.status) && (
                           <>
                             <button
                               className="btn btn-xs rounded-full bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"

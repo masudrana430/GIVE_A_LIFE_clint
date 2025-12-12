@@ -5,7 +5,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const statusStyles = {
   pending: "bg-amber-50 text-amber-700 border-amber-200",
@@ -131,8 +131,7 @@ const BloodDonationRequestDetails = () => {
   const showDonateButton = isPending && !isRequester;
 
   const statusKey = (request?.status || "pending").toLowerCase();
-  const statusClass =
-    statusStyles[statusKey] || statusStyles.pending;
+  const statusClass = statusStyles[statusKey] || statusStyles.pending;
 
   return (
     <section className="py-10 px-4 sm:px-6 lg:px-8">
@@ -150,7 +149,8 @@ const BloodDonationRequestDetails = () => {
               {request?.recipientName || "Donation Request Details"}
             </h1>
             <p className="text-xs md:text-sm text-slate-500 mt-1">
-              Review full details and confirm if you want to volunteer as a donor.
+              Review full details and confirm if you want to volunteer as a
+              donor.
             </p>
           </div>
 
@@ -264,9 +264,7 @@ const BloodDonationRequestDetails = () => {
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Full Address
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.fullAddress}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.fullAddress}</p>
                   </div>
                 </div>
               </div>
@@ -281,9 +279,7 @@ const BloodDonationRequestDetails = () => {
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Blood Group
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.bloodGroup}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.bloodGroup}</p>
                   </div>
                   <div>
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
@@ -391,9 +387,7 @@ const BloodDonationRequestDetails = () => {
                 />
               </div>
 
-              {err && (
-                <p className="text-error text-xs mt-1">{err}</p>
-              )}
+              {err && <p className="text-error text-xs mt-1">{err}</p>}
 
               <div className="modal-action flex justify-between items-center">
                 <button

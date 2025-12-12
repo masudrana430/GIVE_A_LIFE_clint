@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Container from "../Components/Container";
 import LoadingSpinner2nd from "../Components/LoadingSpinner2nd";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const PublicDonationRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -70,11 +70,7 @@ const PublicDonationRequests = () => {
             </div>
           )}
 
-          {err && (
-            <p className="text-error text-sm mb-4">
-              {err}
-            </p>
-          )}
+          {err && <p className="text-error text-sm mb-4">{err}</p>}
 
           {!loading && !err && requests.length === 0 && (
             <div className="py-8 text-center text-sm text-slate-500">

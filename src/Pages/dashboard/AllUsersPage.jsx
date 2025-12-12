@@ -6,7 +6,7 @@ import { FiUsers, FiFilter, FiShield, FiUserX } from "react-icons/fi";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 const statusFilters = ["all", "active", "blocked"];
 
 const roleChipClass = (role) => {
@@ -328,7 +328,9 @@ const AllUsersPage = () => {
                         <button
                           className="btn btn-xs rounded-full border border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100"
                           onClick={() => handleMakeRole(u, "volunteer")}
-                          disabled={actionId === u._id || u.role === "volunteer"}
+                          disabled={
+                            actionId === u._id || u.role === "volunteer"
+                          }
                         >
                           Volunteer
                         </button>

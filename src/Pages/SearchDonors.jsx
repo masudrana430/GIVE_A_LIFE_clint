@@ -3,7 +3,7 @@ import { useState } from "react";
 import bdLocations from "../data/bdLocations.json";
 import Container from "../Components/Container";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -18,10 +18,10 @@ const SearchDonors = () => {
 
   const districts = bdLocations.map((d) => d.district);
 
-  const selectedDistrictObj = bdLocations.find(
-    (d) => d.district === district
-  );
-  const upazilaOptions = selectedDistrictObj ? selectedDistrictObj.upazilas : [];
+  const selectedDistrictObj = bdLocations.find((d) => d.district === district);
+  const upazilaOptions = selectedDistrictObj
+    ? selectedDistrictObj.upazilas
+    : [];
 
   const handleDistrictChange = (value) => {
     setDistrict(value);
@@ -159,9 +159,7 @@ const SearchDonors = () => {
                   </select>
                 </div>
 
-                {err && (
-                  <p className="text-error text-xs mt-1">{err}</p>
-                )}
+                {err && <p className="text-error text-xs mt-1">{err}</p>}
 
                 <div className="pt-2 flex justify-end">
                   <button

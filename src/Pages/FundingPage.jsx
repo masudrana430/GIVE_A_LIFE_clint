@@ -6,7 +6,7 @@ import useCurrentUser from "../hooks/useCurrentUser";
 import Container from "../Components/Container";
 import LoadingSpinner2nd from "../Components/LoadingSpinner2nd";
 
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 const FundingPage = () => {
   const stripe = useStripe();
@@ -232,7 +232,9 @@ const FundingPage = () => {
                   Give Fund
                 </h2>
                 <p className="text-xs text-slate-500 mb-4">
-                  Use Stripe test card (e.g. <span className="font-mono">4242 4242 4242 4242</span>) to simulate payments.
+                  Use Stripe test card (e.g.{" "}
+                  <span className="font-mono">4242 4242 4242 4242</span>) to
+                  simulate payments.
                 </p>
 
                 <form onSubmit={handleGiveFund} className="space-y-4">

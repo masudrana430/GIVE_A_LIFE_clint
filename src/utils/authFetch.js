@@ -1,5 +1,5 @@
 // src/utils/authFetch.js
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://b12-a11-server.vercel.app";
 
 export async function authFetch(user, path, options = {}) {
   if (!user) {
