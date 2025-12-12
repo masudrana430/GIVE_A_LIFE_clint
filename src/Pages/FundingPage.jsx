@@ -5,6 +5,8 @@ import { AuthContext } from "../Provider/AuthProvider";
 import useCurrentUser from "../hooks/useCurrentUser";
 import Container from "../Components/Container";
 import LoadingSpinner2nd from "../Components/LoadingSpinner2nd";
+import Lottie from "lottie-react";
+import Fund from "./../animation/blood donner.json";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -309,6 +311,15 @@ const FundingPage = () => {
 
             {!showForm && (
               <div className="bg-white rounded-3xl shadow-md border border-slate-100 p-5 text-sm text-slate-600">
+                <Lottie
+                  animationData={Fund}
+                  loop={true}
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    margin: "0 auto",
+                  }}
+                />
                 Click the <span className="font-semibold">Give Fund</span>{" "}
                 button above to open the funding form and add a new
                 contribution.
