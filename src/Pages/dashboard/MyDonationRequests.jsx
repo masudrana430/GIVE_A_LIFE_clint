@@ -51,9 +51,7 @@ const MyDonationRequests = () => {
 
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
-          throw new Error(
-            data.message || "Failed to load donation requests."
-          );
+          throw new Error(data.message || "Failed to load donation requests.");
         }
 
         const data = await res.json();
@@ -61,8 +59,7 @@ const MyDonationRequests = () => {
         setTotalPages(data.totalPages || 1);
       } catch (error) {
         console.error(error);
-        const msg =
-          error.message || "Failed to load donation requests.";
+        const msg = error.message || "Failed to load donation requests.";
         setErr(msg);
         toast.error(msg, {
           position: "top-right",
@@ -100,49 +97,33 @@ const MyDonationRequests = () => {
 
     setActionLoading(true);
     const id = selectedRequest._id;
-    const actionLabel =
-      modalType === "delete"
-        ? "Delete request"
-        : modalType === "done"
-        ? "Mark as done"
-        : "Cancel request";
-
-    // show loading toast
-    const toastId = toast.loading(`${actionLabel} in progress...`, {
-      position: "top-right",
-    });
 
     try {
       const token = await user.getIdToken();
 
       if (modalType === "delete") {
         // DELETE request
-        const res = await fetch(
-          `${API_BASE}/donation-requests/${id}`,
-          {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await fetch(`${API_BASE}/donation-requests/${id}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
-          throw new Error(
-            data.message || "Failed to delete request."
-          );
+          throw new Error(data.message || "Failed to delete request.");
         }
 
         setRequests((prev) => prev.filter((r) => r._id !== id));
 
-        toast.update(toastId, {
-          render: "Donation request deleted successfully.",
-          type: "success",
-          isLoading: false,
+        // ✅ success toast on delete
+        toast.success("Donation request deleted successfully.", {
+          position: "top-right",
           autoClose: 2500,
         });
       } else {
         // PATCH status: 'done' | 'canceled'
         const newStatus = modalType === "done" ? "done" : "canceled";
+
         const res = await fetch(
           `${API_BASE}/donation-requests/${id}/status`,
           {
@@ -156,40 +137,31 @@ const MyDonationRequests = () => {
         );
 
         if (!res.ok) {
-          const data = await res
-            .json()
-            .catch(() => ({}));
-          throw new Error(
-            data.message || "Failed to update status."
-          );
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.message || "Failed to update status.");
         }
 
         setRequests((prev) =>
-          prev.map((r) =>
-            r._id === id ? { ...r, status: newStatus } : r
-          )
+          prev.map((r) => (r._id === id ? { ...r, status: newStatus } : r))
         );
 
-        toast.update(toastId, {
-          render:
-            newStatus === "done"
-              ? "Marked as done successfully."
-              : "Request has been canceled.",
-          type: "success",
-          isLoading: false,
-          autoClose: 2500,
-        });
+        toast.success(
+          newStatus === "done"
+            ? "Marked as done successfully."
+            : "Request has been canceled.",
+          {
+            position: "top-right",
+            autoClose: 2500,
+          }
+        );
       }
 
       closeModal();
     } catch (error) {
       console.error(error);
-      const msg =
-        error.message || "Operation failed.";
-      toast.update(toastId, {
-        render: msg,
-        type: "error",
-        isLoading: false,
+      const msg = error.message || "Operation failed.";
+      toast.error(msg, {
+        position: "top-right",
         autoClose: 3000,
       });
       setActionLoading(false);
@@ -448,9 +420,7 @@ const MyDonationRequests = () => {
               </span>
               <button
                 className="btn btn-sm rounded-full"
-                onClick={() =>
-                  setPage((p) => Math.min(totalPages, p + 1))
-                }
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
               >
                 Next
