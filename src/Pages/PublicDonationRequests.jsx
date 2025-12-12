@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Container from "../Components/Container";
 import LoadingSpinner2nd from "../Components/LoadingSpinner2nd";
+import Lottie from "lottie-react";
+import Doctor from "./../animation/Data Analysis.json";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -74,7 +76,19 @@ const PublicDonationRequests = () => {
 
           {!loading && !err && requests.length === 0 && (
             <div className="py-8 text-center text-sm text-slate-500">
+              <div className="mt-6 max-w-xs mx-auto">
+                <Lottie
+                  animationData={Doctor}
+                  loop={true}
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    margin: "0 auto",
+                  }}
+                />
+              </div>
               There are no pending donation requests right now.
+              
             </div>
           )}
 

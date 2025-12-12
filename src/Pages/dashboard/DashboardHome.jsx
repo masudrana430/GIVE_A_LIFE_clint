@@ -6,6 +6,9 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { FiUsers, FiDollarSign, FiDroplet } from "react-icons/fi";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
+import Lottie from "lottie-react";
+import Doctor from "./../../animation/Doctor.json";
+import Data from "./../../animation/Data Analysis.json";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -72,32 +75,86 @@ const DashboardHome = () => {
   return (
     <div className="space-y-6 md:space-y-8">
       {/* Welcome / hero card */}
-      <section className="rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold uppercase tracking-wide">
-              <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
-              Dashboard
+      <section className="relative overflow-hidden rounded-3xl border border-rose-100/80 bg-base-100 shadow-[0_18px_45px_rgba(15,23,42,0.10)]">
+        {/* Soft gradient accent on the right */}
+        <div
+          className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-gradient-to-br from-rose-500/25 via-rose-400/10 to-transparent blur-3xl"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute -right-10 bottom-[-60px] h-48 w-48 rounded-full bg-gradient-to-tr from-rose-400/20 via-rose-500/10 to-transparent blur-3xl"
+          aria-hidden="true"
+        />
+
+        <div className="relative flex flex-col gap-6 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          {/* Left: welcome + info */}
+          <div className="max-w-xl space-y-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-rose-100 bg-rose-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-rose-600">
+              <span className="h-1.5 w-1.5 rounded-full bg-rose-500 shadow-[0_0_0_4px_rgba(244,63,94,0.35)]" />
+              BloodCare Dashboard
             </div>
-            <h1 className="mt-3 text-2xl md:text-3xl font-extrabold text-slate-900">
-              Welcome back, {dbUser?.name || "User"}.
-            </h1>
-            <p className="mt-1 text-sm text-slate-600">
-              You are logged in as{" "}
-              <span className="font-semibold capitalize">{roleLabel}</span>.
-              Manage your activities and keep track of blood donation requests
-              in one place.
-            </p>
+
+            <div>
+              <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 md:text-3xl">
+                Welcome back,{" "}
+                <span className="text-rose-600">{dbUser?.name || "User"}</span>.
+              </h1>
+              <p className="mt-2 text-sm leading-relaxed text-slate-600 md:text-[0.95rem]">
+                You are logged in as{" "}
+                <span className="font-semibold capitalize text-slate-900">
+                  {roleLabel}
+                </span>
+                . Review donation activity, manage requests, and keep every drop
+                of blood accounted for in a single, focused view.
+              </p>
+            </div>
+
+            {/* Meta row */}
+            <div className="mt-2 flex flex-wrap items-center gap-3 text-xs md:text-[13px]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-slate-600">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="font-medium text-slate-800">Status:</span>{" "}
+                Active session
+              </span>
+
+              <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-slate-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+                <span className="font-medium text-slate-800">Email:</span>{" "}
+                <span className="truncate max-w-[190px] md:max-w-[250px]">
+                  {dbUser?.email || user?.email || "No email available"}
+                </span>
+              </span>
+
+              <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-slate-500">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                <span className="font-medium text-slate-800">Role:</span>{" "}
+                <span className="capitalize">{roleLabel}</span>
+              </span>
+            </div>
           </div>
 
-          <div className="flex flex-col items-start md:items-end gap-2 text-xs text-slate-500">
-            <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-100">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Status: Active session
-            </span>
-            <p className="truncate max-w-xs">
-              {dbUser?.email || user?.email || "No email available"}
-            </p>
+          {/* Right: doctor animation in a glass card */}
+          <div className="flex w-full justify-start md:w-auto md:justify-end">
+            <div className="relative rounded-2xl border border-rose-100/70 bg-white/70 p-3 shadow-lg backdrop-blur-sm md:p-4">
+              <div className="pointer-events-none absolute -top-3 -right-3 h-10 w-10 rounded-full bg-gradient-to-br from-rose-500/60 to-rose-400/40 opacity-80 blur-sm" />
+              <Lottie
+                animationData={Doctor}
+                loop
+                style={{
+                  width: "190px",
+                  height: "190px",
+                }}
+              />
+              <div className="mt-2 flex items-center justify-between gap-2 text-[11px] text-slate-500">
+                <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2 py-1 text-rose-600">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+                  Live overview
+                </span>
+                <span className="hidden text-[11px] text-slate-500 md:inline">
+                  Dedicated to safe blood management
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -136,7 +193,17 @@ const DashboardHome = () => {
               <LoadingSpinner2nd />
             </div>
           ) : recentRequests.length === 0 ? (
-            <div className="py-8 text-center text-sm text-slate-500">
+            <div className="py-8 text-center  text-sm text-slate-500">
+              <div className="mt-6 flex items-center justify-center ">
+              <Lottie
+                animationData={Data}
+                loop
+                style={{
+                  width: "190px",
+                  height: "190px",
+                }}
+              />
+              </div>
               You have not created any donation request yet.
               <div className="mt-3">
                 <Link

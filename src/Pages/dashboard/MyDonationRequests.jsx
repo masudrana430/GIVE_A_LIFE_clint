@@ -2,8 +2,11 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
-import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
+// import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
+import Lottie from "lottie-react";
+// import Doctor from "./../../animation/Doctor.json";
+import Data from "./../../animation/Data Analysis.json";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 const statusFilters = ["all", "pending", "inprogress", "done", "canceled"];
@@ -192,6 +195,16 @@ const MyDonationRequests = () => {
         </div>
       ) : requests.length === 0 ? (
         <div className="py-10 text-center text-sm text-slate-500">
+          <div className="mt-6 flex items-center justify-center ">
+            <Lottie
+              animationData={Data}
+              loop
+              style={{
+                width: "190px",
+                height: "190px",
+              }}
+            />
+          </div>
           No donation requests found for this filter.
           <div className="mt-3">
             <Link
