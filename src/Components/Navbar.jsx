@@ -271,7 +271,7 @@ const Navbar = () => {
 
           {/* RIGHT: theme + auth buttons / avatar */}
           <div className="navbar-end gap-3">
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
 
             {!isAuthed ? (
               <>
