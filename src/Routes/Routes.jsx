@@ -56,8 +56,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
-        loader: () =>
-          fetch("https://b12-a10-copy-server.vercel.app/latest-issues"),
+        
         errorElement: <ErrorPage />,
       },
       {
