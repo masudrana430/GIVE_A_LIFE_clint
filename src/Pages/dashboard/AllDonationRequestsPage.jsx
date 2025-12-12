@@ -15,6 +15,7 @@ import {
 } from "react-icons/fi";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 const statusFilters = ["all", "pending", "inprogress", "done", "canceled"];
@@ -46,6 +47,14 @@ const AllDonationRequestsPage = () => {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const [actionId, setActionId] = useState(null);
+
+  // confirm modal state (done / canceled / delete)
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    mode: null, // 'status' | 'delete'
+    target: null,
+    newStatus: null,
+  });
 
   const limit = 10;
   const role = dbUser?.role;
@@ -81,7 +90,9 @@ const AllDonationRequestsPage = () => {
         setTotalPages(data.totalPages || 1);
       } catch (error) {
         console.error(error);
-        setErr(error.message || "Failed to load requests.");
+        const msg = error.message || "Failed to load requests.";
+        setErr(msg);
+        toast.error(msg);
       } finally {
         setLoading(false);
       }
@@ -95,9 +106,37 @@ const AllDonationRequestsPage = () => {
     setPage(1);
   };
 
-  const handleUpdateStatus = async (reqItem, newStatus) => {
-    if (!window.confirm(`Change status to ${newStatus}?`)) return;
+  // open status modal (done/canceled)
+  const openStatusModal = (reqItem, newStatus) => {
+    setConfirmModal({
+      open: true,
+      mode: "status",
+      target: reqItem,
+      newStatus,
+    });
+  };
 
+  // open delete modal
+  const openDeleteModal = (reqItem) => {
+    setConfirmModal({
+      open: true,
+      mode: "delete",
+      target: reqItem,
+      newStatus: null,
+    });
+  };
+
+  const closeModal = () => {
+    setConfirmModal({
+      open: false,
+      mode: null,
+      target: null,
+      newStatus: null,
+    });
+  };
+
+  // API: update status (no window.confirm here)
+  const handleUpdateStatus = async (reqItem, newStatus) => {
     try {
       setActionId(reqItem._id);
       const token = await user.getIdToken();
@@ -122,19 +161,28 @@ const AllDonationRequestsPage = () => {
           r._id === reqItem._id ? { ...r, status: newStatus } : r
         )
       );
+
+      toast.success(
+        newStatus === "done"
+          ? "Request marked as completed."
+          : "Request has been canceled."
+      );
     } catch (error) {
-      alert(error.message || "Status update failed.");
+      console.error(error);
+      const msg = error.message || "Status update failed.";
+      setErr(msg);
+      toast.error(msg);
     } finally {
       setActionId(null);
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this donation request?")) return;
+  // API: delete
+  const handleDelete = async (reqItem) => {
     try {
-      setActionId(id);
+      setActionId(reqItem._id);
       const token = await user.getIdToken();
-      const res = await fetch(`${API_BASE}/donation-requests/${id}`, {
+      const res = await fetch(`${API_BASE}/donation-requests/${reqItem._id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -144,12 +192,30 @@ const AllDonationRequestsPage = () => {
         throw new Error(data.message || "Failed to delete request.");
       }
 
-      setRequests((prev) => prev.filter((r) => r._id !== id));
+      setRequests((prev) => prev.filter((r) => r._id !== reqItem._id));
+      toast.success("Donation request deleted.");
     } catch (error) {
-      alert(error.message || "Delete failed.");
+      console.error(error);
+      const msg = error.message || "Delete failed.";
+      setErr(msg);
+      toast.error(msg);
     } finally {
       setActionId(null);
     }
+  };
+
+  // Confirm button in modal
+  const handleConfirmModal = async () => {
+    const { mode, target, newStatus } = confirmModal;
+    if (!target || !mode) return;
+
+    if (mode === "status" && newStatus) {
+      await handleUpdateStatus(target, newStatus);
+    } else if (mode === "delete") {
+      await handleDelete(target);
+    }
+
+    closeModal();
   };
 
   if (loadingDbUser) {
@@ -330,12 +396,14 @@ const AllDonationRequestsPage = () => {
                     {/* Actions */}
                     <td className="align-middle">
                       <div className="flex justify-end flex-wrap gap-1">
-                        {["pending", "inprogress"].includes(reqItem.status) && (
+                        {["pending", "inprogress"].includes(
+                          reqItem.status
+                        ) && (
                           <>
                             <button
                               className="btn btn-xs rounded-full bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
                               onClick={() =>
-                                handleUpdateStatus(reqItem, "done")
+                                openStatusModal(reqItem, "done")
                               }
                               disabled={actionId === reqItem._id}
                             >
@@ -344,7 +412,7 @@ const AllDonationRequestsPage = () => {
                             <button
                               className="btn btn-xs rounded-full bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
                               onClick={() =>
-                                handleUpdateStatus(reqItem, "canceled")
+                                openStatusModal(reqItem, "canceled")
                               }
                               disabled={actionId === reqItem._id}
                             >
@@ -368,7 +436,7 @@ const AllDonationRequestsPage = () => {
                             </button>
                             <button
                               className="btn btn-xs rounded-full border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700"
-                              onClick={() => handleDelete(reqItem._id)}
+                              onClick={() => openDeleteModal(reqItem)}
                               disabled={actionId === reqItem._id}
                             >
                               <FiTrash2 className="w-3 h-3" />
@@ -418,6 +486,96 @@ const AllDonationRequestsPage = () => {
 
         {err && <p className="text-error text-sm mt-3">{err}</p>}
       </div>
+
+      {/* Confirmation Modal: Done / Cancel / Delete */}
+      {confirmModal.open && confirmModal.target && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-base-100 rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md p-6">
+            {/* Title + description */}
+            {confirmModal.mode === "status" && confirmModal.newStatus === "done" && (
+              <>
+                <h3 className="text-lg font-semibold text-emerald-700 mb-1">
+                  Mark as completed?
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  This request will be marked as <span className="font-semibold">Done</span>.
+                  Make sure the donation has been successfully completed.
+                </p>
+              </>
+            )}
+
+            {confirmModal.mode === "status" &&
+              confirmModal.newStatus === "canceled" && (
+                <>
+                  <h3 className="text-lg font-semibold text-rose-700 mb-1">
+                    Cancel this request?
+                  </h3>
+                  <p className="text-xs text-slate-500 mb-4">
+                    This request will be marked as <span className="font-semibold">Canceled</span>.
+                    Donors will treat it as no longer needed.
+                  </p>
+                </>
+              )}
+
+            {confirmModal.mode === "delete" && (
+              <>
+                <h3 className="text-lg font-semibold text-rose-700 mb-1">
+                  Delete this request?
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  This donation request will be permanently removed from the
+                  system. This action cannot be undone.
+                </p>
+              </>
+            )}
+
+            {/* Target info */}
+            <div className="rounded-xl border border-slate-100 bg-slate-50/70 px-3 py-2 mb-4 text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">
+                Request
+              </p>
+              <p className="text-slate-900 font-semibold">
+                {confirmModal.target.recipientName}
+              </p>
+              <p className="text-xs text-slate-600">
+                #{confirmModal.target._id.slice(-8)} ·{" "}
+                {confirmModal.target.bloodGroup} ·{" "}
+                {confirmModal.target.recipientDistrict},{" "}
+                {confirmModal.target.recipientUpazila}
+              </p>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-2">
+              <button
+                className="btn btn-ghost btn-sm rounded-full border border-slate-200"
+                onClick={closeModal}
+                disabled={actionId === confirmModal.target._id}
+              >
+                Cancel
+              </button>
+              <button
+                className={`btn btn-sm rounded-full border-0 px-5 ${
+                  confirmModal.mode === "delete"
+                    ? "bg-gradient-to-r from-rose-500 to-rose-600 text-white"
+                    : confirmModal.newStatus === "done"
+                    ? "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white"
+                    : "bg-gradient-to-r from-rose-500 to-rose-600 text-white"
+                }`}
+                onClick={handleConfirmModal}
+                disabled={actionId === confirmModal.target._id}
+              >
+                {actionId === confirmModal.target._id
+                  ? "Processing..."
+                  : confirmModal.mode === "delete"
+                  ? "Delete request"
+                  : confirmModal.newStatus === "done"
+                  ? "Mark as Done"
+                  : "Mark as Canceled"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

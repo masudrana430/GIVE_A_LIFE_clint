@@ -7,6 +7,7 @@ import Container from "../Components/Container";
 import LoadingSpinner2nd from "../Components/LoadingSpinner2nd";
 import Lottie from "lottie-react";
 import Fund from "./../animation/blood donner.json";
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -159,6 +160,10 @@ const FundingPage = () => {
       }
 
       setSuccessMsg("Thank you! Your fund has been recorded.");
+      toast.success("Thank you! Your fund has been recorded.", {
+        position: "top-right",
+        autoClose: 2500,
+      });
       setAmount("");
       card.clear();
       await loadFunds();

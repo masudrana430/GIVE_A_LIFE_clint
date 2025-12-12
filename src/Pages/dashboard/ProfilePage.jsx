@@ -5,6 +5,7 @@ import useCurrentUser from "../../hooks/useCurrentUser";
 import { FiEdit2, FiSave, FiX } from "react-icons/fi";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -81,6 +82,10 @@ const ProfilePage = () => {
         throw new Error(data.message || "Failed to update profile.");
       }
       setSuccess("Profile updated successfully.");
+      toast.success("Profile updated successfully.", {
+              position: "top-right",
+              autoClose: 2500,
+            });
       setOriginalData(formData);
       setEditing(false);
     } catch (error) {

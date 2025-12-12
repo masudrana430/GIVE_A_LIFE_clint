@@ -5,6 +5,7 @@ import useCurrentUser from "../../hooks/useCurrentUser";
 import { FiUsers, FiFilter, FiShield, FiUserX } from "react-icons/fi";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 const statusFilters = ["all", "active", "blocked"];
@@ -43,6 +44,15 @@ const AllUsersPage = () => {
   const [err, setErr] = useState("");
   const [actionId, setActionId] = useState(null);
 
+  // unified confirm modal state
+  const [confirmModal, setConfirmModal] = useState({
+    open: false,
+    mode: null, // 'status' | 'role'
+    user: null,
+    newStatus: null,
+    newRole: null,
+  });
+
   const limit = 10;
 
   useEffect(() => {
@@ -74,7 +84,9 @@ const AllUsersPage = () => {
         setTotalPages(data.totalPages || 1);
       } catch (error) {
         console.error(error);
-        setErr(error.message || "Failed to load users.");
+        const msg = error.message || "Failed to load users.";
+        setErr(msg);
+        toast.error(msg);
       } finally {
         setLoading(false);
       }
@@ -88,14 +100,41 @@ const AllUsersPage = () => {
     setPage(1);
   };
 
-  const handleToggleBlock = async (u) => {
+  // OPEN MODALS
+  const openStatusModal = (u) => {
     const newStatus = u.status === "active" ? "blocked" : "active";
-    const confirmText =
-      newStatus === "blocked"
-        ? `Block ${u.email}? They will not be able to create donation requests.`
-        : `Unblock ${u.email}?`;
-    if (!window.confirm(confirmText)) return;
+    setConfirmModal({
+      open: true,
+      mode: "status",
+      user: u,
+      newStatus,
+      newRole: null,
+    });
+  };
 
+  const openRoleModal = (u, role) => {
+    if (u.role === role) return; // no need to confirm same role
+    setConfirmModal({
+      open: true,
+      mode: "role",
+      user: u,
+      newStatus: null,
+      newRole: role,
+    });
+  };
+
+  const closeModal = () => {
+    setConfirmModal({
+      open: false,
+      mode: null,
+      user: null,
+      newStatus: null,
+      newRole: null,
+    });
+  };
+
+  // API: block / unblock (no confirm here, only modal)
+  const handleToggleBlock = async (u, newStatus) => {
     try {
       setActionId(u._id);
       const token = await user.getIdToken();
@@ -107,28 +146,35 @@ const AllUsersPage = () => {
         },
         body: JSON.stringify({ status: newStatus }),
       });
+
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.message || "Failed to change status.");
       }
+
       setUsers((prev) =>
         prev.map((item) =>
           item._id === u._id ? { ...item, status: newStatus } : item
         )
       );
+
+      toast.success(
+        newStatus === "blocked"
+          ? `${u.email} has been blocked.`
+          : `${u.email} has been unblocked.`
+      );
     } catch (error) {
-      alert(error.message || "Status update failed.");
+      console.error(error);
+      const msg = error.message || "Status update failed.";
+      setErr(msg);
+      toast.error(msg);
     } finally {
       setActionId(null);
     }
   };
 
+  // API: role change (volunteer/admin)
   const handleMakeRole = async (u, role) => {
-    if (u.role === role) return;
-
-    if (!window.confirm(`Change role of ${u.email} from ${u.role} to ${role}?`))
-      return;
-
     try {
       setActionId(u._id);
       const token = await user.getIdToken();
@@ -140,6 +186,7 @@ const AllUsersPage = () => {
         },
         body: JSON.stringify({ role }),
       });
+
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.message || "Failed to change role.");
@@ -148,11 +195,30 @@ const AllUsersPage = () => {
       setUsers((prev) =>
         prev.map((item) => (item._id === u._id ? { ...item, role } : item))
       );
+
+      toast.success(`${u.email} is now set as ${role}.`);
     } catch (error) {
-      alert(error.message || "Role change failed.");
+      console.error(error);
+      const msg = error.message || "Role change failed.";
+      setErr(msg);
+      toast.error(msg);
     } finally {
       setActionId(null);
     }
+  };
+
+  // CONFIRM button in modal
+  const handleConfirmModal = async () => {
+    const { mode, user: targetUser, newStatus, newRole } = confirmModal;
+    if (!targetUser || !mode) return;
+
+    if (mode === "status" && newStatus) {
+      await handleToggleBlock(targetUser, newStatus);
+    } else if (mode === "role" && newRole) {
+      await handleMakeRole(targetUser, newRole);
+    }
+
+    closeModal();
   };
 
   if (loadingDbUser) {
@@ -318,7 +384,7 @@ const AllUsersPage = () => {
                               ? "bg-rose-50 text-rose-700 hover:bg-rose-100"
                               : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
                           }`}
-                          onClick={() => handleToggleBlock(u)}
+                          onClick={() => openStatusModal(u)}
                           disabled={actionId === u._id}
                         >
                           <FiUserX className="w-3 h-3" />
@@ -327,7 +393,7 @@ const AllUsersPage = () => {
 
                         <button
                           className="btn btn-xs rounded-full border border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100"
-                          onClick={() => handleMakeRole(u, "volunteer")}
+                          onClick={() => openRoleModal(u, "volunteer")}
                           disabled={
                             actionId === u._id || u.role === "volunteer"
                           }
@@ -337,7 +403,7 @@ const AllUsersPage = () => {
 
                         <button
                           className="btn btn-xs rounded-full border border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100"
-                          onClick={() => handleMakeRole(u, "admin")}
+                          onClick={() => openRoleModal(u, "admin")}
                           disabled={actionId === u._id || u.role === "admin"}
                         >
                           Admin
@@ -376,6 +442,108 @@ const AllUsersPage = () => {
 
         {err && <p className="text-error text-sm mt-3">{err}</p>}
       </div>
+
+      {/* Unified confirmation modal (block/unblock + role change) */}
+      {confirmModal.open && confirmModal.user && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-base-100 rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md p-6">
+            {/* Title + description based on mode */}
+            {confirmModal.mode === "status" && confirmModal.newStatus === "blocked" && (
+              <>
+                <h3 className="text-lg font-semibold text-rose-700 mb-1">
+                  Block this user?
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  {confirmModal.user.email} will not be able to create donation
+                  requests while blocked. You can unblock them later.
+                </p>
+              </>
+            )}
+
+            {confirmModal.mode === "status" && confirmModal.newStatus === "active" && (
+              <>
+                <h3 className="text-lg font-semibold text-emerald-700 mb-1">
+                  Unblock this user?
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  {confirmModal.user.email} will regain access to create
+                  donation requests.
+                </p>
+              </>
+            )}
+
+            {confirmModal.mode === "role" && confirmModal.newRole === "volunteer" && (
+              <>
+                <h3 className="text-lg font-semibold text-sky-700 mb-1">
+                  Make this user a Volunteer?
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  {confirmModal.user.email} will get Volunteer permissions to
+                  help manage donation requests.
+                </p>
+              </>
+            )}
+
+            {confirmModal.mode === "role" && confirmModal.newRole === "admin" && (
+              <>
+                <h3 className="text-lg font-semibold text-amber-700 mb-1">
+                  Promote this user to Admin?
+                </h3>
+                <p className="text-xs text-slate-500 mb-4">
+                  {confirmModal.user.email} will gain full administrative
+                  control, including user management.
+                </p>
+              </>
+            )}
+
+            {/* Selected user info */}
+            <div className="rounded-xl border border-slate-100 bg-slate-50/70 px-3 py-2 mb-4 text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">
+                User
+              </p>
+              <p className="text-slate-900 font-semibold">
+                {confirmModal.user.name || "Unknown user"}
+              </p>
+              <p className="text-xs text-slate-600">
+                {confirmModal.user.email}
+              </p>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-2">
+              <button
+                className="btn btn-ghost btn-sm rounded-full border border-slate-200"
+                onClick={closeModal}
+                disabled={actionId === confirmModal.user._id}
+              >
+                Cancel
+              </button>
+              <button
+                className={`btn btn-sm rounded-full border-0 px-5 ${
+                  confirmModal.mode === "status"
+                    ? confirmModal.newStatus === "blocked"
+                      ? "bg-gradient-to-r from-rose-500 to-rose-600 text-white"
+                      : "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white"
+                    : confirmModal.newRole === "admin"
+                    ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white"
+                    : "bg-gradient-to-r from-sky-500 to-sky-600 text-white"
+                }`}
+                onClick={handleConfirmModal}
+                disabled={actionId === confirmModal.user._id}
+              >
+                {actionId === confirmModal.user._id
+                  ? "Processing..."
+                  : confirmModal.mode === "status"
+                  ? confirmModal.newStatus === "blocked"
+                    ? "Block user"
+                    : "Unblock user"
+                  : confirmModal.newRole === "admin"
+                  ? "Make Admin"
+                  : "Make Volunteer"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

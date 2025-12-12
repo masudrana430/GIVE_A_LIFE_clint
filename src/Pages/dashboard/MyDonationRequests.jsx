@@ -2,11 +2,10 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
-// import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
 import Lottie from "lottie-react";
-// import Doctor from "./../../animation/Doctor.json";
 import Data from "./../../animation/Data Analysis.json";
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 const statusFilters = ["all", "pending", "inprogress", "done", "canceled"];
@@ -20,6 +19,12 @@ const MyDonationRequests = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
+
+  // modal state
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState(null); // 'delete' | 'done' | 'cancel'
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [actionLoading, setActionLoading] = useState(false);
 
   const limit = 5;
 
@@ -43,14 +48,26 @@ const MyDonationRequests = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        if (!res.ok) throw new Error("Failed to load donation requests.");
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(
+            data.message || "Failed to load donation requests."
+          );
+        }
 
         const data = await res.json();
         setRequests(data.items || []);
         setTotalPages(data.totalPages || 1);
       } catch (error) {
         console.error(error);
-        setErr(error.message || "Failed to load donation requests.");
+        const msg =
+          error.message || "Failed to load donation requests.";
+        setErr(msg);
+        toast.error(msg, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } finally {
         setLoading(false);
       }
@@ -64,44 +81,118 @@ const MyDonationRequests = () => {
     setPage(1);
   };
 
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this request?"
-    );
-    if (!confirmed) return;
-
-    try {
-      const token = await user.getIdToken();
-      const res = await fetch(`${API_BASE}/donation-requests/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Failed to delete request.");
-
-      setRequests((prev) => prev.filter((r) => r._id !== id));
-    } catch (error) {
-      alert(error.message || "Delete failed.");
-    }
+  // open modal for delete / done / cancel
+  const openModal = (type, req) => {
+    setModalType(type); // 'delete' | 'done' | 'cancel'
+    setSelectedRequest(req);
+    setModalOpen(true);
   };
 
-  const updateStatus = async (id, newStatus) => {
+  const closeModal = () => {
+    setModalOpen(false);
+    setModalType(null);
+    setSelectedRequest(null);
+    setActionLoading(false);
+  };
+
+  const handleConfirmAction = async () => {
+    if (!selectedRequest || !modalType) return;
+
+    setActionLoading(true);
+    const id = selectedRequest._id;
+    const actionLabel =
+      modalType === "delete"
+        ? "Delete request"
+        : modalType === "done"
+        ? "Mark as done"
+        : "Cancel request";
+
+    // show loading toast
+    const toastId = toast.loading(`${actionLabel} in progress...`, {
+      position: "top-right",
+    });
+
     try {
       const token = await user.getIdToken();
-      const res = await fetch(`${API_BASE}/donation-requests/${id}/status`, {
-        method: "PATCH",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
-      if (!res.ok) throw new Error("Failed to update status.");
 
-      setRequests((prev) =>
-        prev.map((r) => (r._id === id ? { ...r, status: newStatus } : r))
-      );
+      if (modalType === "delete") {
+        // DELETE request
+        const res = await fetch(
+          `${API_BASE}/donation-requests/${id}`,
+          {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(
+            data.message || "Failed to delete request."
+          );
+        }
+
+        setRequests((prev) => prev.filter((r) => r._id !== id));
+
+        toast.update(toastId, {
+          render: "Donation request deleted successfully.",
+          type: "success",
+          isLoading: false,
+          autoClose: 2500,
+        });
+      } else {
+        // PATCH status: 'done' | 'canceled'
+        const newStatus = modalType === "done" ? "done" : "canceled";
+        const res = await fetch(
+          `${API_BASE}/donation-requests/${id}/status`,
+          {
+            method: "PATCH",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ status: newStatus }),
+          }
+        );
+
+        if (!res.ok) {
+          const data = await res
+            .json()
+            .catch(() => ({}));
+          throw new Error(
+            data.message || "Failed to update status."
+          );
+        }
+
+        setRequests((prev) =>
+          prev.map((r) =>
+            r._id === id ? { ...r, status: newStatus } : r
+          )
+        );
+
+        toast.update(toastId, {
+          render:
+            newStatus === "done"
+              ? "Marked as done successfully."
+              : "Request has been canceled.",
+          type: "success",
+          isLoading: false,
+          autoClose: 2500,
+        });
+      }
+
+      closeModal();
     } catch (error) {
-      alert(error.message || "Status update failed.");
+      console.error(error);
+      const msg =
+        error.message || "Operation failed.";
+      toast.update(toastId, {
+        render: msg,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+      setActionLoading(false);
     }
   };
 
@@ -145,6 +236,25 @@ const MyDonationRequests = () => {
         );
     }
   };
+
+  // small helper for modal text
+  const modalTitle =
+    modalType === "delete"
+      ? "Delete Donation Request"
+      : modalType === "done"
+      ? "Mark Request as Done"
+      : modalType === "cancel"
+      ? "Cancel Donation Request"
+      : "";
+
+  const modalDescription =
+    modalType === "delete"
+      ? "This action will permanently remove this donation request. This cannot be undone."
+      : modalType === "done"
+      ? "Confirm that the blood donation for this request has been completed."
+      : modalType === "cancel"
+      ? "This will mark the request as canceled so donors stop considering it."
+      : "";
 
   return (
     <div className="rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
@@ -280,20 +390,19 @@ const MyDonationRequests = () => {
                         <>
                           <button
                             className="btn btn-xs rounded-full btn-success"
-                            onClick={() => updateStatus(req._id, "done")}
+                            onClick={() => openModal("done", req)}
                           >
                             Done
                           </button>
                           <button
                             className="btn btn-xs rounded-full btn-error"
-                            onClick={() => updateStatus(req._id, "canceled")}
+                            onClick={() => openModal("cancel", req)}
                           >
                             Cancel
                           </button>
                         </>
                       )}
 
-                      {/* Optional: edit button for full spec compliance */}
                       <Link
                         to={`/dashboard/edit-donation-request/${req._id}`}
                         className="btn btn-xs rounded-full btn-outline"
@@ -303,10 +412,11 @@ const MyDonationRequests = () => {
 
                       <button
                         className="btn btn-xs rounded-full btn-outline btn-error"
-                        onClick={() => handleDelete(req._id)}
+                        onClick={() => openModal("delete", req)}
                       >
                         Delete
                       </button>
+
                       <Link
                         to={`/donation-requests/${req._id}`}
                         className="btn btn-xs rounded-full border-0 bg-slate-900 text-slate-50 hover:bg-slate-800"
@@ -338,7 +448,9 @@ const MyDonationRequests = () => {
               </span>
               <button
                 className="btn btn-sm rounded-full"
-                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() =>
+                  setPage((p) => Math.min(totalPages, p + 1))
+                }
                 disabled={page === totalPages}
               >
                 Next
@@ -349,6 +461,66 @@ const MyDonationRequests = () => {
       )}
 
       {err && <p className="text-error text-sm mt-3">{err}</p>}
+
+      {/* Confirmation Modal */}
+      {modalOpen && selectedRequest && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-base-100 rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md p-6">
+            <h3 className="text-lg font-semibold text-slate-900 mb-1">
+              {modalTitle}
+            </h3>
+            <p className="text-xs text-slate-500 mb-3">
+              {modalDescription}
+            </p>
+
+            <div className="rounded-xl bg-slate-50/80 border border-slate-100 px-3 py-2 mb-4 text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">
+                Request Summary
+              </p>
+              <p className="font-semibold text-slate-900">
+                {selectedRequest.recipientName} &mdash;{" "}
+                {selectedRequest.bloodGroup}
+              </p>
+              <p className="text-xs text-slate-600">
+                {selectedRequest.hospitalName}
+              </p>
+              <p className="text-[11px] text-slate-500 mt-1">
+                {selectedRequest.donationDate} at{" "}
+                {selectedRequest.donationTime}
+              </p>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-2">
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm rounded-full border border-slate-200"
+                onClick={closeModal}
+                disabled={actionLoading}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmAction}
+                disabled={actionLoading}
+                className={`btn btn-sm rounded-full border-0 px-5 ${
+                  modalType === "delete" || modalType === "cancel"
+                    ? "bg-gradient-to-r from-rose-500 to-red-500 text-white"
+                    : "bg-gradient-to-r from-emerald-500 to-emerald-600 text-white"
+                }`}
+              >
+                {actionLoading
+                  ? "Processing..."
+                  : modalType === "delete"
+                  ? "Yes, delete"
+                  : modalType === "done"
+                  ? "Mark as done"
+                  : "Confirm cancel"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

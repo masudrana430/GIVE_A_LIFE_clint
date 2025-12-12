@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
@@ -57,7 +58,9 @@ const EditDonationRequest = () => {
         });
       } catch (error) {
         console.error(error);
-        setErr(error.message || "Failed to load request.");
+        const msg = error.message || "Failed to load request.";
+        setErr(msg);
+        toast.error(msg, { position: "top-right", autoClose: 2500 });
       } finally {
         setLoading(false);
       }
@@ -76,6 +79,11 @@ const EditDonationRequest = () => {
     setSuccess("");
     setSaving(true);
 
+    // show loading toast immediately on click
+    const toastId = toast.loading("Updating donation request...", {
+      position: "top-right",
+    });
+
     try {
       const token = await user.getIdToken();
       const res = await fetch(`${API_BASE}/donation-requests/${id}`, {
@@ -92,12 +100,32 @@ const EditDonationRequest = () => {
         throw new Error(data.message || "Failed to update request.");
       }
 
-      setSuccess("Donation request updated successfully.");
+      const successMsg = "Donation request updated successfully.";
+      setSuccess(successMsg);
+
+      // update loading toast → success
+      toast.update(toastId, {
+        render: successMsg,
+        type: "success",
+        isLoading: false,
+        autoClose: 2500,
+      });
+
+      // Redirect back after a short delay
       setTimeout(() => {
         navigate("/dashboard/my-donation-requests");
       }, 1200);
     } catch (error) {
-      setErr(error.message || "Update failed.");
+      const msg = error.message || "Update failed.";
+      setErr(msg);
+
+      // update loading toast → error
+      toast.update(toastId, {
+        render: msg,
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     } finally {
       setSaving(false);
     }
@@ -123,7 +151,7 @@ const EditDonationRequest = () => {
             Edit Donation Request
           </p>
           <h2 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">
-            Update patient & request details
+            Update patient &amp; request details
           </h2>
           <p className="text-xs md:text-sm text-slate-500 mt-1 max-w-xl">
             Adjust the recipient information, hospital address, and timing so
