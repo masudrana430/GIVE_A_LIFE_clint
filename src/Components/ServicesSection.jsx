@@ -57,36 +57,65 @@ const services = [
 const ServicesSection = () => {
   return (
     <section className="py-12 md:py-16">
+      {/* Header */}
       <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 rounded-full border border-rose-100 px-3 py-1 bg-rose-50/60 text-[11px] font-semibold uppercase tracking-wide text-rose-700">
+        <div
+          className="
+            inline-flex items-center gap-2 rounded-full
+            border border-rose-500/20 bg-rose-500/10
+            px-3 py-1 text-[11px] font-semibold uppercase tracking-wide
+            text-rose-500
+          "
+        >
           <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
           Services
         </div>
+
         <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-base-content">
           Everything you need to{" "}
           <span className="bg-gradient-to-r from-rose-500 via-red-500 to-orange-400 bg-clip-text text-transparent">
             donate & connect
           </span>
         </h2>
-        <p className="mt-3 text-sm md:text-base text-base-content/60 max-w-2xl mx-auto">
+
+        <p className="mt-3 text-sm md:text-base text-base-content/70 max-w-2xl mx-auto">
           Built to help donors, patients, and volunteers coordinate faster with
           less friction.
         </p>
       </div>
 
+      {/* Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => {
           const Icon = s.icon;
           return (
             <div
               key={s.title}
-              className="rounded-3xl border border-base-200 bg-base-100 shadow-xl p-6 hover:shadow-2xl transition"
+              className="
+                group rounded-3xl border border-base-200 bg-base-100
+                p-6 shadow-xl transition-all duration-200
+                hover:shadow-2xl hover:-translate-y-0.5
+              "
             >
               <div className="flex items-start justify-between">
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 border border-rose-100">
+                {/* Icon chip */}
+                <span
+                  className="
+                    inline-flex h-11 w-11 items-center justify-center rounded-2xl
+                    bg-rose-500/10 text-rose-500 border border-rose-500/20
+                  "
+                >
                   <Icon className="w-5 h-5" />
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-base-200/60 text-slate-700">
+
+                {/* Badge */}
+                <span
+                  className="
+                    text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-full
+                    bg-base-200/60 border border-base-200
+                    text-base-content/70
+                  "
+                >
                   {s.badge}
                 </span>
               </div>
@@ -94,12 +123,19 @@ const ServicesSection = () => {
               <h3 className="mt-4 text-lg font-bold text-base-content">
                 {s.title}
               </h3>
-              <p className="mt-2 text-sm text-slate-600 leading-6">{s.desc}</p>
+
+              <p className="mt-2 text-sm leading-6 text-base-content/70">
+                {s.desc}
+              </p>
 
               <div className="mt-4">
                 <Link
                   to={s.to}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-rose-600 hover:text-rose-700"
+                  className="
+                    inline-flex items-center gap-2 text-sm font-semibold
+                    text-rose-500 hover:text-rose-600
+                    transition
+                  "
                 >
                   Learn more <span aria-hidden="true">→</span>
                 </Link>

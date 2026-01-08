@@ -2,15 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import LoadingSpinnercopy from "../../Components/LoadingSpinnercopy";
-import { toast } from "react-toastify"; // ✅ add this
+import { toast } from "react-toastify";
 
 const API_BASE = "https://b12-a11-server.vercel.app";
 
-const statusColorClasses = {
-  pending: "bg-amber-50 text-amber-700 border-amber-200",
-  inprogress: "bg-sky-50 text-sky-700 border-sky-200",
-  done: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  canceled: "bg-rose-50 text-rose-700 border-rose-200",
+// DaisyUI-friendly status tones (works in both light + dark)
+const statusTone = {
+  pending: "bg-warning/10 text-warning border-warning/20",
+  inprogress: "bg-info/10 text-info border-info/20",
+  done: "bg-success/10 text-success border-success/20",
+  canceled: "bg-error/10 text-error border-error/20",
 };
 
 const DonationRequestDetails = () => {
@@ -29,11 +30,11 @@ const DonationRequestDetails = () => {
     const load = async () => {
       try {
         setLoading(true);
+        setErr("");
+
         const token = await user.getIdToken();
         const res = await fetch(`${API_BASE}/donation-requests/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (!res.ok) {
@@ -56,6 +57,7 @@ const DonationRequestDetails = () => {
 
   const handleConfirmDonate = async () => {
     if (!request) return;
+
     setSaving(true);
     setErr("");
     setSuccess("");
@@ -81,29 +83,17 @@ const DonationRequestDetails = () => {
         throw new Error(data.message || "Failed to confirm donation.");
       }
 
-      setRequest((prev) =>
-        prev ? { ...prev, status: "inprogress", donor } : prev
-      );
+      setRequest((prev) => (prev ? { ...prev, status: "inprogress", donor } : prev));
 
       const msg = "Thank you for donating! You are now assigned as donor.";
       setSuccess(msg);
 
-      // ✅ toast on success
-      toast.success(msg, {
-        position: "top-right",
-        autoClose: 2500,
-      });
-
+      toast.success(msg, { position: "top-right", autoClose: 2500 });
       setModalOpen(false);
     } catch (error) {
       const message = error.message || "Failed to confirm donation.";
       setErr(message);
-
-      // ✅ toast on error
-      toast.error(message, {
-        position: "top-right",
-        autoClose: 2500,
-      });
+      toast.error(message, { position: "top-right", autoClose: 2500 });
     } finally {
       setSaving(false);
       setTimeout(() => setSuccess(""), 2500);
@@ -118,9 +108,8 @@ const DonationRequestDetails = () => {
     );
   }
 
-  const statusKey = request.status?.toLowerCase() || "pending";
-  const statusClasses =
-    statusColorClasses[statusKey] || statusColorClasses.pending;
+  const statusKey = (request.status || "pending").toLowerCase();
+  const statusClasses = statusTone[statusKey] || statusTone.pending;
 
   return (
     <div className="max-w-3xl mx-auto rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8">
@@ -128,14 +117,16 @@ const DonationRequestDetails = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
           <p className="text-[11px] uppercase tracking-wide text-base-content/60 flex items-center gap-2">
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-semibold">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-semibold">
               🩸
             </span>
             Donation Request Details
           </p>
+
           <h2 className="text-xl md:text-2xl font-bold text-base-content mt-1">
             {request.recipientName || "Blood donation request"}
           </h2>
+
           <p className="text-xs md:text-sm text-base-content/60 mt-1">
             Review full details before committing to donate.
           </p>
@@ -148,10 +139,11 @@ const DonationRequestDetails = () => {
             <span className="h-1.5 w-1.5 rounded-full bg-current/70" />
             {request.status}
           </span>
+
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="btn btn-ghost btn-xs rounded-full border border-slate-200"
+            className="btn btn-ghost btn-xs rounded-full border border-base-200"
           >
             ← Back
           </button>
@@ -160,7 +152,7 @@ const DonationRequestDetails = () => {
 
       {/* Main content */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 text-sm">
-        {/* Left column */}
+        {/* Left */}
         <div className="space-y-3">
           <div>
             <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
@@ -175,7 +167,7 @@ const DonationRequestDetails = () => {
             <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
               Location
             </p>
-            <p className="mt-1 text-slate-800">
+            <p className="mt-1 text-base-content/80">
               {request.recipientDistrict}, {request.recipientUpazila}
             </p>
           </div>
@@ -184,21 +176,21 @@ const DonationRequestDetails = () => {
             <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
               Hospital
             </p>
-            <p className="mt-1 text-slate-800">{request.hospitalName}</p>
+            <p className="mt-1 text-base-content/80">{request.hospitalName}</p>
             <p className="mt-0.5 text-xs text-base-content/60">
               {request.fullAddress}
             </p>
           </div>
         </div>
 
-        {/* Right column */}
+        {/* Right */}
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
             <div>
               <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
                 Blood Group
               </p>
-              <span className="inline-flex mt-1 items-center justify-center px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-100">
+              <span className="inline-flex mt-1 items-center justify-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20">
                 {request.bloodGroup}
               </span>
             </div>
@@ -207,7 +199,7 @@ const DonationRequestDetails = () => {
               <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60 text-right">
                 Date &amp; Time
               </p>
-              <p className="mt-1 text-slate-800 text-right">
+              <p className="mt-1 text-base-content/80 text-right">
                 {request.donationDate}
               </p>
               <p className="text-xs text-base-content/60 text-right">
@@ -228,16 +220,16 @@ const DonationRequestDetails = () => {
             </p>
           </div>
 
-          {request.status === "inprogress" && request.donor && (
-            <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 px-3 py-2">
-              <p className="text-[11px] font-semibold tracking-wide uppercase text-emerald-700 flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          {statusKey === "inprogress" && request.donor && (
+            <div className="rounded-xl border border-success/20 bg-success/10 px-3 py-2">
+              <p className="text-[11px] font-semibold tracking-wide uppercase text-success flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-success" />
                 Assigned Donor
               </p>
-              <p className="mt-1 text-sm text-emerald-900 font-semibold">
+              <p className="mt-1 text-sm text-base-content font-semibold">
                 {request.donor.name}
               </p>
-              <p className="text-xs text-emerald-800">{request.donor.email}</p>
+              <p className="text-xs text-base-content/70">{request.donor.email}</p>
             </div>
           )}
         </div>
@@ -248,7 +240,7 @@ const DonationRequestDetails = () => {
         <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60 mb-1.5">
           Request Message
         </p>
-        <div className="rounded-2xl border border-base-200 bg-base-200/60 px-4 py-3 text-sm text-slate-800 whitespace-pre-wrap">
+        <div className="rounded-2xl border border-base-200 bg-base-200/60 px-4 py-3 text-sm text-base-content/80 whitespace-pre-wrap">
           {request.requestMessage}
         </div>
       </div>
@@ -257,7 +249,7 @@ const DonationRequestDetails = () => {
       {success && <p className="text-success text-sm mt-3">{success}</p>}
 
       {/* Donate button only when pending */}
-      {request.status === "pending" && (
+      {statusKey === "pending" && (
         <div className="mt-6 flex justify-end">
           <button
             className="btn rounded-full border-0 bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316] text-white font-semibold px-6 shadow-lg shadow-red-300/60 hover:shadow-red-400/80 transition"
@@ -272,32 +264,36 @@ const DonationRequestDetails = () => {
       {modalOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-base-100 rounded-2xl shadow-2xl border border-base-200 p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-1">Confirm Donation</h3>
+            <h3 className="text-lg font-semibold mb-1 text-base-content">
+              Confirm Donation
+            </h3>
+
             <p className="text-xs text-base-content/60 mb-4">
-              You are about to volunteer as a donor for this request. Your
-              contact information will be shared with the requester.
+              You are about to volunteer as a donor for this request. Your contact
+              information will be shared with the requester.
             </p>
 
-            <div className="rounded-xl border border-base-200 bg-base-200/60/70 px-3 py-2 mb-4 text-sm">
+            <div className="rounded-xl border border-base-200 bg-base-200/60 px-3 py-2 mb-4 text-sm">
               <p className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60 mb-1">
                 Donor Information
               </p>
               <p className="text-base-content font-semibold">
                 {user.displayName || user.email}
               </p>
-              <p className="text-xs text-slate-600">{user.email}</p>
+              <p className="text-xs text-base-content/60">{user.email}</p>
             </div>
 
             {err && <p className="text-error text-sm mb-2">{err}</p>}
 
             <div className="flex justify-end gap-2 mt-2">
               <button
-                className="btn btn-ghost btn-sm rounded-full border border-slate-200"
+                className="btn btn-ghost btn-sm rounded-full border border-base-200"
                 onClick={() => setModalOpen(false)}
                 disabled={saving}
               >
                 Cancel
               </button>
+
               <button
                 className="btn btn-sm rounded-full border-0 bg-gradient-to-r from-[#16A34A] to-[#22C55E] text-white font-semibold px-5"
                 onClick={handleConfirmDonate}

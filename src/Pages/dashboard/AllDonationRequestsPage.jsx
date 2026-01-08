@@ -331,14 +331,14 @@ const AllDonationRequestsPage = () => {
 
                     {/* Location */}
                     <td className="align-middle">
-                      <div className="flex items-start gap-2 text-xs text-slate-600">
-                        <FiMapPin className="w-3 h-3 mt-[2px] text-slate-400" />
+                      <div className="flex items-start gap-2 text-xs text-base-content/70">
+                        <FiMapPin className="w-3 h-3 mt-[2px] text-base-content/40" />
                         <div className="flex flex-col">
                           <span>
                             {reqItem.recipientDistrict},{" "}
                             {reqItem.recipientUpazila}
                           </span>
-                          <span className="text-[11px] text-slate-400 truncate max-w-[180px]">
+                          <span className="text-[11px] text-base-content/50 truncate max-w-[180px]">
                             {reqItem.hospitalName}
                           </span>
                         </div>
@@ -347,11 +347,11 @@ const AllDonationRequestsPage = () => {
 
                     {/* Schedule */}
                     <td className="align-middle">
-                      <div className="flex items-start gap-2 text-xs text-slate-600">
-                        <FiCalendar className="w-3 h-3 mt-[2px] text-slate-400" />
+                      <div className="flex items-start gap-2 text-xs text-base-content/70">
+                        <FiCalendar className="w-3 h-3 mt-[2px] text-base-content/40" />
                         <div>
                           <div>{reqItem.donationDate}</div>
-                          <div className="text-[11px] text-slate-400">
+                          <div className="text-[11px] text-base-content/50">
                             {reqItem.donationTime}
                           </div>
                         </div>
@@ -380,10 +380,10 @@ const AllDonationRequestsPage = () => {
 
                     {/* Requester */}
                     <td className="align-middle">
-                      <div className="flex items-start gap-2 text-xs text-slate-700">
-                        <FiUser className="w-3 h-3 mt-[2px] text-slate-400" />
+                      <div className="flex items-start gap-2 text-xs text-base-content/80">
+                        <FiUser className="w-3 h-3 mt-[2px] text-base-content/40" />
                         <div className="min-w-0">
-                          <p className="font-medium truncate">
+                          <p className="font-medium truncate text-base-content">
                             {reqItem.requesterName}
                           </p>
                           <p className="text-[11px] text-base-content/60 truncate max-w-[180px]">
@@ -399,14 +399,25 @@ const AllDonationRequestsPage = () => {
                         {["pending", "inprogress"].includes(reqItem.status) && (
                           <>
                             <button
-                              className="btn btn-xs rounded-full bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                              className="
+            btn btn-xs rounded-full
+            border border-emerald-500/30
+            bg-emerald-500/10 text-emerald-600
+            hover:bg-emerald-500/15
+          "
                               onClick={() => openStatusModal(reqItem, "done")}
                               disabled={actionId === reqItem._id}
                             >
                               Done
                             </button>
+
                             <button
-                              className="btn btn-xs rounded-full bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
+                              className="
+            btn btn-xs rounded-full
+            border border-rose-500/30
+            bg-rose-500/10 text-rose-600
+            hover:bg-rose-500/15
+          "
                               onClick={() =>
                                 openStatusModal(reqItem, "canceled")
                               }
@@ -420,7 +431,12 @@ const AllDonationRequestsPage = () => {
                         {isAdmin && (
                           <>
                             <button
-                              className="btn btn-xs rounded-full border border-slate-200 bg-base-100 hover:bg-base-200/60 text-slate-700"
+                              className="
+            btn btn-xs rounded-full
+            border border-base-300
+            bg-base-100 text-base-content/80
+            hover:bg-base-200/60
+          "
                               onClick={() =>
                                 navigate(
                                   `/dashboard/edit-donation-request/${reqItem._id}`
@@ -430,8 +446,14 @@ const AllDonationRequestsPage = () => {
                               <FiEdit2 className="w-3 h-3" />
                               Edit
                             </button>
+
                             <button
-                              className="btn btn-xs rounded-full border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700"
+                              className="
+            btn btn-xs rounded-full
+            border border-rose-500/30
+            bg-rose-500/10 text-rose-600
+            hover:bg-rose-500/15
+          "
                               onClick={() => openDeleteModal(reqItem)}
                               disabled={actionId === reqItem._id}
                             >
@@ -443,7 +465,12 @@ const AllDonationRequestsPage = () => {
 
                         <Link
                           to={`/donation-requests/${reqItem._id}`}
-                          className="btn btn-xs rounded-full border border-sky-200 bg-sky-50 hover:bg-sky-100 text-sky-700"
+                          className="
+        btn btn-xs rounded-full
+        border border-sky-500/30
+        bg-sky-500/10 text-sky-600
+        hover:bg-sky-500/15
+      "
                         >
                           <FiEye className="w-3 h-3" />
                           View

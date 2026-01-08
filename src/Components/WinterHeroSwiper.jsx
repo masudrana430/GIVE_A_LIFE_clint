@@ -83,12 +83,7 @@ const WinterHeroSwiper = ({ slides = [] }) => {
   return (
     <Container>
       <section className="relative py-10 md:py-16 overflow-hidden">
-        {/* soft background glows */}
-        {/* <div className="pointer-events-none absolute -left-24 -top-16 h-72 w-72 bg-rose-300/40 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 top-1/3 h-72 w-72 bg-sky-300/40 blur-3xl" />
-      <div className="pointer-events-none absolute inset-x-1/4 bottom-[-6rem] h-64 bg-red-200/30 blur-3xl" /> */}
-
-        <div className=" px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8">
           <Swiper
             modules={[Autoplay, Pagination, Navigation, A11y, EffectFade]}
             slidesPerView={1}
@@ -99,14 +94,19 @@ const WinterHeroSwiper = ({ slides = [] }) => {
             navigation
             onSwiper={(sw) => setActive(sw.realIndex)}
             onSlideChange={(sw) => setActive(sw.realIndex)}
-            className="hero-swiper rounded-[32px] bg-base-100/80 backdrop-blur-xl shadow-2xl border border-white/60 overflow-hidden"
+            className="
+              hero-swiper rounded-[32px]
+              bg-base-100/70 backdrop-blur-xl
+              shadow-2xl border border-base-200
+              overflow-hidden
+            "
           >
             {data.map((s, i) => {
               const isActive = active === i;
               return (
                 <SwiperSlide key={i}>
                   <div className="relative grid grid-cols-1 md:grid-cols-2 items-stretch">
-                    {/* LEFT: text & actions */}
+                    {/* LEFT */}
                     <Motion.div
                       className="p-7 sm:p-10 lg:p-12 flex flex-col justify-center"
                       variants={textContainer}
@@ -115,9 +115,15 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                     >
                       <Motion.div
                         variants={textItem}
-                        className="inline-flex items-center gap-2 rounded-full bg-red-100 text-red-800 px-3 py-1 text-xs font-semibold tracking-wide uppercase"
+                        className="
+                          inline-flex items-center gap-2 rounded-full
+                          border border-rose-500/20
+                          bg-rose-500/10
+                          text-rose-500
+                          px-3 py-1 text-xs font-semibold tracking-wide uppercase
+                        "
                       >
-                        <span className="h-2 w-2 rounded-full bg-red-500" />
+                        <span className="h-2 w-2 rounded-full bg-rose-500" />
                         <span>{s.badge || "BloodCare Platform"}</span>
                       </Motion.div>
 
@@ -130,7 +136,7 @@ const WinterHeroSwiper = ({ slides = [] }) => {
 
                       <Motion.p
                         variants={textItem}
-                        className="mt-3 text-slate-600 max-w-xl text-sm sm:text-base"
+                        className="mt-3 max-w-xl text-sm sm:text-base text-base-content/70"
                       >
                         {s.subtitle}
                       </Motion.p>
@@ -147,14 +153,13 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                           <Link
                             to="/auth/register"
                             className="
-                            inline-flex items-center gap-2
-                            rounded-full px-6 py-2.5
-                            bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316]
-                            text-sm sm:text-base font-semibold text-white
-                            shadow-lg shadow-red-300/60
-                            transition
-                            hover:shadow-red-400/80
-                          "
+                              inline-flex items-center gap-2
+                              rounded-full px-6 py-2.5
+                              bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316]
+                              text-sm sm:text-base font-semibold text-white
+                              shadow-lg shadow-red-300/40
+                              transition hover:shadow-red-400/60
+                            "
                           >
                             Join as a donor
                             <span className="text-lg leading-none">→</span>
@@ -168,22 +173,22 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                           <Link
                             to="/search-donors"
                             className="
-                            inline-flex items-center gap-2
-                            rounded-full px-5 py-2.5
-                            border border-red-300/80
-                            text-sm sm:text-base font-medium
-                            text-[#B91C1C]
-                            bg-base-100
-                            hover:bg-red-50
-                            transition
-                          "
+                              inline-flex items-center gap-2
+                              rounded-full px-5 py-2.5
+                              border border-base-200
+                              text-sm sm:text-base font-semibold
+                              bg-base-100
+                              text-base-content/80
+                              hover:bg-base-200/60 hover:text-base-content
+                              transition
+                            "
                           >
                             Search donors
                           </Link>
                         </Motion.div>
                       </Motion.div>
 
-                      {/* small trust strip */}
+                      {/* trust strip */}
                       <Motion.div
                         variants={textItem}
                         className="mt-6 flex flex-wrap gap-4 text-xs sm:text-sm text-base-content/60"
@@ -203,7 +208,7 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                       </Motion.div>
                     </Motion.div>
 
-                    {/* RIGHT: visual card */}
+                    {/* RIGHT */}
                     <Motion.div
                       className="relative h-[280px] sm:h-[320px] md:h-[420px]"
                       variants={rightCard}
@@ -211,10 +216,8 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                       animate={isActive ? "show" : "hidden"}
                     >
                       <div className="absolute inset-5 md:inset-6 rounded-[28px] bg-gradient-to-br from-[#DC2626] via-[#BE123C] to-[#312E81] shadow-xl overflow-hidden">
-                        {/* subtle glass highlight */}
-                        <div className="absolute inset-x-[-20%] -top-10 h-32 bg-base-100/15 blur-3xl" />
+                        <div className="absolute inset-x-[-20%] -top-10 h-32 bg-white/10 blur-3xl" />
 
-                        {/* MAIN ILLUSTRATION PLACEHOLDER */}
                         <div className="absolute inset-0 flex items-center justify-center">
                           {s.img ? (
                             <Motion.img
@@ -231,11 +234,9 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                               whileHover={{ scale: 1.02 }}
                             />
                           ) : (
-                            <div className="text-center text-rose-50/90 text-sm sm:text-base px-6">
-                              <p className="font-semibold">
-                                Every drop counts.
-                              </p>
-                              <p className="mt-1 text-xs sm:text-sm text-rose-100/90">
+                            <div className="text-center text-white/90 text-sm sm:text-base px-6">
+                              <p className="font-semibold">Every drop counts.</p>
+                              <p className="mt-1 text-xs sm:text-sm text-white/80">
                                 Visualize live donation requests, donor matches,
                                 and successful transfusions in a single view.
                               </p>
@@ -243,7 +244,7 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                           )}
                         </div>
 
-                        {/* decorative Lottie elements */}
+                        {/* Lottie elements */}
                         <Lottie
                           animationData={Camera}
                           loop
@@ -260,12 +261,12 @@ const WinterHeroSwiper = ({ slides = [] }) => {
                           className="absolute right-2 bottom-0 w-16 h-16 md:w-20 md:h-20 opacity-80 drop-shadow-lg pointer-events-none select-none"
                         />
 
-                        {/* floating particles */}
+                        {/* floating particles (always visible) */}
                         <div className="pointer-events-none absolute inset-0 overflow-hidden">
                           {[...Array(22)].map((_, k) => (
                             <span
                               key={k}
-                              className="absolute bg-base-100/80 rounded-full animate-fall"
+                              className="absolute bg-white/70 rounded-full animate-fall"
                               style={{
                                 left: `${Math.random() * 100}%`,
                                 width: `${Math.random() * 4 + 2}px`,
@@ -286,42 +287,48 @@ const WinterHeroSwiper = ({ slides = [] }) => {
         </div>
 
         <style>{`
-        @keyframes fall {
-          0% { transform: translateY(-10%); opacity: .9; }
-          100% { transform: translateY(110%); opacity: .9; }
-        }
-        .animate-fall {
-          animation-name: fall;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
-        }
+          @keyframes fall {
+            0% { transform: translateY(-10%); opacity: .9; }
+            100% { transform: translateY(110%); opacity: .9; }
+          }
+          .animate-fall {
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+          }
 
-        /* Swiper overrides */
-        .hero-swiper .swiper-pagination-bullet {
-          background: #e5e7eb;
-          opacity: 1;
-          transition: all 0.25s ease;
-        }
-        .hero-swiper .swiper-pagination-bullet-active {
-          background: #dc2626;
-          width: 26px;
-          border-radius: 9999px;
-        }
-        .hero-swiper .swiper-button-next,
-        .hero-swiper .swiper-button-prev {
-          color: #111827;
-          width: 34px;
-          height: 34px;
-          border-radius: 9999px;
-          background: rgba(255,255,255,0.9);
-          box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-        .hero-swiper .swiper-button-next::after,
-        .hero-swiper .swiper-button-prev::after {
-          font-size: 14px;
-          font-weight: 700;
-        }
-      `}</style>
+          /* Theme-aware Swiper styling (daisyUI variables) */
+          .hero-swiper .swiper-pagination-bullet {
+            background: hsl(var(--bc) / 0.25);
+            opacity: 1;
+            transition: all 0.25s ease;
+          }
+          .hero-swiper .swiper-pagination-bullet-active {
+            background: #dc2626;
+            width: 26px;
+            border-radius: 9999px;
+          }
+
+          .hero-swiper .swiper-button-next,
+          .hero-swiper .swiper-button-prev {
+            color: hsl(var(--bc));
+            width: 34px;
+            height: 34px;
+            border-radius: 9999px;
+            background: hsl(var(--b1) / 0.85);
+            border: 1px solid hsl(var(--b2) / 0.85);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+          }
+          .hero-swiper .swiper-button-next:hover,
+          .hero-swiper .swiper-button-prev:hover {
+            background: hsl(var(--b2) / 0.9);
+          }
+          .hero-swiper .swiper-button-next::after,
+          .hero-swiper .swiper-button-prev::after {
+            font-size: 14px;
+            font-weight: 700;
+          }
+        `}</style>
       </section>
     </Container>
   );

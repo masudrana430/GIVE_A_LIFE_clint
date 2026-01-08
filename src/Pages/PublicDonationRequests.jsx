@@ -33,7 +33,6 @@ const PublicDonationRequests = () => {
       }
     };
 
-    // Requirement: show all pending requests
     load();
   }, []);
 
@@ -41,22 +40,31 @@ const PublicDonationRequests = () => {
     <section className="py-12 md:py-16">
       <Container>
         {/* header */}
-        <div className=" mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold uppercase tracking-wide">
+        <div className="mb-8">
+          <div
+            className="
+              inline-flex items-center gap-2 px-3 py-1 rounded-full
+              border border-base-200 bg-base-100/70 backdrop-blur
+              text-[11px] font-semibold uppercase tracking-wide
+              text-base-content/70
+            "
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
             Public Requests
           </div>
+
           <div className="mt-3 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
             <div>
               <h1 className="text-2xl md:text-3xl font-extrabold text-base-content">
                 Blood Donation Requests
               </h1>
-              <p className="mt-1 text-sm text-slate-600">
+              <p className="mt-1 text-sm text-base-content/70">
                 Showing all{" "}
-                <span className="font-semibold text-rose-600">pending</span>{" "}
+                <span className="font-semibold text-rose-500">pending</span>{" "}
                 blood donation requests that need a donor.
               </p>
             </div>
+
             <div className="text-xs text-base-content/60 md:text-right">
               Updated in real-time as new requests are created.
             </div>
@@ -64,7 +72,7 @@ const PublicDonationRequests = () => {
         </div>
 
         {/* card */}
-        <div className=" bg-base-100 rounded-3xl shadow-2xl border border-base-200 p-6 md:p-8">
+        <div className="bg-base-100 rounded-3xl shadow-2xl border border-base-200 p-6 md:p-8">
           {loading && (
             <div className="flex flex-col items-center justify-center py-10 gap-3 text-sm text-base-content/60">
               <LoadingSpinner2nd />
@@ -79,12 +87,8 @@ const PublicDonationRequests = () => {
               <div className="mt-6 max-w-xs mx-auto">
                 <Lottie
                   animationData={Doctor}
-                  loop={true}
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    margin: "0 auto",
-                  }}
+                  loop
+                  style={{ width: "200px", height: "200px", margin: "0 auto" }}
                 />
               </div>
               There are no pending donation requests right now.
@@ -95,20 +99,28 @@ const PublicDonationRequests = () => {
             <>
               {/* summary row */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-                <p className="text-sm text-slate-600">
-                  {requests.length} request
-                  {requests.length > 1 ? "s" : ""} waiting for donors.
+                <p className="text-sm text-base-content/70">
+                  {requests.length} request{requests.length > 1 ? "s" : ""}{" "}
+                  waiting for donors.
                 </p>
-                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+
+                <span
+                  className="
+                    inline-flex items-center gap-2 px-2.5 py-1 rounded-full
+                    border border-success/20
+                    bg-success/10 text-success
+                    text-xs
+                  "
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-success" />
                   Status: pending
                 </span>
               </div>
 
               {/* table */}
               <div className="overflow-x-auto rounded-2xl border border-base-200">
-                <table className="table table-zebra-zebra">
-                  <thead className="bg-base-200/60/80">
+                <table className="table table-zebra w-full">
+                  <thead className="bg-base-200/60">
                     <tr className="text-xs uppercase tracking-wide text-base-content/60">
                       <th className="font-semibold">Recipient</th>
                       <th className="font-semibold">Location</th>
@@ -118,6 +130,7 @@ const PublicDonationRequests = () => {
                       <th className="font-semibold text-right">Action</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {requests.map((r) => (
                       <tr key={r._id} className="text-sm">
@@ -133,26 +146,33 @@ const PublicDonationRequests = () => {
                             )}
                           </div>
                         </td>
-                        <td className="align-middle text-xs sm:text-sm text-slate-600">
+
+                        <td className="align-middle text-xs sm:text-sm text-base-content/70">
                           {r.recipientDistrict}, {r.recipientUpazila}
                         </td>
+
                         <td className="align-middle">
                           <span className="badge badge-sm border-0 font-semibold text-white bg-gradient-to-r from-[#DC2626] to-[#F97316]">
                             {r.bloodGroup}
                           </span>
                         </td>
-                        <td className="align-middle text-xs sm:text-sm text-slate-600">
+
+                        <td className="align-middle text-xs sm:text-sm text-base-content/70">
                           {r.donationDate}
                         </td>
-                        <td className="align-middle text-xs sm:text-sm text-slate-600">
+
+                        <td className="align-middle text-xs sm:text-sm text-base-content/70">
                           {r.donationTime}
                         </td>
+
                         <td className="align-middle text-right">
                           <Link
                             to={`/donation-requests/${r._id}`}
-                            className="btn btn-xs sm:btn-sm rounded-full border-0
+                            className="
+                              btn btn-xs sm:btn-sm rounded-full border-0
                               bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316]
-                              text-white font-semibold"
+                              text-white font-semibold
+                            "
                           >
                             View
                           </Link>
@@ -162,6 +182,11 @@ const PublicDonationRequests = () => {
                   </tbody>
                 </table>
               </div>
+
+              <p className="mt-4 text-[11px] text-base-content/60">
+                Tip: Open a request to review details before confirming a
+                donation.
+              </p>
             </>
           )}
         </div>

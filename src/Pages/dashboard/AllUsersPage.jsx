@@ -344,7 +344,7 @@ const AllUsersPage = () => {
 
                     {/* Email */}
                     <td className="align-middle">
-                      <p className="text-xs text-slate-700 truncate max-w-[200px]">
+                      <p className="text-xs text-base-content/80 truncate max-w-[200px]">
                         {u.email}
                       </p>
                     </td>

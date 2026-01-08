@@ -26,13 +26,11 @@ const FundingPage = () => {
   const [errFunds, setErrFunds] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  // total funding (for display only here)
   const totalAmount = useMemo(
     () => funds.reduce((sum, f) => sum + (Number(f.amount) || 0), 0),
     [funds]
   );
 
-  // Load all funds
   const loadFunds = async () => {
     if (!user) return;
     setLoadingFunds(true);
@@ -40,9 +38,7 @@ const FundingPage = () => {
     try {
       const token = await user.getIdToken();
       const res = await fetch(`${API_BASE}/funds`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -90,7 +86,6 @@ const FundingPage = () => {
 
       const token = await user.getIdToken();
 
-      // 1) Create PaymentIntent on backend
       const piRes = await fetch(`${API_BASE}/create-payment-intent`, {
         method: "POST",
         headers: {
@@ -106,11 +101,8 @@ const FundingPage = () => {
       }
 
       const { clientSecret } = await piRes.json();
-      if (!clientSecret) {
-        throw new Error("No clientSecret returned from server.");
-      }
+      if (!clientSecret) throw new Error("No clientSecret returned from server.");
 
-      // 2) Confirm card payment on client
       const donorName = dbUser?.name || user?.displayName || user?.email;
 
       const { paymentIntent, error } = await stripe.confirmCardPayment(
@@ -129,17 +121,14 @@ const FundingPage = () => {
       if (error) {
         console.error(error);
         setCardError(error.message || "Payment failed.");
-        setProcessing(false);
         return;
       }
 
-      if (paymentIntent.status !== "succeeded") {
+      if (paymentIntent?.status !== "succeeded") {
         setCardError("Payment did not succeed.");
-        setProcessing(false);
         return;
       }
 
-      // 3) Save funding record in DB
       const saveRes = await fetch(`${API_BASE}/funds`, {
         method: "POST",
         headers: {
@@ -159,11 +148,10 @@ const FundingPage = () => {
         );
       }
 
-      setSuccessMsg("Thank you! Your fund has been recorded.");
-      toast.success("Thank you! Your fund has been recorded.", {
-        position: "top-right",
-        autoClose: 2500,
-      });
+      const msg = "Thank you! Your fund has been recorded.";
+      setSuccessMsg(msg);
+      toast.success(msg, { position: "top-right", autoClose: 2500 });
+
       setAmount("");
       card.clear();
       await loadFunds();
@@ -181,6 +169,24 @@ const FundingPage = () => {
     return d.toLocaleString();
   };
 
+  // Stripe CardElement colors that work in light/dark (DaisyUI CSS vars + fallbacks)
+  const stripeCardOptions = useMemo(() => {
+    const css = getComputedStyle(document.documentElement);
+    const base = css.getPropertyValue("--fallback-bc")?.trim() || "#111827"; // base-content fallback
+    const placeholder = "#9CA3AF";
+
+    return {
+      style: {
+        base: {
+          fontSize: "16px",
+          color: base,
+          "::placeholder": { color: placeholder },
+        },
+        invalid: { color: "#EF4444" },
+      },
+    };
+  }, []);
+
   if (loadingDbUser) {
     return (
       <div className="min-h-[200px] flex items-center justify-center">
@@ -193,17 +199,26 @@ const FundingPage = () => {
     <section className="py-12 md:py-16">
       <Container>
         {/* header */}
-        <div className=" mb-8">
+        <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-semibold uppercase tracking-wide">
+              <div
+                className="
+                  inline-flex items-center gap-2 px-3 py-1 rounded-full
+                  border border-base-200 bg-base-100/70 backdrop-blur
+                  text-xs font-semibold uppercase tracking-wide
+                  text-base-content/70
+                "
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
                 Funding
               </div>
+
               <h1 className="mt-3 text-2xl md:text-3xl font-extrabold text-base-content">
                 Support the Blood Donation Platform
               </h1>
-              <p className="mt-1 text-sm text-slate-600 max-w-xl">
+
+              <p className="mt-1 text-sm text-base-content/70 max-w-xl">
                 View all contributions and securely add your own funding using
                 Stripe test payments.
               </p>
@@ -213,14 +228,18 @@ const FundingPage = () => {
               <div className="text-xs text-base-content/60">
                 Total collected so far:
               </div>
+
               <div className="text-2xl font-bold text-base-content">
                 ${totalAmount.toFixed(2)}
               </div>
+
               <button
-                className="btn btn-sm md:btn-md mt-1 rounded-full border-0
+                className="
+                  btn btn-sm md:btn-md mt-1 rounded-full border-0
                   bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316]
                   text-white font-semibold shadow-md shadow-red-300/40
-                  hover:shadow-red-400/70"
+                  hover:shadow-red-400/70
+                "
                 onClick={() => setShowForm((prev) => !prev)}
               >
                 {showForm ? "Close funding form" : "Give Fund"}
@@ -229,11 +248,11 @@ const FundingPage = () => {
           </div>
         </div>
 
-        {/* layout: form + table */}
-        <div className=" grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
-          {/* Give Fund Form card */}
+        {/* layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
+          {/* form */}
           <div className="lg:col-span-2">
-            {showForm && (
+            {showForm ? (
               <div className="bg-base-100 rounded-3xl shadow-2xl border border-base-200 p-6 md:p-7">
                 <h2 className="text-lg font-semibold text-base-content mb-1">
                   Give Fund
@@ -269,70 +288,48 @@ const FundingPage = () => {
                         Card Details
                       </span>
                     </label>
-                    <div className="border rounded-xl px-3 py-2 bg-base-200/60/60">
-                      <CardElement
-                        options={{
-                          style: {
-                            base: {
-                              fontSize: "16px",
-                              color: "#111827",
-                              "::placeholder": {
-                                color: "#9CA3AF",
-                              },
-                            },
-                            invalid: {
-                              color: "#EF4444",
-                            },
-                          },
-                        }}
-                      />
+
+                    <div className="border border-base-200 rounded-xl px-3 py-3 bg-base-200/40">
+                      <CardElement options={stripeCardOptions} />
                     </div>
+
                     <p className="mt-2 text-[11px] text-base-content/60">
                       Test card: 4242 4242 4242 4242 · any future expiry · any
                       3-digit CVC.
                     </p>
                   </div>
 
-                  {cardError && (
-                    <p className="text-error text-sm">{cardError}</p>
-                  )}
-                  {successMsg && (
-                    <p className="text-success text-sm">{successMsg}</p>
-                  )}
+                  {cardError && <p className="text-error text-sm">{cardError}</p>}
+                  {successMsg && <p className="text-success text-sm">{successMsg}</p>}
 
                   <button
                     type="submit"
-                    className="btn mt-1 rounded-full border-0
+                    className="
+                      btn mt-1 rounded-full border-0
                       bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316]
                       text-white font-semibold shadow-md shadow-red-300/40
-                      hover:shadow-red-400/70"
+                      hover:shadow-red-400/70
+                    "
                     disabled={processing || !stripe || !elements}
                   >
                     {processing ? "Processing..." : "Confirm & Pay"}
                   </button>
                 </form>
               </div>
-            )}
-
-            {!showForm && (
-              <div className="bg-base-100 rounded-3xl shadow-md border border-base-200 p-5 text-sm text-slate-600">
+            ) : (
+              <div className="bg-base-100 rounded-3xl shadow-md border border-base-200 p-5 text-sm text-base-content/70">
                 <Lottie
                   animationData={Fund}
-                  loop={true}
-                  style={{
-                    width: "200px",
-                    height: "200px",
-                    margin: "0 auto",
-                  }}
+                  loop
+                  style={{ width: "200px", height: "200px", margin: "0 auto" }}
                 />
-                Click the <span className="font-semibold">Give Fund</span>{" "}
-                button above to open the funding form and add a new
-                contribution.
+                Click the <span className="font-semibold">Give Fund</span> button
+                above to open the funding form and add a new contribution.
               </div>
             )}
           </div>
 
-          {/* Funds table card */}
+          {/* table */}
           <div className="lg:col-span-3">
             <div className="bg-base-100 rounded-3xl shadow-xl border border-base-200 p-6 md:p-7">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
@@ -344,11 +341,17 @@ const FundingPage = () => {
                     Each entry shows who contributed, how much, and when.
                   </p>
                 </div>
+
                 {funds.length > 0 && (
-                  <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-base-200/60 text-xs text-slate-600">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    {funds.length} contribution
-                    {funds.length > 1 ? "s" : ""} recorded
+                  <span
+                    className="
+                      inline-flex items-center gap-2 px-2.5 py-1 rounded-full
+                      border border-success/20 bg-success/10 text-success
+                      text-xs
+                    "
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-success" />
+                    {funds.length} contribution{funds.length > 1 ? "s" : ""} recorded
                   </span>
                 )}
               </div>
@@ -365,8 +368,8 @@ const FundingPage = () => {
                 </p>
               ) : (
                 <div className="overflow-x-auto rounded-2xl border border-base-200">
-                  <table className="table table-zebra-zebra">
-                    <thead className="bg-base-200/60/80 text-xs uppercase tracking-wide text-base-content/60">
+                  <table className="table table-zebra w-full">
+                    <thead className="bg-base-200/60 text-xs uppercase tracking-wide text-base-content/60">
                       <tr>
                         <th className="font-semibold">#</th>
                         <th className="font-semibold">Donor</th>
@@ -375,24 +378,28 @@ const FundingPage = () => {
                         <th className="font-semibold">Date</th>
                       </tr>
                     </thead>
+
                     <tbody className="text-sm">
                       {funds.map((f, idx) => (
                         <tr key={f._id}>
                           <td>{idx + 1}</td>
-                          <td>{f.userName || "Unknown"}</td>
-                          <td className="truncate max-w-[180px]">
+                          <td className="text-base-content">
+                            {f.userName || "Unknown"}
+                          </td>
+                          <td className="truncate max-w-[180px] text-base-content/70">
                             {f.userEmail}
                           </td>
                           <td className="font-semibold text-base-content">
                             ${Number(f.amount).toFixed(2)}
                           </td>
-                          <td className="text-xs text-slate-600">
+                          <td className="text-xs text-base-content/60">
                             {formatDate(f.createdAt)}
                           </td>
                         </tr>
                       ))}
                     </tbody>
-                    <tfoot className="bg-base-200/60/90 text-xs text-slate-600">
+
+                    <tfoot className="bg-base-200/60 text-xs text-base-content/60">
                       <tr>
                         <td colSpan={3} className="text-right font-semibold">
                           Total:

@@ -13,7 +13,14 @@ const PrivacyPolicy = () => {
           <div className="rounded-3xl border border-base-200 bg-base-100 shadow-2xl p-6 md:p-8">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-rose-100 px-3 py-1 bg-rose-50/60 text-[11px] font-semibold uppercase tracking-wide text-rose-700">
+                <div
+                  className="
+                    inline-flex items-center gap-2 rounded-full px-3 py-1
+                    border border-base-200 bg-base-100/70 backdrop-blur
+                    text-[11px] font-semibold uppercase tracking-wide
+                    text-base-content/70
+                  "
+                >
                   <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
                   Privacy Policy
                 </div>
@@ -22,14 +29,14 @@ const PrivacyPolicy = () => {
                   Your privacy matters
                 </h1>
 
-                <p className="mt-3 text-sm md:text-base text-base-content/60 leading-6">
+                <p className="mt-3 text-sm md:text-base text-base-content/70 leading-6">
                   This Privacy Policy explains what information we collect, how
                   we use it, and the choices you have. If you have questions,
                   contact us any time.
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-base-200 bg-base-200/60 px-4 py-3">
+              <div className="rounded-2xl border border-base-200 bg-base-200/50 px-4 py-3">
                 <p className="text-[11px] uppercase tracking-wide text-base-content/60 font-semibold">
                   Last updated
                 </p>
@@ -41,9 +48,9 @@ const PrivacyPolicy = () => {
 
             {/* Highlights */}
             <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="rounded-2xl border border-base-200 bg-base-200/60 p-4">
+              <div className="rounded-2xl border border-base-200 bg-base-200/40 p-4">
                 <p className="font-semibold text-base-content flex items-center gap-2">
-                  <FiLock className="w-4 h-4 text-rose-600" />
+                  <FiLock className="w-4 h-4 text-rose-500" />
                   Data minimization
                 </p>
                 <p className="mt-1 text-xs text-base-content/60">
@@ -51,9 +58,9 @@ const PrivacyPolicy = () => {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-base-200 bg-base-200/60 p-4">
+              <div className="rounded-2xl border border-base-200 bg-base-200/40 p-4">
                 <p className="font-semibold text-base-content flex items-center gap-2">
-                  <FiShield className="w-4 h-4 text-emerald-600" />
+                  <FiShield className="w-4 h-4 text-emerald-500" />
                   Secure handling
                 </p>
                 <p className="mt-1 text-xs text-base-content/60">
@@ -61,9 +68,9 @@ const PrivacyPolicy = () => {
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-base-200 bg-base-200/60 p-4">
+              <div className="rounded-2xl border border-base-200 bg-base-200/40 p-4">
                 <p className="font-semibold text-base-content flex items-center gap-2">
-                  <FiMail className="w-4 h-4 text-sky-600" />
+                  <FiMail className="w-4 h-4 text-sky-500" />
                   Support contact
                 </p>
                 <p className="mt-1 text-xs text-base-content/60">
@@ -79,7 +86,7 @@ const PrivacyPolicy = () => {
               <h2 className="text-xl font-extrabold text-base-content">
                 1. Information we collect
               </h2>
-              <ul className="mt-2 list-disc pl-5 text-sm text-slate-600 space-y-2">
+              <ul className="mt-2 list-disc pl-5 text-sm text-base-content/70 space-y-2">
                 <li>
                   <span className="font-semibold text-base-content">
                     Account data:
@@ -114,7 +121,7 @@ const PrivacyPolicy = () => {
               <h2 className="text-xl font-extrabold text-base-content">
                 2. How we use your information
               </h2>
-              <ul className="mt-2 list-disc pl-5 text-sm text-slate-600 space-y-2">
+              <ul className="mt-2 list-disc pl-5 text-sm text-base-content/70 space-y-2">
                 <li>
                   Provide core features like donor search and request
                   management.
@@ -139,12 +146,12 @@ const PrivacyPolicy = () => {
               <h2 className="text-xl font-extrabold text-base-content">
                 3. What we share (and what we do not)
               </h2>
-              <p className="mt-2 text-sm text-slate-600 leading-6">
+              <p className="mt-2 text-sm text-base-content/70 leading-6">
                 We do not sell your personal information. Limited information
                 may be shared only to support the donation coordination
                 workflow.
               </p>
-              <ul className="mt-2 list-disc pl-5 text-sm text-slate-600 space-y-2">
+              <ul className="mt-2 list-disc pl-5 text-sm text-base-content/70 space-y-2">
                 <li>
                   When you confirm a donation, your name and email may be shown
                   to the requester.
@@ -164,7 +171,7 @@ const PrivacyPolicy = () => {
               <h2 className="text-xl font-extrabold text-base-content">
                 4. Data security
               </h2>
-              <p className="mt-2 text-sm text-slate-600 leading-6">
+              <p className="mt-2 text-sm text-base-content/70 leading-6">
                 We use common security practices (authentication, access
                 control, encrypted transport) to help protect your data. No
                 method is 100% secure; please use strong passwords and keep your
@@ -176,7 +183,7 @@ const PrivacyPolicy = () => {
               <h2 className="text-xl font-extrabold text-base-content">
                 5. Data retention
               </h2>
-              <p className="mt-2 text-sm text-slate-600 leading-6">
+              <p className="mt-2 text-sm text-base-content/70 leading-6">
                 We retain information as long as needed to provide the service,
                 comply with legal obligations, resolve disputes, and enforce
                 agreements.
@@ -187,7 +194,7 @@ const PrivacyPolicy = () => {
               <h2 className="text-xl font-extrabold text-base-content">
                 6. Your choices
               </h2>
-              <ul className="mt-2 list-disc pl-5 text-sm text-slate-600 space-y-2">
+              <ul className="mt-2 list-disc pl-5 text-sm text-base-content/70 space-y-2">
                 <li>Update your profile information from your dashboard.</li>
                 <li>Choose what details you share in requests and profile.</li>
                 <li>
@@ -196,11 +203,11 @@ const PrivacyPolicy = () => {
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-base-200 bg-base-200/60 p-4">
+            <div className="rounded-2xl border border-base-200 bg-base-200/40 p-4">
               <h3 className="font-bold text-base-content">Contact</h3>
-              <p className="mt-1 text-sm text-slate-600">
+              <p className="mt-1 text-sm text-base-content/70">
                 For privacy questions or requests, email:{" "}
-                <span className="font-semibold text-rose-600">
+                <span className="font-semibold text-rose-500">
                   support@blood-donation.app
                 </span>
               </p>
