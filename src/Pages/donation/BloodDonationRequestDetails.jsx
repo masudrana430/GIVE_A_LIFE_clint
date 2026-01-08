@@ -129,7 +129,9 @@ const BloodDonationRequestDetails = () => {
           : prev
       );
 
-      setSuccessMsg("You have confirmed this donation. Status is now in progress.");
+      setSuccessMsg(
+        "You have confirmed this donation. Status is now in progress."
+      );
 
       toast.success("Thank you for donating! You are now assigned as donor.", {
         position: "top-right",
@@ -149,7 +151,11 @@ const BloodDonationRequestDetails = () => {
   const donorEmailDisplay = user?.email || "";
 
   const isPending = request?.status === "pending";
-  const isRequester = !!(request && user && request.requesterEmail === user.email);
+  const isRequester = !!(
+    request &&
+    user &&
+    request.requesterEmail === user.email
+  );
 
   // Only logged-in user can donate
   const showDonateButton = isPending && !!user && !isRequester;
@@ -165,21 +171,22 @@ const BloodDonationRequestDetails = () => {
 
   return (
     <section className="py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
+      <div className="max-w-3xl mx-auto rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div>
-            <p className="text-[11px] uppercase tracking-wide text-slate-500 flex items-center gap-2">
+            <p className="text-[11px] uppercase tracking-wide text-base-content/60 flex items-center gap-2">
               <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-semibold">
                 🩸
               </span>
               Blood Donation Request
             </p>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mt-1">
+            <h1 className="text-2xl md:text-3xl font-bold text-base-content mt-1">
               {request?.recipientName || "Donation Request Details"}
             </h1>
-            <p className="text-xs md:text-sm text-slate-500 mt-1">
-              Review full details and confirm if you want to volunteer as a donor.
+            <p className="text-xs md:text-sm text-base-content/60 mt-1">
+              Review full details and confirm if you want to volunteer as a
+              donor.
             </p>
           </div>
 
@@ -206,7 +213,9 @@ const BloodDonationRequestDetails = () => {
         ) : err ? (
           <p className="text-error text-sm mt-4">{err}</p>
         ) : !request ? (
-          <p className="text-sm text-gray-500 mt-4">Donation request not found.</p>
+          <p className="text-sm text-gray-500 mt-4">
+            Donation request not found.
+          </p>
         ) : (
           <>
             {/* Donor info chip if exists */}
@@ -225,98 +234,118 @@ const BloodDonationRequestDetails = () => {
             {/* Sections */}
             <div className="space-y-6 text-sm">
               {/* Requester Info */}
-              <div className="rounded-2xl border border-slate-100 bg-base-200/40 p-4">
-                <h2 className="font-semibold text-base mb-2 text-slate-900">
+              <div className="rounded-2xl border border-base-200 bg-base-200/60 p-4">
+                <h2 className="font-semibold text-base mb-2 text-base-content">
                   Requester Info
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Name
                     </span>
-                    <p className="mt-1 text-slate-900">{request.requesterName}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.requesterName}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Email
                     </span>
-                    <p className="mt-1 text-slate-900">{request.requesterEmail}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.requesterEmail}
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Recipient & Location */}
-              <div className="rounded-2xl border border-slate-100 bg-base-200/40 p-4">
-                <h2 className="font-semibold text-base mb-2 text-slate-900">
+              <div className="rounded-2xl border border-base-200 bg-base-200/60 p-4">
+                <h2 className="font-semibold text-base mb-2 text-base-content">
                   Recipient & Location
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Recipient Name
                     </span>
-                    <p className="mt-1 text-slate-900">{request.recipientName}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.recipientName}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       District
                     </span>
-                    <p className="mt-1 text-slate-900">{request.recipientDistrict}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.recipientDistrict}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Upazila
                     </span>
-                    <p className="mt-1 text-slate-900">{request.recipientUpazila}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.recipientUpazila}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Hospital
                     </span>
-                    <p className="mt-1 text-slate-900">{request.hospitalName}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.hospitalName}
+                    </p>
                   </div>
                   <div className="md:col-span-2">
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Full Address
                     </span>
-                    <p className="mt-1 text-slate-900">{request.fullAddress}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.fullAddress}
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Donation Details */}
-              <div className="rounded-2xl border border-slate-100 bg-base-200/40 p-4">
-                <h2 className="font-semibold text-base mb-2 text-slate-900">
+              <div className="rounded-2xl border border-base-200 bg-base-200/60 p-4">
+                <h2 className="font-semibold text-base mb-2 text-base-content">
                   Donation Details
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Blood Group
                     </span>
-                    <p className="mt-1 text-slate-900">{request.bloodGroup}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.bloodGroup}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Date
                     </span>
-                    <p className="mt-1 text-slate-900">{request.donationDate}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.donationDate}
+                    </p>
                   </div>
                   <div>
-                    <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60">
                       Time
                     </span>
-                    <p className="mt-1 text-slate-900">{request.donationTime}</p>
+                    <p className="mt-1 text-base-content">
+                      {request.donationTime}
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Message */}
               <div>
-                <h2 className="font-semibold text-base mb-2 text-slate-900">
+                <h2 className="font-semibold text-base mb-2 text-base-content">
                   Request Message
                 </h2>
-                <div className="rounded-2xl border border-slate-100 bg-base-200/60 px-4 py-3 text-slate-800 whitespace-pre-line">
+                <div className="rounded-2xl border border-base-200 bg-base-200/60 px-4 py-3 text-slate-800 whitespace-pre-line">
                   {request.requestMessage}
                 </div>
               </div>
@@ -324,7 +353,7 @@ const BloodDonationRequestDetails = () => {
 
             {/* Footer / actions */}
             <div className="mt-8 flex flex-wrap gap-3 items-center justify-between">
-              <div className="flex items-center gap-2 text-xs text-slate-500">
+              <div className="flex items-center gap-2 text-xs text-base-content/60">
                 <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
                 Please confirm only if you are truly available to donate.
               </div>
@@ -361,7 +390,9 @@ const BloodDonationRequestDetails = () => {
                   </p>
                 )}
 
-                {successMsg && <p className="text-success text-sm">{successMsg}</p>}
+                {successMsg && (
+                  <p className="text-success text-sm">{successMsg}</p>
+                )}
               </div>
             </div>
           </>
@@ -373,28 +404,38 @@ const BloodDonationRequestDetails = () => {
         <div className="modal modal-open">
           <div className="modal-box max-w-md">
             <h3 className="font-bold text-lg mb-2">Confirm Donation</h3>
-            <p className="text-xs text-slate-500 mb-4">
-              You are about to confirm that you will donate blood for this request.
-              Your name and email will be shared with the requester.
+            <p className="text-xs text-base-content/60 mb-4">
+              You are about to confirm that you will donate blood for this
+              request. Your name and email will be shared with the requester.
             </p>
 
             <form onSubmit={handleConfirmDonation} className="space-y-4">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text text-xs uppercase tracking-wide text-slate-500">
+                  <span className="label-text text-xs uppercase tracking-wide text-base-content/60">
                     Donor Name
                   </span>
                 </label>
-                <input type="text" className="input input-bordered" value={donorNameDisplay} readOnly />
+                <input
+                  type="text"
+                  className="input input-bordered"
+                  value={donorNameDisplay}
+                  readOnly
+                />
               </div>
 
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text text-xs uppercase tracking-wide text-slate-500">
+                  <span className="label-text text-xs uppercase tracking-wide text-base-content/60">
                     Donor Email
                   </span>
                 </label>
-                <input type="email" className="input input-bordered" value={donorEmailDisplay} readOnly />
+                <input
+                  type="email"
+                  className="input input-bordered"
+                  value={donorEmailDisplay}
+                  readOnly
+                />
               </div>
 
               {err && <p className="text-error text-xs mt-1">{err}</p>}

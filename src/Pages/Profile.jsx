@@ -22,9 +22,7 @@ const Profile = () => {
   }, [user]);
 
   const preview = useMemo(
-    () =>
-      photoUrl ||
-      "https://cdn-icons-png.freepik.com/512/6596/6596121.png",
+    () => photoUrl || "https://cdn-icons-png.freepik.com/512/6596/6596121.png",
     [photoUrl]
   );
 
@@ -40,7 +38,7 @@ const Profile = () => {
       <section className="py-16 md:py-20 min-h-[calc(100vh-80px)]">
         <Container>
           <div className="max-w-3xl mx-auto">
-            <div className="card bg-base-100 border border-slate-100 shadow-2xl rounded-3xl overflow-hidden">
+            <div className="card bg-base-100 border border-base-200 shadow-2xl rounded-3xl overflow-hidden">
               <div className="card-body items-center text-center gap-4 md:gap-6">
                 <div className="w-56 h-56 md:w-72 md:h-72">
                   <Lottie animationData={Login} loop />
@@ -53,7 +51,7 @@ const Profile = () => {
                   <h2 className="text-2xl md:text-3xl font-bold">
                     Sign in to view your profile
                   </h2>
-                  <p className="mt-2 text-sm md:text-base text-slate-500 max-w-md mx-auto">
+                  <p className="mt-2 text-sm md:text-base text-base-content/60 max-w-md mx-auto">
                     Your profile helps us personalize your experience and keep
                     your blood donation activity connected to you.
                   </p>
@@ -116,7 +114,7 @@ const Profile = () => {
 
             <div className="relative px-6 py-6 md:px-8 md:py-8 grid grid-cols-1 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] gap-6 md:gap-8 items-center">
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em]">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-base-100/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em]">
                   <span className="h-1.5 w-1.5 rounded-full bg-rose-200" />
                   Account Center
                 </div>
@@ -160,7 +158,7 @@ const Profile = () => {
           {/* Main content: overview + form */}
           <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)] gap-6 md:gap-7">
             {/* Left: profile summary */}
-            <div className="card bg-base-100 shadow-xl border border-slate-100 rounded-2xl">
+            <div className="card bg-base-100 shadow-xl border border-base-200 rounded-2xl">
               <div className="card-body">
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <h3 className="card-title text-base md:text-lg">
@@ -170,7 +168,7 @@ const Profile = () => {
                     Read only
                   </span>
                 </div>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-base-content/60">
                   This is how your basic account information appears inside the
                   application.
                 </p>
@@ -185,26 +183,26 @@ const Profile = () => {
                     <span className="absolute -bottom-1 -right-1 rounded-full bg-rose-500 h-3 w-3 border-2 border-base-100 shadow" />
                   </div>
                   <div>
-                    <p className="font-semibold text-sm md:text-base text-slate-900">
+                    <p className="font-semibold text-sm md:text-base text-base-content">
                       {user.displayName || "Unnamed user"}
                     </p>
-                    <p className="text-xs md:text-sm text-slate-500 break-all">
+                    <p className="text-xs md:text-sm text-base-content/60 break-all">
                       {user.email}
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs md:text-sm">
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <p className="font-semibold text-[11px] uppercase tracking-wide text-slate-500">
+                  <div className="p-3 rounded-xl bg-base-200/60 border border-base-200">
+                    <p className="font-semibold text-[11px] uppercase tracking-wide text-base-content/60">
                       Display name
                     </p>
                     <p className="mt-1 text-slate-800 break-words">
                       {name || "Not set yet"}
                     </p>
                   </div>
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                    <p className="font-semibold text-[11px] uppercase tracking-wide text-slate-500">
+                  <div className="p-3 rounded-xl bg-base-200/60 border border-base-200">
+                    <p className="font-semibold text-[11px] uppercase tracking-wide text-base-content/60">
                       Photo URL
                     </p>
                     <p className="mt-1 text-slate-700 break-words line-clamp-2">
@@ -213,7 +211,7 @@ const Profile = () => {
                   </div>
                 </div>
 
-                <p className="mt-4 text-[11px] md:text-xs text-slate-500">
+                <p className="mt-4 text-[11px] md:text-xs text-base-content/60">
                   You can safely leave the photo URL empty if you prefer not to
                   use a custom picture. We will fall back to a neutral avatar.
                 </p>
@@ -221,12 +219,12 @@ const Profile = () => {
             </div>
 
             {/* Right: update form */}
-            <div className="card bg-base-100 shadow-xl border border-slate-100 rounded-2xl">
+            <div className="card bg-base-100 shadow-xl border border-base-200 rounded-2xl">
               <div className="card-body">
                 <h3 className="card-title text-base md:text-lg">
                   Edit profile
                 </h3>
-                <p className="text-sm text-slate-500 mt-1">
+                <p className="text-sm text-base-content/60 mt-1">
                   Update your public name and profile image. Your email address
                   stays managed by your authentication provider.
                 </p>
@@ -287,18 +285,16 @@ const Profile = () => {
                         onChange={(e) => setPhotoUrl(e.target.value)}
                       />
                     </div>
-                    <span className="mt-2 text-xs text-slate-500">
-                      Use a direct link to an image (JPG, PNG, etc.). The
-                      avatar preview updates instantly on the left.
+                    <span className="mt-2 text-xs text-base-content/60">
+                      Use a direct link to an image (JPG, PNG, etc.). The avatar
+                      preview updates instantly on the left.
                     </span>
                   </div>
 
-                  {err && (
-                    <p className="text-error text-sm mt-1">{err}</p>
-                  )}
+                  {err && <p className="text-error text-sm mt-1">{err}</p>}
 
                   <div className="mt-3 flex items-center justify-end gap-3">
-                    <p className="hidden sm:block text-[11px] text-slate-500">
+                    <p className="hidden sm:block text-[11px] text-base-content/60">
                       Changes may take a few seconds to sync across all pages.
                     </p>
                     <button

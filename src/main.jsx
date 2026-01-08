@@ -15,8 +15,8 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <AuthProvider>
         <Elements stripe={stripePromise}>
           <RouterProvider router={router} />
           <ToastContainer
@@ -32,7 +32,7 @@ createRoot(document.getElementById("root")).render(
             theme="light"
           />
         </Elements>
-      </ThemeProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>
 );

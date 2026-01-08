@@ -177,12 +177,12 @@ const Login = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.1fr)] gap-8 items-stretch">
           {/* Left: brand / trust panel */}
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#DC2626] via-[#EA384D] to-[#F97316] text-white shadow-2xl">
-            <div className="absolute -top-10 -right-16 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+            <div className="absolute -top-10 -right-16 h-40 w-40 rounded-full bg-base-100/10 blur-2xl" />
             <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-black/10 blur-2xl" />
 
             <div className="relative px-7 py-7 md:px-9 md:py-9 flex flex-col h-full justify-between">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[11px] font-semibold uppercase tracking-[0.25em]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-base-100/10 text-[11px] font-semibold uppercase tracking-[0.25em]">
                   <FiDroplet className="w-3.5 h-3.5" />
                   BloodCare Login
                 </div>
@@ -240,7 +240,7 @@ const Login = () => {
                 <h2 className="text-xl md:text-2xl font-bold">
                   Login to your account
                 </h2>
-                <p className="mt-1 text-xs md:text-sm text-slate-500">
+                <p className="mt-1 text-xs md:text-sm text-base-content/60">
                   Enter your credentials to access your BloodCare dashboard.
                 </p>
               </div>
@@ -249,7 +249,7 @@ const Login = () => {
                 {/* Email */}
                 <div className="form-control">
                   <label className="label" htmlFor="email">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Email
                     </span>
                   </label>
@@ -271,7 +271,7 @@ const Login = () => {
                 {/* Password */}
                 <div className="form-control">
                   <label className="label" htmlFor="password">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Password
                     </span>
                   </label>
@@ -292,7 +292,7 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={() => setShow((s) => !s)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/60"
                       aria-label={show ? "Hide password" : "Show password"}
                     >
                       {show ? <FiEyeOff /> : <FiEye />}
@@ -331,7 +331,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={handleGoogleSignin}
-                  className="btn bg-white text-black border-[#e5e5e5] gap-2 rounded-full flex justify-center items-center w-full"
+                  className="btn bg-base-100 text-black border-[#e5e5e5] gap-2 rounded-full flex justify-center items-center w-full"
                   disabled={loading}
                 >
                   <svg
@@ -360,18 +360,18 @@ const Login = () => {
                 </button>
 
                 {/* ✅ Demo Accounts (Premium block) */}
-                <div className="mt-5 rounded-2xl border border-slate-100 bg-base-200/40 p-4">
+                <div className="mt-5 rounded-2xl border border-base-200 bg-base-200/60 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-xs font-extrabold uppercase tracking-wide text-slate-700">
                         Demo login
                       </p>
-                      <p className="mt-1 text-[11px] text-slate-500 leading-5">
+                      <p className="mt-1 text-[11px] text-base-content/60 leading-5">
                         Explore the app quickly using demo roles. You can either
                         autofill or one-click login.
                       </p>
                     </div>
-                    <span className="inline-flex items-center gap-2 text-[11px] px-2 py-1 rounded-full bg-slate-100 text-slate-700 font-semibold">
+                    <span className="inline-flex items-center gap-2 text-[11px] px-2 py-1 rounded-full bg-base-200/60 text-slate-700 font-semibold">
                       <FiUser className="w-3.5 h-3.5" />
                       Role-based
                     </span>
@@ -389,7 +389,9 @@ const Login = () => {
                         title={`Autofill ${demo.label}`}
                       >
                         <span className="inline-flex items-center gap-2 justify-center">
-                          <span className={`h-2 w-2 rounded-full ${demo.dot}`} />
+                          <span
+                            className={`h-2 w-2 rounded-full ${demo.dot}`}
+                          />
                           Autofill {demo.roleTag}
                         </span>
                       </button>
@@ -397,9 +399,9 @@ const Login = () => {
                   </div>
 
                   {/* One-click demo login */}
-                  <div className="mt-3 rounded-2xl border border-slate-100 bg-base-100 p-3">
+                  <div className="mt-3 rounded-2xl border border-base-200 bg-base-100 p-3">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                      <p className="text-[11px] text-slate-500">
+                      <p className="text-[11px] text-base-content/60">
                         One-click: fills credentials and logs you in instantly.
                       </p>
 
@@ -450,8 +452,9 @@ const Login = () => {
                     </div>
                   </div>
 
-                  <p className="mt-3 text-[11px] text-slate-500">
-                    Note: Demo accounts must exist in Firebase Auth (Email/Password) with the same credentials.
+                  <p className="mt-3 text-[11px] text-base-content/60">
+                    Note: Demo accounts must exist in Firebase Auth
+                    (Email/Password) with the same credentials.
                   </p>
                 </div>
 

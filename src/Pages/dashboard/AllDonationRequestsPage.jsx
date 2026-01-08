@@ -31,7 +31,7 @@ const statusChipClass = (status) => {
     case "canceled":
       return "bg-rose-50 text-rose-700 border-rose-200";
     default:
-      return "bg-slate-50 text-slate-600 border-slate-200";
+      return "bg-base-200/60 text-slate-600 border-slate-200";
   }
 };
 
@@ -244,33 +244,33 @@ const AllDonationRequestsPage = () => {
 
   return (
     <section className="py-6">
-      <div className="rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
+      <div className="rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-base-content/60">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-rose-100 text-rose-600">
                 <FiDroplet className="w-4 h-4" />
               </span>
               Requests Management
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mt-1">
+            <h2 className="text-2xl md:text-3xl font-bold text-base-content mt-1">
               All Blood Donation Requests
             </h2>
-            <p className="text-xs md:text-sm text-slate-500 mt-1">
+            <p className="text-xs md:text-sm text-base-content/60 mt-1">
               Monitor, update, and manage every blood donation request in the
               system.
             </p>
           </div>
 
           <div className="flex flex-col items-end gap-3">
-            <div className="inline-flex items-center gap-2 text-xs text-slate-500">
+            <div className="inline-flex items-center gap-2 text-xs text-base-content/60">
               <span className="h-2 w-2 rounded-full bg-sky-500" />
               <span>{requests.length} request(s) on this page</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="hidden md:inline text-xs text-slate-500">
+              <span className="hidden md:inline text-xs text-base-content/60">
                 Filter by status
               </span>
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-base-100 px-3 py-1">
@@ -297,13 +297,13 @@ const AllDonationRequestsPage = () => {
             <LoadingSpinner2nd />
           </div>
         ) : requests.length === 0 ? (
-          <p className="text-sm text-slate-500 mt-2">
+          <p className="text-sm text-base-content/60 mt-2">
             No donation requests found for this filter.
           </p>
         ) : (
-          <div className="overflow-x-auto rounded-2xl border border-slate-100">
+          <div className="overflow-x-auto rounded-2xl border border-base-200">
             <table className="table table-zebra-zebra">
-              <thead className="bg-slate-50/80 text-[11px] uppercase tracking-wide text-slate-500">
+              <thead className="bg-base-200/60/80 text-[11px] uppercase tracking-wide text-base-content/60">
                 <tr>
                   <th className="font-semibold">Recipient</th>
                   <th className="font-semibold">Location</th>
@@ -316,14 +316,14 @@ const AllDonationRequestsPage = () => {
               </thead>
               <tbody>
                 {requests.map((reqItem) => (
-                  <tr key={reqItem._id} className="hover:bg-slate-50/60">
+                  <tr key={reqItem._id} className="hover:bg-base-200/60/60">
                     {/* Recipient */}
                     <td className="align-middle">
                       <div className="flex flex-col gap-0.5">
-                        <span className="font-semibold text-sm text-slate-900">
+                        <span className="font-semibold text-sm text-base-content">
                           {reqItem.recipientName}
                         </span>
-                        <span className="text-[11px] text-slate-500">
+                        <span className="text-[11px] text-base-content/60">
                           #{reqItem._id.slice(-6)}
                         </span>
                       </div>
@@ -386,7 +386,7 @@ const AllDonationRequestsPage = () => {
                           <p className="font-medium truncate">
                             {reqItem.requesterName}
                           </p>
-                          <p className="text-[11px] text-slate-500 truncate max-w-[180px]">
+                          <p className="text-[11px] text-base-content/60 truncate max-w-[180px]">
                             {reqItem.requesterEmail}
                           </p>
                         </div>
@@ -396,15 +396,11 @@ const AllDonationRequestsPage = () => {
                     {/* Actions */}
                     <td className="align-middle">
                       <div className="flex justify-end flex-wrap gap-1">
-                        {["pending", "inprogress"].includes(
-                          reqItem.status
-                        ) && (
+                        {["pending", "inprogress"].includes(reqItem.status) && (
                           <>
                             <button
                               className="btn btn-xs rounded-full bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-                              onClick={() =>
-                                openStatusModal(reqItem, "done")
-                              }
+                              onClick={() => openStatusModal(reqItem, "done")}
                               disabled={actionId === reqItem._id}
                             >
                               Done
@@ -424,7 +420,7 @@ const AllDonationRequestsPage = () => {
                         {isAdmin && (
                           <>
                             <button
-                              className="btn btn-xs rounded-full border border-slate-200 bg-base-100 hover:bg-slate-50 text-slate-700"
+                              className="btn btn-xs rounded-full border border-slate-200 bg-base-100 hover:bg-base-200/60 text-slate-700"
                               onClick={() =>
                                 navigate(
                                   `/dashboard/edit-donation-request/${reqItem._id}`
@@ -460,8 +456,8 @@ const AllDonationRequestsPage = () => {
             </table>
 
             {/* Pagination */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-4 py-3 bg-slate-50/60 border-t border-slate-100">
-              <p className="text-[11px] text-slate-500">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-4 py-3 bg-base-200/60/60 border-t border-base-200">
+              <p className="text-[11px] text-base-content/60">
                 Page {page} of {totalPages}
               </p>
               <div className="flex items-center gap-2">
@@ -490,19 +486,21 @@ const AllDonationRequestsPage = () => {
       {/* Confirmation Modal: Done / Cancel / Delete */}
       {confirmModal.open && confirmModal.target && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-base-100 rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md p-6">
+          <div className="bg-base-100 rounded-2xl shadow-2xl border border-base-200 w-full max-w-md p-6">
             {/* Title + description */}
-            {confirmModal.mode === "status" && confirmModal.newStatus === "done" && (
-              <>
-                <h3 className="text-lg font-semibold text-emerald-700 mb-1">
-                  Mark as completed?
-                </h3>
-                <p className="text-xs text-slate-500 mb-4">
-                  This request will be marked as <span className="font-semibold">Done</span>.
-                  Make sure the donation has been successfully completed.
-                </p>
-              </>
-            )}
+            {confirmModal.mode === "status" &&
+              confirmModal.newStatus === "done" && (
+                <>
+                  <h3 className="text-lg font-semibold text-emerald-700 mb-1">
+                    Mark as completed?
+                  </h3>
+                  <p className="text-xs text-base-content/60 mb-4">
+                    This request will be marked as{" "}
+                    <span className="font-semibold">Done</span>. Make sure the
+                    donation has been successfully completed.
+                  </p>
+                </>
+              )}
 
             {confirmModal.mode === "status" &&
               confirmModal.newStatus === "canceled" && (
@@ -510,9 +508,10 @@ const AllDonationRequestsPage = () => {
                   <h3 className="text-lg font-semibold text-rose-700 mb-1">
                     Cancel this request?
                   </h3>
-                  <p className="text-xs text-slate-500 mb-4">
-                    This request will be marked as <span className="font-semibold">Canceled</span>.
-                    Donors will treat it as no longer needed.
+                  <p className="text-xs text-base-content/60 mb-4">
+                    This request will be marked as{" "}
+                    <span className="font-semibold">Canceled</span>. Donors will
+                    treat it as no longer needed.
                   </p>
                 </>
               )}
@@ -522,7 +521,7 @@ const AllDonationRequestsPage = () => {
                 <h3 className="text-lg font-semibold text-rose-700 mb-1">
                   Delete this request?
                 </h3>
-                <p className="text-xs text-slate-500 mb-4">
+                <p className="text-xs text-base-content/60 mb-4">
                   This donation request will be permanently removed from the
                   system. This action cannot be undone.
                 </p>
@@ -530,11 +529,11 @@ const AllDonationRequestsPage = () => {
             )}
 
             {/* Target info */}
-            <div className="rounded-xl border border-slate-100 bg-slate-50/70 px-3 py-2 mb-4 text-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            <div className="rounded-xl border border-base-200 bg-base-200/60/70 px-3 py-2 mb-4 text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60 mb-1">
                 Request
               </p>
-              <p className="text-slate-900 font-semibold">
+              <p className="text-base-content font-semibold">
                 {confirmModal.target.recipientName}
               </p>
               <p className="text-xs text-slate-600">

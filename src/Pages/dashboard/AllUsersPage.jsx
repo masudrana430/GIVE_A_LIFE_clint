@@ -28,7 +28,7 @@ const statusChipClass = (status) => {
     case "blocked":
       return "bg-rose-50 text-rose-700 border-rose-200";
     default:
-      return "bg-slate-50 text-slate-600 border-slate-200";
+      return "bg-base-200/60 text-slate-600 border-slate-200";
   }
 };
 
@@ -247,32 +247,32 @@ const AllUsersPage = () => {
 
   return (
     <section className="py-6">
-      <div className="rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
+      <div className="rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-base-content/60">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-rose-100 text-rose-600">
                 <FiUsers className="w-4 h-4" />
               </span>
               User Management
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mt-1">
+            <h2 className="text-2xl md:text-3xl font-bold text-base-content mt-1">
               All Users
             </h2>
-            <p className="text-xs md:text-sm text-slate-500 mt-1">
+            <p className="text-xs md:text-sm text-base-content/60 mt-1">
               Manage roles, block or unblock users, and review donor accounts.
             </p>
           </div>
 
           <div className="flex flex-col items-end gap-3">
-            <div className="inline-flex items-center gap-2 text-xs text-slate-500">
+            <div className="inline-flex items-center gap-2 text-xs text-base-content/60">
               <span className="h-2 w-2 rounded-full bg-emerald-500" />
               <span>{users.length} user(s) on this page</span>
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="hidden md:inline text-xs text-slate-500">
+              <span className="hidden md:inline text-xs text-base-content/60">
                 Filter by status
               </span>
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-base-100 px-3 py-1">
@@ -299,13 +299,13 @@ const AllUsersPage = () => {
             <LoadingSpinner2nd />
           </div>
         ) : users.length === 0 ? (
-          <p className="text-sm text-slate-500 mt-2">
+          <p className="text-sm text-base-content/60 mt-2">
             No users found for this filter.
           </p>
         ) : (
-          <div className="overflow-x-auto rounded-2xl border border-slate-100">
+          <div className="overflow-x-auto rounded-2xl border border-base-200">
             <table className="table table-zebra-zebra">
-              <thead className="bg-slate-50/80 text-[11px] uppercase tracking-wide text-slate-500">
+              <thead className="bg-base-200/60/80 text-[11px] uppercase tracking-wide text-base-content/60">
                 <tr>
                   <th className="font-semibold">User</th>
                   <th className="font-semibold">Email</th>
@@ -316,7 +316,7 @@ const AllUsersPage = () => {
               </thead>
               <tbody>
                 {users.map((u) => (
-                  <tr key={u._id} className="hover:bg-slate-50/60">
+                  <tr key={u._id} className="hover:bg-base-200/60/60">
                     {/* Avatar + name */}
                     <td>
                       <div className="flex items-center gap-3">
@@ -332,10 +332,10 @@ const AllUsersPage = () => {
                           </div>
                         </div>
                         <div className="min-w-0">
-                          <p className="font-semibold text-sm text-slate-900 truncate">
+                          <p className="font-semibold text-sm text-base-content truncate">
                             {u.name || "Unknown user"}
                           </p>
-                          <p className="text-[11px] text-slate-500 capitalize">
+                          <p className="text-[11px] text-base-content/60 capitalize">
                             {u.role}
                           </p>
                         </div>
@@ -416,8 +416,8 @@ const AllUsersPage = () => {
             </table>
 
             {/* Pagination */}
-            <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-4 py-3 bg-slate-50/60 border-t border-slate-100">
-              <p className="text-[11px] text-slate-500">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3 px-4 py-3 bg-base-200/60/60 border-t border-base-200">
+              <p className="text-[11px] text-base-content/60">
                 Page {page} of {totalPages}
               </p>
               <div className="flex items-center gap-2">
@@ -446,62 +446,66 @@ const AllUsersPage = () => {
       {/* Unified confirmation modal (block/unblock + role change) */}
       {confirmModal.open && confirmModal.user && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-base-100 rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md p-6">
+          <div className="bg-base-100 rounded-2xl shadow-2xl border border-base-200 w-full max-w-md p-6">
             {/* Title + description based on mode */}
-            {confirmModal.mode === "status" && confirmModal.newStatus === "blocked" && (
-              <>
-                <h3 className="text-lg font-semibold text-rose-700 mb-1">
-                  Block this user?
-                </h3>
-                <p className="text-xs text-slate-500 mb-4">
-                  {confirmModal.user.email} will not be able to create donation
-                  requests while blocked. You can unblock them later.
-                </p>
-              </>
-            )}
+            {confirmModal.mode === "status" &&
+              confirmModal.newStatus === "blocked" && (
+                <>
+                  <h3 className="text-lg font-semibold text-rose-700 mb-1">
+                    Block this user?
+                  </h3>
+                  <p className="text-xs text-base-content/60 mb-4">
+                    {confirmModal.user.email} will not be able to create
+                    donation requests while blocked. You can unblock them later.
+                  </p>
+                </>
+              )}
 
-            {confirmModal.mode === "status" && confirmModal.newStatus === "active" && (
-              <>
-                <h3 className="text-lg font-semibold text-emerald-700 mb-1">
-                  Unblock this user?
-                </h3>
-                <p className="text-xs text-slate-500 mb-4">
-                  {confirmModal.user.email} will regain access to create
-                  donation requests.
-                </p>
-              </>
-            )}
+            {confirmModal.mode === "status" &&
+              confirmModal.newStatus === "active" && (
+                <>
+                  <h3 className="text-lg font-semibold text-emerald-700 mb-1">
+                    Unblock this user?
+                  </h3>
+                  <p className="text-xs text-base-content/60 mb-4">
+                    {confirmModal.user.email} will regain access to create
+                    donation requests.
+                  </p>
+                </>
+              )}
 
-            {confirmModal.mode === "role" && confirmModal.newRole === "volunteer" && (
-              <>
-                <h3 className="text-lg font-semibold text-sky-700 mb-1">
-                  Make this user a Volunteer?
-                </h3>
-                <p className="text-xs text-slate-500 mb-4">
-                  {confirmModal.user.email} will get Volunteer permissions to
-                  help manage donation requests.
-                </p>
-              </>
-            )}
+            {confirmModal.mode === "role" &&
+              confirmModal.newRole === "volunteer" && (
+                <>
+                  <h3 className="text-lg font-semibold text-sky-700 mb-1">
+                    Make this user a Volunteer?
+                  </h3>
+                  <p className="text-xs text-base-content/60 mb-4">
+                    {confirmModal.user.email} will get Volunteer permissions to
+                    help manage donation requests.
+                  </p>
+                </>
+              )}
 
-            {confirmModal.mode === "role" && confirmModal.newRole === "admin" && (
-              <>
-                <h3 className="text-lg font-semibold text-amber-700 mb-1">
-                  Promote this user to Admin?
-                </h3>
-                <p className="text-xs text-slate-500 mb-4">
-                  {confirmModal.user.email} will gain full administrative
-                  control, including user management.
-                </p>
-              </>
-            )}
+            {confirmModal.mode === "role" &&
+              confirmModal.newRole === "admin" && (
+                <>
+                  <h3 className="text-lg font-semibold text-amber-700 mb-1">
+                    Promote this user to Admin?
+                  </h3>
+                  <p className="text-xs text-base-content/60 mb-4">
+                    {confirmModal.user.email} will gain full administrative
+                    control, including user management.
+                  </p>
+                </>
+              )}
 
             {/* Selected user info */}
-            <div className="rounded-xl border border-slate-100 bg-slate-50/70 px-3 py-2 mb-4 text-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            <div className="rounded-xl border border-base-200 bg-base-200/60/70 px-3 py-2 mb-4 text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60 mb-1">
                 User
               </p>
-              <p className="text-slate-900 font-semibold">
+              <p className="text-base-content font-semibold">
                 {confirmModal.user.name || "Unknown user"}
               </p>
               <p className="text-xs text-slate-600">

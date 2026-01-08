@@ -166,11 +166,7 @@ const Navbar = () => {
   const renderLinks = () =>
     links.map(({ to, label, end, emoji }) => (
       <li key={to}>
-        <NavLink
-          to={to}
-          end={end}
-          className={navLinkClasses}
-        >
+        <NavLink to={to} end={end} className={navLinkClasses}>
           <span className="inline-flex items-center gap-1">
             {emoji}
             <span>{label}</span>
@@ -182,7 +178,7 @@ const Navbar = () => {
   return (
     <Container>
       {/* Glass / pill navbar */}
-      <div className="rounded-full shadow-xl border border-base-200/70 bg-white/80 backdrop-blur-lg">
+      <div className="rounded-full shadow-xl border border-base-200/70 bg-base-100/70 backdrop-blur-lg">
         <div className="navbar bg-transparent px-4 lg:px-8 relative">
           {/* LOGO BUBBLE (sticks out on the left) */}
           <Link
@@ -190,7 +186,7 @@ const Navbar = () => {
             aria-label="Blood Donation Home"
             className="absolute -left-6 lg:-left-8 flex items-center justify-center"
           >
-            <div className="bg-white rounded-full shadow-xl w-16 h-16 lg:w-20 lg:h-20 flex items-center justify-center border border-base-200/70">
+            <div className="bg-base-100 rounded-full shadow-xl w-16 h-16 lg:w-20 lg:h-20 flex items-center justify-center border border-base-200/70">
               <img
                 src={logo}
                 alt="Give a Life logo"
@@ -300,14 +296,12 @@ const Navbar = () => {
 
           {/* CENTER (desktop links) */}
           <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1 gap-1">
-              {renderLinks()}
-            </ul>
+            <ul className="menu menu-horizontal px-1 gap-1">{renderLinks()}</ul>
           </div>
 
           {/* RIGHT: theme + auth buttons / avatar */}
           <div className="navbar-end gap-3">
-            {/* <ThemeToggle /> */}
+            <ThemeToggle />
 
             {!isAuthed ? (
               <>
@@ -354,7 +348,7 @@ const Navbar = () => {
                       <span className="text-sm font-semibold truncate">
                         {user?.displayName || "User"}
                       </span>
-                      <span className="text-xs text-slate-500 truncate">
+                      <span className="text-xs text-base-content/60 truncate">
                         {user?.email}
                       </span>
                     </div>

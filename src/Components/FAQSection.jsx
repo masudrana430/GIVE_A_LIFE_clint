@@ -27,20 +27,27 @@ const FAQSection = () => {
           <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
           FAQ
         </div>
-        <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-slate-900">
+        <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-base-content">
           Questions people ask most
         </h2>
-        <p className="mt-3 text-sm md:text-base text-slate-500 max-w-2xl mx-auto">
+        <p className="mt-3 text-sm md:text-base text-base-content/60 max-w-2xl mx-auto">
           Clear answers to common platform and donation questions.
         </p>
       </div>
 
-      <div className="rounded-3xl border border-slate-100 bg-base-100 shadow-2xl p-6 md:p-8">
+      <div className="rounded-3xl border border-base-200 bg-base-100 shadow-2xl p-6 md:p-8">
         <div className="space-y-3">
           {faqs.map((f, idx) => (
-            <div key={idx} className="collapse collapse-arrow border border-slate-100 rounded-2xl">
-              <input type="radio" name="faq-accordion" defaultChecked={idx === 0} />
-              <div className="collapse-title text-sm md:text-base font-semibold text-slate-900">
+            <div
+              key={idx}
+              className="collapse collapse-arrow border border-base-200 rounded-2xl"
+            >
+              <input
+                type="radio"
+                name="faq-accordion"
+                defaultChecked={idx === 0}
+              />
+              <div className="collapse-title text-sm md:text-base font-semibold text-base-content">
                 {f.q}
               </div>
               <div className="collapse-content">
@@ -50,8 +57,9 @@ const FAQSection = () => {
           ))}
         </div>
 
-        <p className="mt-6 text-[11px] text-slate-500">
-          For urgent medical emergencies, contact your local hospital immediately.
+        <p className="mt-6 text-[11px] text-base-content/60">
+          For urgent medical emergencies, contact your local hospital
+          immediately.
         </p>
       </div>
     </section>

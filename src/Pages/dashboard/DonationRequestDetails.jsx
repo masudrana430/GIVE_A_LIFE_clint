@@ -123,20 +123,20 @@ const DonationRequestDetails = () => {
     statusColorClasses[statusKey] || statusColorClasses.pending;
 
   return (
-    <div className="max-w-3xl mx-auto rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
+    <div className="max-w-3xl mx-auto rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-slate-500 flex items-center gap-2">
+          <p className="text-[11px] uppercase tracking-wide text-base-content/60 flex items-center gap-2">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-semibold">
               🩸
             </span>
             Donation Request Details
           </p>
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">
+          <h2 className="text-xl md:text-2xl font-bold text-base-content mt-1">
             {request.recipientName || "Blood donation request"}
           </h2>
-          <p className="text-xs md:text-sm text-slate-500 mt-1">
+          <p className="text-xs md:text-sm text-base-content/60 mt-1">
             Review full details before committing to donate.
           </p>
         </div>
@@ -163,16 +163,16 @@ const DonationRequestDetails = () => {
         {/* Left column */}
         <div className="space-y-3">
           <div>
-            <p className="text-[11px] font-semibold tracking-wide uppercase text-slate-500">
+            <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
               Recipient
             </p>
-            <p className="mt-1 text-slate-900 font-semibold">
+            <p className="mt-1 text-base-content font-semibold">
               {request.recipientName}
             </p>
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-wide uppercase text-slate-500">
+            <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
               Location
             </p>
             <p className="mt-1 text-slate-800">
@@ -181,11 +181,11 @@ const DonationRequestDetails = () => {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-wide uppercase text-slate-500">
+            <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
               Hospital
             </p>
             <p className="mt-1 text-slate-800">{request.hospitalName}</p>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="mt-0.5 text-xs text-base-content/60">
               {request.fullAddress}
             </p>
           </div>
@@ -195,7 +195,7 @@ const DonationRequestDetails = () => {
         <div className="space-y-3">
           <div className="flex items-center justify-between gap-2">
             <div>
-              <p className="text-[11px] font-semibold tracking-wide uppercase text-slate-500">
+              <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
                 Blood Group
               </p>
               <span className="inline-flex mt-1 items-center justify-center px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-semibold border border-rose-100">
@@ -204,26 +204,28 @@ const DonationRequestDetails = () => {
             </div>
 
             <div>
-              <p className="text-[11px] font-semibold tracking-wide uppercase text-slate-500 text-right">
+              <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60 text-right">
                 Date &amp; Time
               </p>
               <p className="mt-1 text-slate-800 text-right">
                 {request.donationDate}
               </p>
-              <p className="text-xs text-slate-500 text-right">
+              <p className="text-xs text-base-content/60 text-right">
                 at {request.donationTime}
               </p>
             </div>
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-wide uppercase text-slate-500">
+            <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60">
               Requester
             </p>
-            <p className="mt-1 text-slate-900 font-semibold">
+            <p className="mt-1 text-base-content font-semibold">
               {request.requesterName}
             </p>
-            <p className="text-xs text-slate-500">{request.requesterEmail}</p>
+            <p className="text-xs text-base-content/60">
+              {request.requesterEmail}
+            </p>
           </div>
 
           {request.status === "inprogress" && request.donor && (
@@ -243,10 +245,10 @@ const DonationRequestDetails = () => {
 
       {/* Request message */}
       <div className="mt-6">
-        <p className="text-[11px] font-semibold tracking-wide uppercase text-slate-500 mb-1.5">
+        <p className="text-[11px] font-semibold tracking-wide uppercase text-base-content/60 mb-1.5">
           Request Message
         </p>
-        <div className="rounded-2xl border border-slate-100 bg-base-200/60 px-4 py-3 text-sm text-slate-800 whitespace-pre-wrap">
+        <div className="rounded-2xl border border-base-200 bg-base-200/60 px-4 py-3 text-sm text-slate-800 whitespace-pre-wrap">
           {request.requestMessage}
         </div>
       </div>
@@ -269,18 +271,18 @@ const DonationRequestDetails = () => {
       {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-base-100 rounded-2xl shadow-2xl border border-slate-100 p-6 w-full max-w-md">
+          <div className="bg-base-100 rounded-2xl shadow-2xl border border-base-200 p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold mb-1">Confirm Donation</h3>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="text-xs text-base-content/60 mb-4">
               You are about to volunteer as a donor for this request. Your
               contact information will be shared with the requester.
             </p>
 
-            <div className="rounded-xl border border-slate-100 bg-slate-50/70 px-3 py-2 mb-4 text-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            <div className="rounded-xl border border-base-200 bg-base-200/60/70 px-3 py-2 mb-4 text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60 mb-1">
                 Donor Information
               </p>
-              <p className="text-slate-900 font-semibold">
+              <p className="text-base-content font-semibold">
                 {user.displayName || user.email}
               </p>
               <p className="text-xs text-slate-600">{user.email}</p>

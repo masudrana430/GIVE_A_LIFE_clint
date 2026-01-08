@@ -9,19 +9,19 @@ import scribble from "../../assets/shape (2).png";
 
 const Banner = () => {
   return (
-    <section className="bg-slate-50 py-10 md:py-16">
+    <section className="bg-base-200/60 py-10 md:py-16">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* LEFT: label, headline, copy, CTA, dots */}
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 shadow-sm border border-slate-200">
+            <div className="inline-flex items-center gap-2 rounded-full bg-base-100 px-3 py-1 shadow-sm border border-slate-200">
               <span className="text-xl">🐾</span>
               <span className="text-sm font-medium text-slate-700">
                 Natural Pet Products
               </span>
             </div>
 
-            <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-slate-900">
+            <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-base-content">
               the <span className="text-yellow-500">Best Products</span>
               <br className="hidden sm:block" /> for Your Pets!
             </h1>
@@ -34,7 +34,7 @@ const Banner = () => {
             <div className="mt-6">
               <Link
                 to="/products"
-                className="btn border-0 rounded-full bg-[#F8D548] hover:bg-[#e9c635] text-slate-900 font-semibold"
+                className="btn border-0 rounded-full bg-[#F8D548] hover:bg-[#e9c635] text-base-content font-semibold"
               >
                 Explore Products
               </Link>

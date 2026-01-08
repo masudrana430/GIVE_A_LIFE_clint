@@ -48,7 +48,7 @@ const PublicDonationRequests = () => {
           </div>
           <div className="mt-3 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
             <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+              <h1 className="text-2xl md:text-3xl font-extrabold text-base-content">
                 Blood Donation Requests
               </h1>
               <p className="mt-1 text-sm text-slate-600">
@@ -57,16 +57,16 @@ const PublicDonationRequests = () => {
                 blood donation requests that need a donor.
               </p>
             </div>
-            <div className="text-xs text-slate-500 md:text-right">
+            <div className="text-xs text-base-content/60 md:text-right">
               Updated in real-time as new requests are created.
             </div>
           </div>
         </div>
 
         {/* card */}
-        <div className=" bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 md:p-8">
+        <div className=" bg-base-100 rounded-3xl shadow-2xl border border-base-200 p-6 md:p-8">
           {loading && (
-            <div className="flex flex-col items-center justify-center py-10 gap-3 text-sm text-slate-500">
+            <div className="flex flex-col items-center justify-center py-10 gap-3 text-sm text-base-content/60">
               <LoadingSpinner2nd />
               Loading pending donation requests…
             </div>
@@ -75,7 +75,7 @@ const PublicDonationRequests = () => {
           {err && <p className="text-error text-sm mb-4">{err}</p>}
 
           {!loading && !err && requests.length === 0 && (
-            <div className="py-8 text-center text-sm text-slate-500">
+            <div className="py-8 text-center text-sm text-base-content/60">
               <div className="mt-6 max-w-xs mx-auto">
                 <Lottie
                   animationData={Doctor}
@@ -88,7 +88,6 @@ const PublicDonationRequests = () => {
                 />
               </div>
               There are no pending donation requests right now.
-              
             </div>
           )}
 
@@ -107,10 +106,10 @@ const PublicDonationRequests = () => {
               </div>
 
               {/* table */}
-              <div className="overflow-x-auto rounded-2xl border border-slate-100">
+              <div className="overflow-x-auto rounded-2xl border border-base-200">
                 <table className="table table-zebra-zebra">
-                  <thead className="bg-slate-50/80">
-                    <tr className="text-xs uppercase tracking-wide text-slate-500">
+                  <thead className="bg-base-200/60/80">
+                    <tr className="text-xs uppercase tracking-wide text-base-content/60">
                       <th className="font-semibold">Recipient</th>
                       <th className="font-semibold">Location</th>
                       <th className="font-semibold">Blood</th>
@@ -124,11 +123,11 @@ const PublicDonationRequests = () => {
                       <tr key={r._id} className="text-sm">
                         <td className="align-middle">
                           <div className="flex flex-col">
-                            <span className="font-medium text-slate-900">
+                            <span className="font-medium text-base-content">
                               {r.recipientName}
                             </span>
                             {r.hospitalName && (
-                              <span className="text-xs text-slate-500">
+                              <span className="text-xs text-base-content/60">
                                 {r.hospitalName}
                               </span>
                             )}

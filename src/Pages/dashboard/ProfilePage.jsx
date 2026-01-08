@@ -83,9 +83,9 @@ const ProfilePage = () => {
       }
       setSuccess("Profile updated successfully.");
       toast.success("Profile updated successfully.", {
-              position: "top-right",
-              autoClose: 2500,
-            });
+        position: "top-right",
+        autoClose: 2500,
+      });
       setOriginalData(formData);
       setEditing(false);
     } catch (error) {
@@ -104,18 +104,18 @@ const ProfilePage = () => {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <section className="rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8 space-y-6">
+      <section className="rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8 space-y-6">
         {/* Header: title + actions */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <p className="text-[11px] uppercase tracking-wide text-slate-500">
+            <p className="text-[11px] uppercase tracking-wide text-base-content/60">
               Account
             </p>
-            <h2 className="text-xl md:text-2xl font-bold text-slate-900">
+            <h2 className="text-xl md:text-2xl font-bold text-base-content">
               My Profile
             </h2>
             <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
-              <span className="inline-flex items-center px-2 py-1 rounded-full bg-slate-100 text-slate-600 capitalize">
+              <span className="inline-flex items-center px-2 py-1 rounded-full bg-base-200/60 text-slate-600 capitalize">
                 Role: {roleLabel}
               </span>
               <span
@@ -170,10 +170,10 @@ const ProfilePage = () => {
         </div>
 
         {/* Avatar + main identity */}
-        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 border-b border-slate-100 pb-6">
+        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 border-b border-base-200 pb-6">
           <div className="flex justify-center md:justify-start">
             <div className="relative">
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-slate-100 shadow-md bg-base-200">
+              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 border-base-200 shadow-md bg-base-200">
                 {formData.avatar ? (
                   <img
                     src={formData.avatar}
@@ -193,11 +193,13 @@ const ProfilePage = () => {
           </div>
 
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-lg font-semibold text-slate-900">
+            <h3 className="text-lg font-semibold text-base-content">
               {formData.name || "Unnamed User"}
             </h3>
-            <p className="text-sm text-slate-500 mt-1">{formData.email}</p>
-            <p className="mt-3 text-xs text-slate-500">
+            <p className="text-sm text-base-content/60 mt-1">
+              {formData.email}
+            </p>
+            <p className="mt-3 text-xs text-base-content/60">
               You can update your name, avatar URL and address details here.
               Email is used for authentication and cannot be changed from this
               page.
@@ -211,7 +213,7 @@ const ProfilePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="form-control">
               <label className="label pb-1">
-                <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                   Full Name
                 </span>
               </label>
@@ -226,13 +228,13 @@ const ProfilePage = () => {
 
             <div className="form-control">
               <label className="label pb-1">
-                <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                   Email (not editable)
                 </span>
               </label>
               <input
                 type="email"
-                className="input input-bordered rounded-xl bg-base-200 cursor-not-allowed text-slate-500"
+                className="input input-bordered rounded-xl bg-base-200 cursor-not-allowed text-base-content/60"
                 value={formData.email}
                 readOnly
               />
@@ -242,7 +244,7 @@ const ProfilePage = () => {
           {/* Avatar */}
           <div className="form-control">
             <label className="label pb-1">
-              <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                 Avatar URL
               </span>
             </label>
@@ -264,7 +266,7 @@ const ProfilePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="form-control">
               <label className="label pb-1">
-                <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                   Blood Group
                 </span>
               </label>
@@ -282,7 +284,7 @@ const ProfilePage = () => {
 
             <div className="form-control">
               <label className="label pb-1">
-                <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                   District
                 </span>
               </label>
@@ -298,7 +300,7 @@ const ProfilePage = () => {
 
             <div className="form-control">
               <label className="label pb-1">
-                <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                   Upazila
                 </span>
               </label>

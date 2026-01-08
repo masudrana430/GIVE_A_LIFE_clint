@@ -77,7 +77,7 @@ const SearchDonors = () => {
             <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
             Donor Directory
           </p>
-          <h1 className="mt-3 text-3xl md:text-4xl font-extrabold text-slate-900">
+          <h1 className="mt-3 text-3xl md:text-4xl font-extrabold text-base-content">
             Find a Blood Donor Near You
           </h1>
           <p className="mt-2 text-sm md:text-base text-slate-600 max-w-2xl mx-auto">
@@ -90,18 +90,18 @@ const SearchDonors = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-start">
           {/* left: search form card */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 md:p-7">
-              <h2 className="text-lg font-semibold text-slate-900 mb-1">
+            <div className="bg-base-100 rounded-3xl shadow-2xl border border-base-200 p-6 md:p-7">
+              <h2 className="text-lg font-semibold text-base-content mb-1">
                 Filter donors
               </h2>
-              <p className="text-xs text-slate-500 mb-4">
+              <p className="text-xs text-base-content/60 mb-4">
                 Choose a blood group and location to start your search.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-3">
                 <div className="form-control">
                   <label className="label pb-1">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Blood Group
                     </span>
                   </label>
@@ -121,7 +121,7 @@ const SearchDonors = () => {
 
                 <div className="form-control">
                   <label className="label pb-1">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       District
                     </span>
                   </label>
@@ -141,7 +141,7 @@ const SearchDonors = () => {
 
                 <div className="form-control">
                   <label className="label pb-1">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Upazila
                     </span>
                   </label>
@@ -178,7 +178,7 @@ const SearchDonors = () => {
                 </div>
               </form>
 
-              <div className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500">
+              <div className="mt-4 border-t border-base-200 pt-3 text-xs text-base-content/60">
                 Tip: Start with the exact hospital area (e.g.{" "}
                 <span className="font-medium">Dhaka – Dhanmondi</span>) for
                 faster responses.
@@ -188,20 +188,20 @@ const SearchDonors = () => {
 
           {/* right: results list */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-7 min-h-[260px]">
+            <div className="bg-base-100 rounded-3xl shadow-xl border border-base-200 p-6 md:p-7 min-h-[260px]">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div>
-                  <h2 className="text-base md:text-lg font-semibold text-slate-900">
+                  <h2 className="text-base md:text-lg font-semibold text-base-content">
                     Matching donors
                   </h2>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-base-content/60">
                     We only show donors that match your selected filters.
                   </p>
                 </div>
 
                 {searched && (
-                  <div className="flex items-center gap-3 text-xs text-slate-500">
-                    <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-100">
+                  <div className="flex items-center gap-3 text-xs text-base-content/60">
+                    <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-base-200/60">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                       {donors.length > 0
                         ? `${donors.length} donor${
@@ -224,21 +224,21 @@ const SearchDonors = () => {
                       margin: "0 auto",
                     }}
                   />
-                  <div className="h-40 flex items-center justify-center text-sm text-slate-500">
+                  <div className="h-40 flex items-center justify-center text-sm text-base-content/60">
                     Start by selecting a blood group, district and upazila.
                   </div>
                 </div>
               )}
 
               {loading && (
-                <div className="h-40 flex flex-col items-center justify-center gap-2 text-sm text-slate-500">
+                <div className="h-40 flex flex-col items-center justify-center gap-2 text-sm text-base-content/60">
                   <span className="loading loading-spinner loading-md" />
                   Searching nearby donors…
                 </div>
               )}
 
               {!loading && searched && donors.length === 0 && (
-                <div className="h-40 flex flex-col items-center justify-center gap-2 text-sm text-slate-500">
+                <div className="h-40 flex flex-col items-center justify-center gap-2 text-sm text-base-content/60">
                   <Lottie
                     animationData={NotFound}
                     loop={true}
@@ -260,7 +260,7 @@ const SearchDonors = () => {
                   {donors.map((d) => (
                     <div
                       key={d._id}
-                      className="group rounded-2xl border border-slate-100 bg-gradient-to-br from-white to-slate-50/70 shadow-sm hover:shadow-lg transition overflow-hidden"
+                      className="group rounded-2xl border border-base-200 bg-gradient-to-br from-white to-slate-50/70 shadow-sm hover:shadow-lg transition overflow-hidden"
                     >
                       <div className="card-body flex flex-row items-center gap-4 py-4">
                         <div className="avatar">
@@ -277,7 +277,7 @@ const SearchDonors = () => {
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-2">
-                            <h3 className="font-semibold text-sm sm:text-base text-slate-900 truncate">
+                            <h3 className="font-semibold text-sm sm:text-base text-base-content truncate">
                               {d.name || "Unknown donor"}
                             </h3>
                             <span className="badge badge-lg border-0 text-[11px] font-bold text-white bg-gradient-to-r from-[#DC2626] to-[#F97316]">
@@ -285,12 +285,12 @@ const SearchDonors = () => {
                             </span>
                           </div>
 
-                          <p className="text-xs text-slate-500 mt-1 truncate">
+                          <p className="text-xs text-base-content/60 mt-1 truncate">
                             {d.email}
                           </p>
 
-                          <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-slate-500">
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-100">
+                          <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-base-content/60">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-base-200/60">
                               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                               {d.district}, {d.upazila}
                             </span>

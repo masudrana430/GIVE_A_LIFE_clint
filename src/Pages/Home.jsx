@@ -12,7 +12,7 @@ import hero3 from "../assets/Group (1).png";
 import ContactSection from "../Components/ContactSection";
 import FeaturedSection from "../Components/FeaturedSection";
 import ServicesSection from "../Components/ServicesSection";
-import CategoriesSection from "../Components/CategoriesSection";
+// import CategoriesSection from "../Components/CategoriesSection";
 import HighlightsSection from "../Components/HighlightsSection";
 import StatisticsSection from "../Components/StatisticsSection";
 import HowItWorksSection from "../Components/HowItWorksSection";
@@ -22,6 +22,7 @@ import NewsletterSection from "../Components/NewsletterSection";
 import FAQSection from "../Components/FAQSection";
 import CTASection from "../Components/CTASection";
 import PartnersSection from "../Components/PartnersSection";
+import CategoriesSection from "../Components/CategorySection";
 
 const Home = () => {
   const slides = [

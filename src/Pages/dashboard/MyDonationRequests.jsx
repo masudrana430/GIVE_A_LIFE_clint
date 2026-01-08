@@ -124,17 +124,14 @@ const MyDonationRequests = () => {
         // PATCH status: 'done' | 'canceled'
         const newStatus = modalType === "done" ? "done" : "canceled";
 
-        const res = await fetch(
-          `${API_BASE}/donation-requests/${id}/status`,
-          {
-            method: "PATCH",
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ status: newStatus }),
-          }
-        );
+        const res = await fetch(`${API_BASE}/donation-requests/${id}/status`, {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: newStatus }),
+        });
 
         if (!res.ok) {
           const data = await res.json().catch(() => ({}));
@@ -202,7 +199,7 @@ const MyDonationRequests = () => {
         );
       default:
         return (
-          <span className={`${base} bg-slate-100 text-slate-700`}>
+          <span className={`${base} bg-base-200/60 text-slate-700`}>
             {s || "Unknown"}
           </span>
         );
@@ -229,30 +226,30 @@ const MyDonationRequests = () => {
       : "";
 
   return (
-    <div className="rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
+    <div className="rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-slate-500">
+          <p className="text-[11px] uppercase tracking-wide text-base-content/60">
             Requests
           </p>
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900">
+          <h2 className="text-xl md:text-2xl font-bold text-base-content">
             My Donation Requests
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-base-content/60 mt-1">
             Manage all your blood donation requests with filtering and quick
             actions.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-1.5 text-xs text-slate-500">
+          <div className="hidden sm:flex items-center gap-1.5 text-xs text-base-content/60">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             Status controls appear only when a request is in progress.
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs sm:text-sm text-slate-500">
+            <span className="text-xs sm:text-sm text-base-content/60">
               Filter by status:
             </span>
             <select
@@ -276,7 +273,7 @@ const MyDonationRequests = () => {
           <LoadingSpinnercopy />
         </div>
       ) : requests.length === 0 ? (
-        <div className="py-10 text-center text-sm text-slate-500">
+        <div className="py-10 text-center text-sm text-base-content/60">
           <div className="mt-6 flex items-center justify-center ">
             <Lottie
               animationData={Data}
@@ -299,9 +296,9 @@ const MyDonationRequests = () => {
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-2xl border border-slate-100">
+          <div className="overflow-x-auto rounded-2xl border border-base-200">
             <table className="table table-zebra-zebra">
-              <thead className="bg-slate-50/80 text-[11px] uppercase tracking-wide text-slate-500">
+              <thead className="bg-base-200/60/80 text-[11px] uppercase tracking-wide text-base-content/60">
                 <tr>
                   <th>Recipient</th>
                   <th>Location</th>
@@ -318,11 +315,11 @@ const MyDonationRequests = () => {
                   <tr key={req._id}>
                     <td>
                       <div className="flex flex-col">
-                        <span className="font-medium text-slate-900">
+                        <span className="font-medium text-base-content">
                           {req.recipientName}
                         </span>
                         {req.hospitalName && (
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-base-content/60">
                             {req.hospitalName}
                           </span>
                         )}
@@ -349,7 +346,7 @@ const MyDonationRequests = () => {
                           <span className="block font-medium">
                             {req.donor.name}
                           </span>
-                          <span className="block text-xs text-slate-500">
+                          <span className="block text-xs text-base-content/60">
                             {req.donor.email}
                           </span>
                         </>
@@ -404,7 +401,7 @@ const MyDonationRequests = () => {
 
           {/* Pagination */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-5">
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-base-content/60">
               Showing page {page} of {totalPages}.
             </p>
             <div className="flex items-center gap-2">
@@ -435,28 +432,27 @@ const MyDonationRequests = () => {
       {/* Confirmation Modal */}
       {modalOpen && selectedRequest && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="bg-base-100 rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-1">
+          <div className="bg-base-100 rounded-2xl shadow-2xl border border-base-200 w-full max-w-md p-6">
+            <h3 className="text-lg font-semibold text-base-content mb-1">
               {modalTitle}
             </h3>
-            <p className="text-xs text-slate-500 mb-3">
+            <p className="text-xs text-base-content/60 mb-3">
               {modalDescription}
             </p>
 
-            <div className="rounded-xl bg-slate-50/80 border border-slate-100 px-3 py-2 mb-4 text-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-1">
+            <div className="rounded-xl bg-base-200/60/80 border border-base-200 px-3 py-2 mb-4 text-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-base-content/60 mb-1">
                 Request Summary
               </p>
-              <p className="font-semibold text-slate-900">
+              <p className="font-semibold text-base-content">
                 {selectedRequest.recipientName} &mdash;{" "}
                 {selectedRequest.bloodGroup}
               </p>
               <p className="text-xs text-slate-600">
                 {selectedRequest.hospitalName}
               </p>
-              <p className="text-[11px] text-slate-500 mt-1">
-                {selectedRequest.donationDate} at{" "}
-                {selectedRequest.donationTime}
+              <p className="text-[11px] text-base-content/60 mt-1">
+                {selectedRequest.donationDate} at {selectedRequest.donationTime}
               </p>
             </div>
 

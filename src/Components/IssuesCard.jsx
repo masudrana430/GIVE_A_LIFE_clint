@@ -66,7 +66,7 @@ const IssuesCard = ({ issue }) => {
           <span
             className="
               absolute left-3 top-3 inline-flex items-center gap-2
-              rounded-full border bg-white/80 px-3 py-1 text-xs font-semibold
+              rounded-full border bg-base-100/80 px-3 py-1 text-xs font-semibold
               text-base-content shadow-sm backdrop-blur
             "
           >

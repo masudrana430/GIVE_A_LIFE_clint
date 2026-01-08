@@ -1,0 +1,36 @@
+daisyui: {
+  themes: [
+    {
+      bloodcareLight: {
+        primary: "#DC2626",
+        "primary-content": "#ffffff",
+        secondary: "#F97316",
+        "secondary-content": "#ffffff",
+        accent: "#22C55E",
+        "accent-content": "#052e16",
+        neutral: "#111827",
+        "neutral-content": "#ffffff",
+        "base-100": "#ffffff",
+        "base-200": "#f5f7fb",
+        "base-300": "#e8eef7",
+        "base-content": "#0f172a",
+      },
+    },
+    {
+      bloodcareDark: {
+        primary: "#F43F5E",
+        "primary-content": "#ffffff",
+        secondary: "#FB923C",
+        "secondary-content": "#0b1220",
+        accent: "#34D399",
+        "accent-content": "#052e16",
+        neutral: "#0b1220",
+        "neutral-content": "#e5e7eb",
+        "base-100": "#0b1220",
+        "base-200": "#0f172a",
+        "base-300": "#111c33",
+        "base-content": "#e5e7eb",
+      },
+    },
+  ],
+},

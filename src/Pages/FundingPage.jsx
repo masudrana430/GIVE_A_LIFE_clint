@@ -200,7 +200,7 @@ const FundingPage = () => {
                 <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
                 Funding
               </div>
-              <h1 className="mt-3 text-2xl md:text-3xl font-extrabold text-slate-900">
+              <h1 className="mt-3 text-2xl md:text-3xl font-extrabold text-base-content">
                 Support the Blood Donation Platform
               </h1>
               <p className="mt-1 text-sm text-slate-600 max-w-xl">
@@ -210,10 +210,10 @@ const FundingPage = () => {
             </div>
 
             <div className="flex flex-col items-start md:items-end gap-2">
-              <div className="text-xs text-slate-500">
+              <div className="text-xs text-base-content/60">
                 Total collected so far:
               </div>
-              <div className="text-2xl font-bold text-slate-900">
+              <div className="text-2xl font-bold text-base-content">
                 ${totalAmount.toFixed(2)}
               </div>
               <button
@@ -234,11 +234,11 @@ const FundingPage = () => {
           {/* Give Fund Form card */}
           <div className="lg:col-span-2">
             {showForm && (
-              <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 md:p-7">
-                <h2 className="text-lg font-semibold text-slate-900 mb-1">
+              <div className="bg-base-100 rounded-3xl shadow-2xl border border-base-200 p-6 md:p-7">
+                <h2 className="text-lg font-semibold text-base-content mb-1">
                   Give Fund
                 </h2>
-                <p className="text-xs text-slate-500 mb-4">
+                <p className="text-xs text-base-content/60 mb-4">
                   Use Stripe test card (e.g.{" "}
                   <span className="font-mono">4242 4242 4242 4242</span>) to
                   simulate payments.
@@ -247,7 +247,7 @@ const FundingPage = () => {
                 <form onSubmit={handleGiveFund} className="space-y-4">
                   <div className="form-control max-w-xs">
                     <label className="label pb-1">
-                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                         Amount (USD)
                       </span>
                     </label>
@@ -265,11 +265,11 @@ const FundingPage = () => {
 
                   <div className="form-control max-w-md">
                     <label className="label pb-1">
-                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                         Card Details
                       </span>
                     </label>
-                    <div className="border rounded-xl px-3 py-2 bg-slate-50/60">
+                    <div className="border rounded-xl px-3 py-2 bg-base-200/60/60">
                       <CardElement
                         options={{
                           style: {
@@ -287,7 +287,7 @@ const FundingPage = () => {
                         }}
                       />
                     </div>
-                    <p className="mt-2 text-[11px] text-slate-500">
+                    <p className="mt-2 text-[11px] text-base-content/60">
                       Test card: 4242 4242 4242 4242 · any future expiry · any
                       3-digit CVC.
                     </p>
@@ -315,7 +315,7 @@ const FundingPage = () => {
             )}
 
             {!showForm && (
-              <div className="bg-white rounded-3xl shadow-md border border-slate-100 p-5 text-sm text-slate-600">
+              <div className="bg-base-100 rounded-3xl shadow-md border border-base-200 p-5 text-sm text-slate-600">
                 <Lottie
                   animationData={Fund}
                   loop={true}
@@ -334,18 +334,18 @@ const FundingPage = () => {
 
           {/* Funds table card */}
           <div className="lg:col-span-3">
-            <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-6 md:p-7">
+            <div className="bg-base-100 rounded-3xl shadow-xl border border-base-200 p-6 md:p-7">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-900">
+                  <h2 className="text-lg font-semibold text-base-content">
                     All Funds
                   </h2>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-base-content/60">
                     Each entry shows who contributed, how much, and when.
                   </p>
                 </div>
                 {funds.length > 0 && (
-                  <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-100 text-xs text-slate-600">
+                  <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-base-200/60 text-xs text-slate-600">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                     {funds.length} contribution
                     {funds.length > 1 ? "s" : ""} recorded
@@ -360,13 +360,13 @@ const FundingPage = () => {
               ) : errFunds ? (
                 <p className="text-error text-sm">{errFunds}</p>
               ) : funds.length === 0 ? (
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-base-content/60">
                   No funds have been recorded yet.
                 </p>
               ) : (
-                <div className="overflow-x-auto rounded-2xl border border-slate-100">
+                <div className="overflow-x-auto rounded-2xl border border-base-200">
                   <table className="table table-zebra-zebra">
-                    <thead className="bg-slate-50/80 text-xs uppercase tracking-wide text-slate-500">
+                    <thead className="bg-base-200/60/80 text-xs uppercase tracking-wide text-base-content/60">
                       <tr>
                         <th className="font-semibold">#</th>
                         <th className="font-semibold">Donor</th>
@@ -383,7 +383,7 @@ const FundingPage = () => {
                           <td className="truncate max-w-[180px]">
                             {f.userEmail}
                           </td>
-                          <td className="font-semibold text-slate-900">
+                          <td className="font-semibold text-base-content">
                             ${Number(f.amount).toFixed(2)}
                           </td>
                           <td className="text-xs text-slate-600">
@@ -392,12 +392,12 @@ const FundingPage = () => {
                         </tr>
                       ))}
                     </tbody>
-                    <tfoot className="bg-slate-50/90 text-xs text-slate-600">
+                    <tfoot className="bg-base-200/60/90 text-xs text-slate-600">
                       <tr>
                         <td colSpan={3} className="text-right font-semibold">
                           Total:
                         </td>
-                        <td className="font-bold text-slate-900">
+                        <td className="font-bold text-base-content">
                           ${totalAmount.toFixed(2)}
                         </td>
                         <td />

@@ -29,12 +29,21 @@ const HighlightsSection = () => {
         {items.map((it) => {
           const Icon = it.icon;
           return (
-            <div key={it.title} className="rounded-3xl border border-slate-100 bg-base-100 shadow-xl p-6">
-              <div className={`inline-flex items-center gap-2 rounded-2xl border px-3 py-2 ${it.tone}`}>
+            <div
+              key={it.title}
+              className="rounded-3xl border border-base-200 bg-base-100 shadow-xl p-6"
+            >
+              <div
+                className={`inline-flex items-center gap-2 rounded-2xl border px-3 py-2 ${it.tone}`}
+              >
                 <Icon className="w-4 h-4" />
-                <span className="text-xs font-semibold uppercase tracking-wide">Highlight</span>
+                <span className="text-xs font-semibold uppercase tracking-wide">
+                  Highlight
+                </span>
               </div>
-              <h3 className="mt-4 text-xl font-extrabold text-slate-900">{it.title}</h3>
+              <h3 className="mt-4 text-xl font-extrabold text-base-content">
+                {it.title}
+              </h3>
               <p className="mt-2 text-sm text-slate-600 leading-6">{it.desc}</p>
             </div>
           );

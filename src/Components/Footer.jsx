@@ -63,12 +63,12 @@ export default function Footer() {
               className="inline-flex items-center gap-3"
             >
               <div className="flex items-center justify-center">
-                {/* <div className="bg-white rounded-2xl p-2 shadow-lg shadow-red-500/20 border border-white/40"> */}
-                  <img
-                    src={logo}
-                    alt="BloodCare logo"
-                    className="h-10 w-auto md:h-12"
-                  />
+                {/* <div className="bg-base-100 rounded-2xl p-2 shadow-lg shadow-red-500/20 border border-white/40"> */}
+                <img
+                  src={logo}
+                  alt="BloodCare logo"
+                  className="h-10 w-auto md:h-12"
+                />
                 {/* </div> */}
               </div>
               <div className="leading-tight select-none">
@@ -122,8 +122,8 @@ export default function Footer() {
               <a
                 href="#"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/10
-                           bg-white/5 px-4 py-2 text-xs sm:text-sm font-medium
-                           hover:bg-white/10 hover:border-white/30
+                           bg-base-100/5 px-4 py-2 text-xs sm:text-sm font-medium
+                           hover:bg-base-100/10 hover:border-white/30
                            text-slate-50 transition-colors"
               >
                 <GooglePlayIcon className="h-5 w-5" />
@@ -132,8 +132,8 @@ export default function Footer() {
               <a
                 href="#"
                 className="inline-flex items-center gap-2 rounded-xl border border-white/10
-                           bg-white/5 px-4 py-2 text-xs sm:text-sm font-medium
-                           hover:bg-white/10 hover:border-white/30
+                           bg-base-100/5 px-4 py-2 text-xs sm:text-sm font-medium
+                           hover:bg-base-100/10 hover:border-white/30
                            text-slate-50 transition-colors"
               >
                 <AppStoreIcon className="h-5 w-5" />
@@ -222,14 +222,16 @@ export default function Footer() {
                   className="mt-3 md:mt-0 flex w-full md:w-auto"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    alert("Thanks for subscribing! (wire this to your backend)");
+                    alert(
+                      "Thanks for subscribing! (wire this to your backend)"
+                    );
                   }}
                 >
                   <input
                     type="email"
                     required
                     placeholder="Email address"
-                    className="input input-bordered rounded-r-none w-full md:w-72 bg-slate-950/60 border-white/10 text-slate-100 placeholder:text-slate-500"
+                    className="input input-bordered rounded-r-none w-full md:w-72 bg-slate-950/60 border-white/10 text-slate-100 placeholder:text-base-content/60"
                   />
                   <button
                     type="submit"
@@ -266,23 +268,23 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow us on Facebook"
-                className="px-2 py-1 rounded-full bg-white/5 text-xs border border-white/10 inline-flex items-center justify-center"
+                className="px-2 py-1 rounded-full bg-base-100/5 text-xs border border-white/10 inline-flex items-center justify-center"
                 title="Follow us on Facebook"
               >
                 <FaFacebook className="h-4 w-4" />
               </a>
-              
+
               <a
                 href="https://x.com/Masudra52137598"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow us on X"
-                className="px-2 py-1 rounded-full bg-white/5 text-xs border border-white/10 inline-flex items-center justify-center"
+                className="px-2 py-1 rounded-full bg-base-100/5 text-xs border border-white/10 inline-flex items-center justify-center"
                 title="Follow us on X"
               >
                 <FaXTwitter className="h-4 w-4" />
               </a>
-              <span className="px-2 py-1 rounded-full bg-white/5 text-xs border border-white/10">
+              <span className="px-2 py-1 rounded-full bg-base-100/5 text-xs border border-white/10">
                 Email Updates
               </span>
             </div>

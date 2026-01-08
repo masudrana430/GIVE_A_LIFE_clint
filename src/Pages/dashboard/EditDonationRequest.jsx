@@ -140,26 +140,26 @@ const EditDonationRequest = () => {
   }
 
   return (
-    <div className="rounded-3xl shadow-2xl border border-slate-100 bg-base-100 p-6 md:p-8">
+    <div className="rounded-3xl shadow-2xl border border-base-200 bg-base-100 p-6 md:p-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-slate-500 flex items-center gap-2">
+          <p className="text-[11px] uppercase tracking-wide text-base-content/60 flex items-center gap-2">
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-rose-100 text-rose-600 text-xs font-semibold">
               ✎
             </span>
             Edit Donation Request
           </p>
-          <h2 className="text-xl md:text-2xl font-bold text-slate-900 mt-1">
+          <h2 className="text-xl md:text-2xl font-bold text-base-content mt-1">
             Update patient &amp; request details
           </h2>
-          <p className="text-xs md:text-sm text-slate-500 mt-1 max-w-xl">
+          <p className="text-xs md:text-sm text-base-content/60 mt-1 max-w-xl">
             Adjust the recipient information, hospital address, and timing so
             donors receive accurate instructions.
           </p>
         </div>
 
-        <div className="flex md:flex-col items-end gap-2 text-xs text-slate-500">
+        <div className="flex md:flex-col items-end gap-2 text-xs text-base-content/60">
           <button
             type="button"
             onClick={() => navigate(-1)}
@@ -182,7 +182,7 @@ const EditDonationRequest = () => {
         {/* Recipient name */}
         <div className="form-control">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Recipient Name
             </span>
           </label>
@@ -199,7 +199,7 @@ const EditDonationRequest = () => {
         {/* District */}
         <div className="form-control">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Recipient District
             </span>
           </label>
@@ -223,7 +223,7 @@ const EditDonationRequest = () => {
         {/* Upazila */}
         <div className="form-control">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Recipient Upazila
             </span>
           </label>
@@ -249,7 +249,7 @@ const EditDonationRequest = () => {
         {/* Hospital name */}
         <div className="form-control">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Hospital Name
             </span>
           </label>
@@ -266,7 +266,7 @@ const EditDonationRequest = () => {
         {/* Full address */}
         <div className="form-control md:col-span-2">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Full Address
             </span>
           </label>
@@ -283,7 +283,7 @@ const EditDonationRequest = () => {
         {/* Blood group */}
         <div className="form-control">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Required Blood Group
             </span>
           </label>
@@ -307,7 +307,7 @@ const EditDonationRequest = () => {
         {/* Date */}
         <div className="form-control">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Donation Date
             </span>
           </label>
@@ -323,7 +323,7 @@ const EditDonationRequest = () => {
         {/* Time */}
         <div className="form-control">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Donation Time
             </span>
           </label>
@@ -339,7 +339,7 @@ const EditDonationRequest = () => {
         {/* Message */}
         <div className="form-control md:col-span-2">
           <label className="label pb-1">
-            <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
               Request Message
             </span>
           </label>

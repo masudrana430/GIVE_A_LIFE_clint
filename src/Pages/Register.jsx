@@ -672,7 +672,6 @@ const upazilaOptionsByDistrict = {
   ],
 };
 
-
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 
@@ -860,41 +859,40 @@ const Register = () => {
     setSelectedUpazila("");
   };
 
-   const handleGoogleSignin = async () => {
-      setErr("");
-      setToast(null);
-      setLoading(true);
-  
-      try {
-        await signInWithPopup(auth, googleProvider);
-  
-        // ✅ removed setUser?.(...) because setUser is not defined
-        // Your AuthProvider's onAuthStateChanged should sync the user automatically.
-  
-        setToast({
-          type: "success",
-          message: "Logged in with Google! Redirecting…",
-        });
-  
-        // ✅ redirect to Home page
-        navigate("/", { replace: true });
-        // If you want previous route instead:
-        // navigate(from, { replace: true });
-      } catch (error) {
-        const map = {
-          "auth/popup-closed-by-user": "Google sign-in popup was closed.",
-          "auth/account-exists-with-different-credential":
-            "Account exists with a different sign-in method.",
-        };
-        const msg = map[error.code] || error.message;
-        setErr(msg);
-        setToast({ type: "error", message: msg });
-      } finally {
-        setLoading(false);
-        setTimeout(() => setToast(null), 2500);
-      }
-    };
-  
+  const handleGoogleSignin = async () => {
+    setErr("");
+    setToast(null);
+    setLoading(true);
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+
+      // ✅ removed setUser?.(...) because setUser is not defined
+      // Your AuthProvider's onAuthStateChanged should sync the user automatically.
+
+      setToast({
+        type: "success",
+        message: "Logged in with Google! Redirecting…",
+      });
+
+      // ✅ redirect to Home page
+      navigate("/", { replace: true });
+      // If you want previous route instead:
+      // navigate(from, { replace: true });
+    } catch (error) {
+      const map = {
+        "auth/popup-closed-by-user": "Google sign-in popup was closed.",
+        "auth/account-exists-with-different-credential":
+          "Account exists with a different sign-in method.",
+      };
+      const msg = map[error.code] || error.message;
+      setErr(msg);
+      setToast({ type: "error", message: msg });
+    } finally {
+      setLoading(false);
+      setTimeout(() => setToast(null), 2500);
+    }
+  };
 
   return (
     <section className="py-10 md:py-16 ">
@@ -902,12 +900,12 @@ const Register = () => {
         <div className=" grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.1fr)] gap-8 items-stretch">
           {/* Left: brand / value prop */}
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#DC2626] via-[#EA384D] to-[#F97316] text-white shadow-2xl">
-            <div className="absolute -top-10 -right-16 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
+            <div className="absolute -top-10 -right-16 h-40 w-40 rounded-full bg-base-100/10 blur-2xl" />
             <div className="absolute bottom-0 left-0 h-32 w-32 rounded-full bg-black/10 blur-2xl" />
 
             <div className="relative px-7 py-7 md:px-9 md:py-9 flex flex-col h-full justify-between">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-[11px] font-semibold uppercase tracking-[0.25em]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-base-100/10 text-[11px] font-semibold uppercase tracking-[0.25em]">
                   <FiDroplet className="w-3.5 h-3.5" />
                   Join as a donor
                 </div>
@@ -965,7 +963,7 @@ const Register = () => {
                 <h2 className="text-xl md:text-2xl font-bold">
                   Create your donor account
                 </h2>
-                <p className="mt-1 text-xs md:text-sm text-slate-500">
+                <p className="mt-1 text-xs md:text-sm text-base-content/60">
                   Fill in your basic details. You can manage everything later
                   from your dashboard.
                 </p>
@@ -975,7 +973,7 @@ const Register = () => {
                 {/* Name */}
                 <div className="form-control">
                   <label className="label" htmlFor="name">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Full name
                     </span>
                   </label>
@@ -992,7 +990,7 @@ const Register = () => {
                 {/* Email */}
                 <div className="form-control">
                   <label className="label" htmlFor="email">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Email
                     </span>
                   </label>
@@ -1009,7 +1007,7 @@ const Register = () => {
                 {/* Avatar */}
                 <div className="form-control">
                   <label className="label" htmlFor="avatar">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Avatar
                     </span>
                   </label>
@@ -1021,7 +1019,7 @@ const Register = () => {
                     className="file-input file-input-bordered w-full rounded-xl"
                     required
                   />
-                  <span className="mt-1 text-[11px] text-slate-500">
+                  <span className="mt-1 text-[11px] text-base-content/60">
                     Upload a clear image. This helps requesters recognise you on
                     donation confirmations.
                   </span>
@@ -1032,7 +1030,7 @@ const Register = () => {
                   {/* Blood Group */}
                   <div className="form-control">
                     <label className="label" htmlFor="bloodGroup">
-                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                         Blood group
                       </span>
                     </label>
@@ -1057,7 +1055,7 @@ const Register = () => {
                   {/* District */}
                   <div className="form-control">
                     <label className="label" htmlFor="district">
-                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                         District
                       </span>
                     </label>
@@ -1083,7 +1081,7 @@ const Register = () => {
                   {/* Upazila */}
                   <div className="form-control">
                     <label className="label" htmlFor="upazila">
-                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                         Upazila
                       </span>
                     </label>
@@ -1118,7 +1116,7 @@ const Register = () => {
                   {/* Password */}
                   <div className="form-control">
                     <label className="label" htmlFor="password">
-                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                         Password
                       </span>
                     </label>
@@ -1138,7 +1136,7 @@ const Register = () => {
                       <button
                         type="button"
                         onClick={() => setShow((s) => !s)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-base-content/60"
                         aria-label={show ? "Hide password" : "Show password"}
                       >
                         {show ? <FiEyeOff /> : <FiEye />}
@@ -1149,7 +1147,7 @@ const Register = () => {
                   {/* Confirm Password */}
                   <div className="form-control">
                     <label className="label" htmlFor="confirmPassword">
-                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                      <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                         Confirm password
                       </span>
                     </label>
@@ -1173,7 +1171,7 @@ const Register = () => {
                 )}
                 {err && <p className="text-error text-sm mt-1">{err}</p>}
 
-                <div className="mt-3 flex items-start gap-2 text-[11px] text-slate-500">
+                <div className="mt-3 flex items-start gap-2 text-[11px] text-base-content/60">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-rose-500" />
                   <p>
                     By registering, you confirm that you are eligible to donate
@@ -1200,10 +1198,14 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={handleGoogleSignin}
-                  className="btn bg-white text-black border-[#e5e5e5] gap-2 rounded-full flex justify-center items-center w-full"
+                  className="btn bg-base-100 text-black border-[#e5e5e5] gap-2 rounded-full flex justify-center items-center w-full"
                   disabled={loading}
                 >
-                  <svg className="w-5 h-5" viewBox="0 0 533.5 544.3" aria-hidden="true">
+                  <svg
+                    className="w-5 h-5"
+                    viewBox="0 0 533.5 544.3"
+                    aria-hidden="true"
+                  >
                     <path
                       fill="#4285F4"
                       d="M533.5 278.4c0-17.6-1.6-35.5-4.9-52.5H272v99.5h146.9c-6.3 34-25.4 62.8-54.1 82v68h87.4c51.2-47.2 81.3-116.7 81.3-197z"

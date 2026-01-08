@@ -79,24 +79,24 @@ const ContactSection = () => {
               <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
               Support & Contact
             </div>
-            <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-slate-900">
+            <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-base-content">
               Need help or want to{" "}
               <span className="bg-gradient-to-r from-rose-500 via-red-500 to-orange-400 bg-clip-text text-transparent">
                 reach our team?
               </span>
             </h2>
-            <p className="mt-3 text-sm md:text-base text-slate-500 max-w-2xl mx-auto">
+            <p className="mt-3 text-sm md:text-base text-base-content/60 max-w-2xl mx-auto">
               Whether it’s an issue, suggestion, or partnership inquiry, share a
               few details and we will respond as soon as possible.
             </p>
           </div>
 
           {/* Main card */}
-          <div className="rounded-3xl border border-slate-100 shadow-2xl bg-base-100/90 backdrop-blur-xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.5fr)] gap-8">
+          <div className="rounded-3xl border border-base-200 shadow-2xl bg-base-100/90 backdrop-blur-xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.5fr)] gap-8">
             {/* Left: contact info / brand block */}
             <div className="flex flex-col justify-between gap-6">
               <div>
-                <h3 className="text-lg md:text-xl font-semibold text-slate-900 mb-2">
+                <h3 className="text-lg md:text-xl font-semibold text-base-content mb-2">
                   Get in touch with us
                 </h3>
                 <p className="text-sm text-slate-600">
@@ -125,7 +125,7 @@ const ContactSection = () => {
                   <div>
                     <p className="font-semibold text-slate-800">Phone</p>
                     <p className="text-xs md:text-sm">+8801878155256</p>
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-[11px] text-base-content/60">
                       Sun–Thu, 10:00 AM – 6:00 PM
                     </p>
                   </div>
@@ -145,7 +145,7 @@ const ContactSection = () => {
               </div>
 
               <div className="hidden md:block">
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-base-content/60">
                   We aim to respond within 24 hours. For urgent medical
                   emergencies, please contact your local hospital directly.
                 </p>
@@ -160,7 +160,7 @@ const ContactSection = () => {
               >
                 <div className="form-control">
                   <label className="label pb-1">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Name
                     </span>
                   </label>
@@ -177,7 +177,7 @@ const ContactSection = () => {
 
                 <div className="form-control">
                   <label className="label pb-1">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Email
                     </span>
                   </label>
@@ -194,7 +194,7 @@ const ContactSection = () => {
 
                 <div className="form-control md:col-span-2">
                   <label className="label pb-1">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Subject
                     </span>
                   </label>
@@ -211,7 +211,7 @@ const ContactSection = () => {
 
                 <div className="form-control md:col-span-2">
                   <label className="label pb-1">
-                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <span className="label-text text-xs font-semibold uppercase tracking-wide text-base-content/60">
                       Message
                     </span>
                   </label>
@@ -238,7 +238,7 @@ const ContactSection = () => {
                 )}
 
                 <div className="md:col-span-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 mt-2">
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-base-content/60">
                     By submitting this form you agree that we may contact you
                     regarding your request.
                   </p>

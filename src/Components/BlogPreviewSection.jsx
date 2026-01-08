@@ -34,11 +34,12 @@ const BlogPreviewSection = () => {
             <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
             Blogs
           </div>
-          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-slate-900">
+          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-base-content">
             Learn and donate safely
           </h2>
-          <p className="mt-3 text-sm md:text-base text-slate-500 max-w-2xl">
-            Practical guides that help donors and requesters follow best practices.
+          <p className="mt-3 text-sm md:text-base text-base-content/60 max-w-2xl">
+            Practical guides that help donors and requesters follow best
+            practices.
           </p>
         </div>
 
@@ -52,17 +53,21 @@ const BlogPreviewSection = () => {
           <Link
             key={p.title}
             to={p.to}
-            className="rounded-3xl border border-slate-100 bg-base-100 shadow-xl p-6 hover:shadow-2xl transition"
+            className="rounded-3xl border border-base-200 bg-base-100 shadow-xl p-6 hover:shadow-2xl transition"
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-slate-100 text-slate-700">
+              <span className="text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-base-200/60 text-slate-700">
                 {p.tag}
               </span>
               <span className="text-xs text-slate-400">{p.date}</span>
             </div>
-            <h3 className="mt-4 text-lg font-extrabold text-slate-900">{p.title}</h3>
+            <h3 className="mt-4 text-lg font-extrabold text-base-content">
+              {p.title}
+            </h3>
             <p className="mt-2 text-sm text-slate-600 leading-6">{p.desc}</p>
-            <div className="mt-4 text-sm font-semibold text-rose-600">Read more →</div>
+            <div className="mt-4 text-sm font-semibold text-rose-600">
+              Read more →
+            </div>
           </Link>
         ))}
       </div>

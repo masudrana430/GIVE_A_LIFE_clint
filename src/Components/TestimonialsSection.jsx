@@ -30,26 +30,29 @@ const TestimonialsSection = () => {
           <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
           Testimonials
         </div>
-        <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-slate-900">
+        <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-base-content">
           Trusted by donors and volunteers
         </h2>
-        <p className="mt-3 text-sm md:text-base text-slate-500 max-w-2xl mx-auto">
+        <p className="mt-3 text-sm md:text-base text-base-content/60 max-w-2xl mx-auto">
           Real feedback from people who use the platform to help others.
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         {testimonials.map((t) => (
-          <div key={t.name} className="rounded-3xl border border-slate-100 bg-base-100 shadow-xl p-6">
+          <div
+            key={t.name}
+            className="rounded-3xl border border-base-200 bg-base-100 shadow-xl p-6"
+          >
             <div className="flex items-center gap-1 text-amber-500">
               {Array.from({ length: 5 }).map((_, i) => (
                 <FiStar key={i} className="w-4 h-4" />
               ))}
             </div>
             <p className="mt-4 text-sm text-slate-700 leading-6">“{t.quote}”</p>
-            <div className="mt-5 pt-4 border-t border-slate-100">
-              <p className="font-bold text-slate-900">{t.name}</p>
-              <p className="text-xs text-slate-500">{t.role}</p>
+            <div className="mt-5 pt-4 border-t border-base-200">
+              <p className="font-bold text-base-content">{t.name}</p>
+              <p className="text-xs text-base-content/60">{t.role}</p>
             </div>
           </div>
         ))}

@@ -1,5 +1,12 @@
 import React from "react";
-import { FiShield, FiSearch, FiEdit3, FiBell, FiMapPin, FiHeart } from "react-icons/fi";
+import {
+  FiShield,
+  FiSearch,
+  FiEdit3,
+  FiBell,
+  FiMapPin,
+  FiHeart,
+} from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const services = [
@@ -55,14 +62,15 @@ const ServicesSection = () => {
           <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
           Services
         </div>
-        <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-slate-900">
+        <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-base-content">
           Everything you need to{" "}
           <span className="bg-gradient-to-r from-rose-500 via-red-500 to-orange-400 bg-clip-text text-transparent">
             donate & connect
           </span>
         </h2>
-        <p className="mt-3 text-sm md:text-base text-slate-500 max-w-2xl mx-auto">
-          Built to help donors, patients, and volunteers coordinate faster with less friction.
+        <p className="mt-3 text-sm md:text-base text-base-content/60 max-w-2xl mx-auto">
+          Built to help donors, patients, and volunteers coordinate faster with
+          less friction.
         </p>
       </div>
 
@@ -72,18 +80,20 @@ const ServicesSection = () => {
           return (
             <div
               key={s.title}
-              className="rounded-3xl border border-slate-100 bg-base-100 shadow-xl p-6 hover:shadow-2xl transition"
+              className="rounded-3xl border border-base-200 bg-base-100 shadow-xl p-6 hover:shadow-2xl transition"
             >
               <div className="flex items-start justify-between">
                 <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 border border-rose-100">
                   <Icon className="w-5 h-5" />
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-slate-100 text-slate-700">
+                <span className="text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-full bg-base-200/60 text-slate-700">
                   {s.badge}
                 </span>
               </div>
 
-              <h3 className="mt-4 text-lg font-bold text-slate-900">{s.title}</h3>
+              <h3 className="mt-4 text-lg font-bold text-base-content">
+                {s.title}
+              </h3>
               <p className="mt-2 text-sm text-slate-600 leading-6">{s.desc}</p>
 
               <div className="mt-4">

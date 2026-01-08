@@ -12,46 +12,77 @@ const NewsletterSection = () => {
       return;
     }
     // Hook your API here later
-    setStatus({ type: "success", msg: "Subscribed! You’ll receive updates soon." });
+    setStatus({
+      type: "success",
+      msg: "Subscribed! You’ll receive updates soon.",
+    });
     setEmail("");
     setTimeout(() => setStatus({ type: "", msg: "" }), 2500);
   };
 
   return (
     <section className="py-12 md:py-16">
-      <div className="rounded-3xl border border-slate-100 shadow-2xl bg-gradient-to-br from-rose-50 via-white to-orange-50 p-6 md:p-8">
+      <div
+        className="
+      rounded-3xl border border-base-200 shadow-2xl p-6 md:p-8
+      bg-base-100
+      bg-gradient-to-br from-base-100 via-base-100 to-base-200
+      dark:from-base-200 dark:via-base-100 dark:to-base-300
+    "
+      >
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-rose-100 px-3 py-1 bg-white/70 text-[11px] font-semibold uppercase tracking-wide text-rose-700">
+            <div
+              className="
+            inline-flex items-center gap-2 rounded-full px-3 py-1
+            border border-base-200 bg-base-100/70 backdrop-blur
+            text-[11px] font-semibold uppercase tracking-wide
+            text-base-content/70
+          "
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
               Newsletter
             </div>
-            <h2 className="mt-3 text-2xl md:text-3xl font-extrabold text-slate-900">
+
+            <h2 className="mt-3 text-2xl md:text-3xl font-extrabold text-base-content">
               Get donation tips & updates
             </h2>
-            <p className="mt-2 text-sm text-slate-600 max-w-xl">
-              Receive safety tips, campaign updates, and new feature announcements.
+
+            <p className="mt-2 text-sm text-base-content/70 max-w-xl">
+              Receive safety tips, campaign updates, and new feature
+              announcements.
             </p>
           </div>
 
           <form onSubmit={onSubmit} className="w-full lg:max-w-md">
-            <div className="flex gap-2">
-              <label className="input input-bordered rounded-full flex items-center gap-2 w-full">
-                <FiMail className="text-slate-400" />
+            <div className="flex flex-col sm:flex-row gap-2">
+              <label
+                className="
+              input input-bordered rounded-full flex items-center gap-2 w-full
+              bg-base-100/70 dark:bg-base-100/50
+              border-base-200
+            "
+              >
+                <FiMail className="text-base-content/50" />
                 <input
                   type="email"
-                  className="grow text-sm"
+                  className="grow text-sm bg-transparent outline-none"
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </label>
+
               <button
                 type="submit"
-                className="btn rounded-full border-0 px-6
-                  bg-gradient-to-r from-rose-500 via-red-500 to-orange-400
-                  text-white font-semibold shadow-lg shadow-rose-300/60
-                  hover:shadow-rose-400/80 transition"
+                className="
+              btn rounded-full border-0 px-6 text-white font-semibold
+              shadow-lg transition
+              bg-gradient-to-r from-rose-500 via-red-500 to-orange-400
+              hover:shadow-rose-400/60
+              dark:hover:shadow-rose-500/30
+            "
               >
                 Subscribe
               </button>
