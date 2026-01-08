@@ -1,44 +1,82 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
-import { FiEye, FiEyeOff, FiDroplet, FiShield } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiDroplet, FiShield, FiUser } from "react-icons/fi";
 import Container from "../Components/Container";
 
-// 🔻 GOOGLE SIGN-IN IMPORTS COMMENTED OUT
-// import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-// import { app } from "../firebase/firebase.config";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { app } from "../firebase/firebase.config";
 
-// const auth = getAuth(app);
-// const googleProvider = new GoogleAuthProvider();
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+// ✅ Set your real demo credentials here
+const DEMO_USERS = {
+  donor: {
+    label: "Demo Donor",
+    roleTag: "Donor",
+    email: "donor@demo.com",
+    password: "Donor@12345",
+    tone: "bg-rose-50 text-rose-700 border-rose-100 hover:bg-rose-100",
+    dot: "bg-rose-500",
+  },
+  volunteer: {
+    label: "Demo Volunteer",
+    roleTag: "Volunteer",
+    email: "volunteer@example.com",
+    password: "Volunteer@123",
+    tone: "bg-sky-50 text-sky-700 border-sky-100 hover:bg-sky-100",
+    dot: "bg-sky-500",
+  },
+  admin: {
+    label: "Demo Admin",
+    roleTag: "Admin",
+    email: "admin@example.com",
+    password: "Admin@123",
+    tone: "bg-amber-50 text-amber-700 border-amber-100 hover:bg-amber-100",
+    dot: "bg-amber-500",
+  },
+};
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/"; // defaults to Home
 
   const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState(null);
   const [show, setShow] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const clearMessages = () => {
     setErr("");
     setToast(null);
+  };
+
+  const scheduleToastClear = (ms = 2500) => {
+    setTimeout(() => setToast(null), ms);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    clearMessages();
     setLoading(true);
 
-    const form = e.currentTarget;
-    const email = form.email.value.trim();
-    const password = form.password.value;
+    const email = emailInput.trim();
+    const password = passwordInput;
 
     try {
       await signIn(email, password);
+
       setToast({ type: "success", message: "Welcome back! Redirecting…" });
-      form.reset();
       setEmailInput("");
-      navigate(from, { replace: true });
+      setPasswordInput("");
+
+      navigate(from, { replace: true }); // Home or previous protected route
     } catch (error) {
       const map = {
         "auth/invalid-credential": "Invalid email or password.",
@@ -52,7 +90,7 @@ const Login = () => {
       setToast({ type: "error", message: msg });
     } finally {
       setLoading(false);
-      setTimeout(() => setToast(null), 2500);
+      scheduleToastClear();
     }
   };
 
@@ -61,21 +99,18 @@ const Login = () => {
     navigate(`/auth/forgot${q}`, { state: { email: emailInput } });
   };
 
-  // 🔻 GOOGLE SIGN-IN HANDLER COMMENTED OUT
-  /*
   const handleGoogleSignin = async () => {
-    setErr("");
-    setToast(null);
+    clearMessages();
     setLoading(true);
+
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      // optional:   update context immediately (onAuthStateChanged will also sync)
-      setUser?.(result.user);
+      await signInWithPopup(auth, googleProvider);
 
       setToast({
         type: "success",
         message: "Logged in with Google! Redirecting…",
       });
+
       navigate(from, { replace: true });
     } catch (error) {
       const map = {
@@ -88,15 +123,58 @@ const Login = () => {
       setToast({ type: "error", message: msg });
     } finally {
       setLoading(false);
-      setTimeout(() => setToast(null), 2500);
+      scheduleToastClear();
     }
   };
-  */
+
+  const fillDemo = (roleKey) => {
+    const demo = DEMO_USERS[roleKey];
+    if (!demo) return;
+
+    clearMessages();
+    setEmailInput(demo.email);
+    setPasswordInput(demo.password);
+
+    setToast({ type: "success", message: `${demo.label} credentials filled.` });
+    scheduleToastClear(2000);
+  };
+
+  const fillAndLoginDemo = async (roleKey) => {
+    const demo = DEMO_USERS[roleKey];
+    if (!demo) return;
+
+    clearMessages();
+    setLoading(true);
+
+    // Fill first (nice UX)
+    setEmailInput(demo.email);
+    setPasswordInput(demo.password);
+
+    try {
+      await signIn(demo.email, demo.password);
+
+      setToast({
+        type: "success",
+        message: `Logged in as ${demo.label}. Redirecting…`,
+      });
+
+      navigate(from, { replace: true });
+    } catch (error) {
+      const msg = error?.message || "Demo login failed.";
+      setErr(msg);
+      setToast({ type: "error", message: msg });
+    } finally {
+      setLoading(false);
+      scheduleToastClear();
+    }
+  };
+
+  const demoList = useMemo(() => Object.entries(DEMO_USERS), []);
 
   return (
-    <section className=" py-10 md:py-16 ">
+    <section className="py-10 md:py-16">
       <Container>
-        <div className=" grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.1fr)] gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.1fr)] gap-8 items-stretch">
           {/* Left: brand / trust panel */}
           <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#DC2626] via-[#EA384D] to-[#F97316] text-white shadow-2xl">
             <div className="absolute -top-10 -right-16 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
@@ -182,7 +260,10 @@ const Login = () => {
                     className="input input-bordered rounded-xl"
                     placeholder="you@example.com"
                     value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
+                    onChange={(e) => {
+                      setEmailInput(e.target.value);
+                      setErr("");
+                    }}
                     required
                   />
                 </div>
@@ -201,6 +282,11 @@ const Login = () => {
                       type={show ? "text" : "password"}
                       className="input input-bordered w-full rounded-xl"
                       placeholder="Your password"
+                      value={passwordInput}
+                      onChange={(e) => {
+                        setPasswordInput(e.target.value);
+                        setErr("");
+                      }}
                       required
                     />
                     <button
@@ -216,7 +302,6 @@ const Login = () => {
 
                 {err && <p className="text-error text-sm mt-1">{err}</p>}
 
-                {/* Forgot + submit */}
                 <div className="flex items-center justify-between mt-1">
                   <button
                     type="button"
@@ -238,13 +323,15 @@ const Login = () => {
                   {loading ? "Logging in…" : "Login"}
                 </button>
 
-                {/* If you want to completely hide Google sign-in, the original block stays commented. */}
-                {/* <p className="text-center font-semibold mt-4 text-xs md:text-sm">or</p>
+                <p className="text-center font-semibold mt-4 text-xs md:text-sm">
+                  or
+                </p>
 
+                {/* Google */}
                 <button
                   type="button"
                   onClick={handleGoogleSignin}
-                  className="btn bg-white text-black border-[#e5e5e5] gap-2 rounded-full"
+                  className="btn bg-white text-black border-[#e5e5e5] gap-2 rounded-full flex justify-center items-center w-full"
                   disabled={loading}
                 >
                   <svg
@@ -270,7 +357,103 @@ const Login = () => {
                     />
                   </svg>
                   Continue with Google
-                </button> */}
+                </button>
+
+                {/* ✅ Demo Accounts (Premium block) */}
+                <div className="mt-5 rounded-2xl border border-slate-100 bg-base-200/40 p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-extrabold uppercase tracking-wide text-slate-700">
+                        Demo login
+                      </p>
+                      <p className="mt-1 text-[11px] text-slate-500 leading-5">
+                        Explore the app quickly using demo roles. You can either
+                        autofill or one-click login.
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center gap-2 text-[11px] px-2 py-1 rounded-full bg-slate-100 text-slate-700 font-semibold">
+                      <FiUser className="w-3.5 h-3.5" />
+                      Role-based
+                    </span>
+                  </div>
+
+                  {/* Autofill buttons */}
+                  <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {demoList.map(([key, demo]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        disabled={loading}
+                        onClick={() => fillDemo(key)}
+                        className={`w-full rounded-full border px-3 py-2 text-sm font-semibold transition ${demo.tone}`}
+                        title={`Autofill ${demo.label}`}
+                      >
+                        <span className="inline-flex items-center gap-2 justify-center">
+                          <span className={`h-2 w-2 rounded-full ${demo.dot}`} />
+                          Autofill {demo.roleTag}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* One-click demo login */}
+                  <div className="mt-3 rounded-2xl border border-slate-100 bg-base-100 p-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <p className="text-[11px] text-slate-500">
+                        One-click: fills credentials and logs you in instantly.
+                      </p>
+
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          disabled={loading}
+                          onClick={() => fillAndLoginDemo("donor")}
+                          className="btn btn-sm rounded-full border-0
+                            bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316]
+                            text-white font-semibold shadow-md shadow-red-200/70
+                            hover:shadow-red-300/80 transition"
+                        >
+                          Login as Donor
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={loading}
+                          onClick={() => fillAndLoginDemo("volunteer")}
+                          className="btn btn-sm rounded-full border border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100"
+                        >
+                          Login as Volunteer
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={loading}
+                          onClick={() => fillAndLoginDemo("admin")}
+                          className="btn btn-sm rounded-full border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
+                        >
+                          Login as Admin
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={loading}
+                          onClick={() => {
+                            clearMessages();
+                            setEmailInput("");
+                            setPasswordInput("");
+                          }}
+                          className="btn btn-sm btn-ghost rounded-full"
+                        >
+                          Clear
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="mt-3 text-[11px] text-slate-500">
+                    Note: Demo accounts must exist in Firebase Auth (Email/Password) with the same credentials.
+                  </p>
+                </div>
 
                 <p className="text-center text-xs md:text-sm mt-4">
                   Don&apos;t have an account?{" "}

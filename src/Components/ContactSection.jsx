@@ -124,7 +124,7 @@ const ContactSection = () => {
                   </span>
                   <div>
                     <p className="font-semibold text-slate-800">Phone</p>
-                    <p className="text-xs md:text-sm">+880 1XXX-XXXXXX</p>
+                    <p className="text-xs md:text-sm">+8801878155256</p>
                     <p className="text-[11px] text-slate-500">
                       Sun–Thu, 10:00 AM – 6:00 PM
                     </p>

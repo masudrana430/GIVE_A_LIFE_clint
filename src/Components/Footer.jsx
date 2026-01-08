@@ -6,7 +6,7 @@ import {
   MdOutlinePhone,
   MdOutlineLocationOn,
 } from "react-icons/md";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebook, FaXTwitter } from "react-icons/fa6";
 
 function GooglePlayIcon(props) {
   return (
@@ -97,7 +97,7 @@ export default function Footer() {
                   href="mailto:support@bloodcare.app"
                   className="link link-hover text-slate-200"
                 >
-                  masud430@bloodcare.app
+                  masud040502@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
@@ -106,7 +106,7 @@ export default function Footer() {
                   href="tel:+880-1XXX-XXXXXX"
                   className="link link-hover text-slate-200"
                 >
-                  +880 1XXX-XXXXXX
+                  +8801878155256
                 </a>
               </li>
               <li className="flex items-start gap-2">
@@ -260,11 +260,20 @@ export default function Footer() {
               <span className="text-xs md:text-sm text-slate-400">
                 Stay connected
               </span>
-              <span className="px-2 py-1 rounded-full bg-white/5 text-xs border border-white/10">
-                Facebook
-              </span>
+
               <a
-                href="https://x.com/bloodcare"
+                href="https://www.facebook.com/profile.php?id=100069416914519"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow us on Facebook"
+                className="px-2 py-1 rounded-full bg-white/5 text-xs border border-white/10 inline-flex items-center justify-center"
+                title="Follow us on Facebook"
+              >
+                <FaFacebook className="h-4 w-4" />
+              </a>
+              
+              <a
+                href="https://x.com/Masudra52137598"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Follow us on X"

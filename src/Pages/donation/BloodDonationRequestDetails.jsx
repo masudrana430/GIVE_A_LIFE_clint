@@ -1,6 +1,6 @@
 // src/pages/donation/BloodDonationRequestDetails.jsx
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import LoadingSpinner2nd from "../../Components/LoadingSpinner2nd";
@@ -17,7 +17,10 @@ const statusStyles = {
 
 const BloodDonationRequestDetails = () => {
   const { id } = useParams();
+  const location = useLocation();
   const { user } = useContext(AuthContext);
+
+  // IMPORTANT: your hook must handle user === null safely.
   const { dbUser, loadingDbUser } = useCurrentUser();
 
   const [request, setRequest] = useState(null);
@@ -27,17 +30,25 @@ const BloodDonationRequestDetails = () => {
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
 
-  // Load request details
+  // Load request details (PUBLIC)
   useEffect(() => {
-    if (!user || !id) return;
+    if (!id) return;
 
     const load = async () => {
       setLoading(true);
       setErr("");
+
       try {
-        const token = await user.getIdToken();
+        const headers = {};
+
+        // If logged in, send token (optional). If not, still allow fetch.
+        if (user) {
+          const token = await user.getIdToken();
+          headers.Authorization = `Bearer ${token}`;
+        }
+
         const res = await fetch(`${API_BASE}/donation-requests/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers,
         });
 
         if (!res.ok) {
@@ -72,6 +83,12 @@ const BloodDonationRequestDetails = () => {
   const handleConfirmDonation = async (e) => {
     e.preventDefault();
     if (!request) return;
+
+    // protect confirm action
+    if (!user) {
+      toast.error("Please login to confirm donation.");
+      return;
+    }
 
     try {
       setSubmitting(true);
@@ -112,16 +129,13 @@ const BloodDonationRequestDetails = () => {
           : prev
       );
 
-      setSuccessMsg(
-        "You have confirmed this donation. Status is now in progress."
-      );
-      const msg = "Thank you for donating! You are now assigned as donor.";
-      // setSuccess(msg);
-      // ✅ toast on success
-      toast.success(msg, {
+      setSuccessMsg("You have confirmed this donation. Status is now in progress.");
+
+      toast.success("Thank you for donating! You are now assigned as donor.", {
         position: "top-right",
         autoClose: 2500,
       });
+
       setModalOpen(false);
     } catch (error) {
       console.error(error);
@@ -135,11 +149,19 @@ const BloodDonationRequestDetails = () => {
   const donorEmailDisplay = user?.email || "";
 
   const isPending = request?.status === "pending";
-  const isRequester = request && user && request.requesterEmail === user.email;
-  const showDonateButton = isPending && !isRequester;
+  const isRequester = !!(request && user && request.requesterEmail === user.email);
+
+  // Only logged-in user can donate
+  const showDonateButton = isPending && !!user && !isRequester;
+
+  // If public visitor and pending => show login CTA
+  const showLoginToDonate = isPending && !user;
 
   const statusKey = (request?.status || "pending").toLowerCase();
   const statusClass = statusStyles[statusKey] || statusStyles.pending;
+
+  // Only block on loadingDbUser if user exists
+  const shouldBlockForDbUser = !!user && loadingDbUser;
 
   return (
     <section className="py-10 px-4 sm:px-6 lg:px-8">
@@ -157,8 +179,7 @@ const BloodDonationRequestDetails = () => {
               {request?.recipientName || "Donation Request Details"}
             </h1>
             <p className="text-xs md:text-sm text-slate-500 mt-1">
-              Review full details and confirm if you want to volunteer as a
-              donor.
+              Review full details and confirm if you want to volunteer as a donor.
             </p>
           </div>
 
@@ -178,16 +199,14 @@ const BloodDonationRequestDetails = () => {
         </div>
 
         {/* Content */}
-        {loading || loadingDbUser ? (
+        {loading || shouldBlockForDbUser ? (
           <div className="flex justify-center py-8">
             <LoadingSpinner2nd />
           </div>
         ) : err ? (
           <p className="text-error text-sm mt-4">{err}</p>
         ) : !request ? (
-          <p className="text-sm text-gray-500 mt-4">
-            Donation request not found.
-          </p>
+          <p className="text-sm text-gray-500 mt-4">Donation request not found.</p>
         ) : (
           <>
             {/* Donor info chip if exists */}
@@ -215,17 +234,13 @@ const BloodDonationRequestDetails = () => {
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Name
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.requesterName}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.requesterName}</p>
                   </div>
                   <div>
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Email
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.requesterEmail}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.requesterEmail}</p>
                   </div>
                 </div>
               </div>
@@ -240,33 +255,25 @@ const BloodDonationRequestDetails = () => {
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Recipient Name
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.recipientName}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.recipientName}</p>
                   </div>
                   <div>
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       District
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.recipientDistrict}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.recipientDistrict}</p>
                   </div>
                   <div>
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Upazila
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.recipientUpazila}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.recipientUpazila}</p>
                   </div>
                   <div>
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Hospital
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.hospitalName}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.hospitalName}</p>
                   </div>
                   <div className="md:col-span-2">
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
@@ -293,17 +300,13 @@ const BloodDonationRequestDetails = () => {
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Date
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.donationDate}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.donationDate}</p>
                   </div>
                   <div>
                     <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">
                       Time
                     </span>
-                    <p className="mt-1 text-slate-900">
-                      {request.donationTime}
-                    </p>
+                    <p className="mt-1 text-slate-900">{request.donationTime}</p>
                   </div>
                 </div>
               </div>
@@ -336,20 +339,29 @@ const BloodDonationRequestDetails = () => {
                   </button>
                 )}
 
-                {!showDonateButton && isRequester && (
+                {showLoginToDonate && (
+                  <Link
+                    to="/auth/login"
+                    state={{ from: location }}
+                    className="btn rounded-full border-0 bg-gradient-to-r from-[#DC2626] via-[#EA384D] to-[#F97316] text-white font-semibold px-6 shadow-lg shadow-red-300/60 hover:shadow-red-400/80 transition"
+                  >
+                    Login to Donate
+                  </Link>
+                )}
+
+                {!showDonateButton && !!user && isRequester && (
                   <p className="text-xs text-gray-500">
                     You created this request; you cannot donate to yourself.
                   </p>
                 )}
+
                 {!showDonateButton && !isRequester && !isPending && (
                   <p className="text-xs text-gray-500">
                     This request is no longer pending.
                   </p>
                 )}
 
-                {successMsg && (
-                  <p className="text-success text-sm">{successMsg}</p>
-                )}
+                {successMsg && <p className="text-success text-sm">{successMsg}</p>}
               </div>
             </div>
           </>
@@ -357,13 +369,13 @@ const BloodDonationRequestDetails = () => {
       </div>
 
       {/* Modal */}
-      {modalOpen && (
+      {modalOpen && user && (
         <div className="modal modal-open">
           <div className="modal-box max-w-md">
             <h3 className="font-bold text-lg mb-2">Confirm Donation</h3>
             <p className="text-xs text-slate-500 mb-4">
-              You are about to confirm that you will donate blood for this
-              request. Your name and email will be shared with the requester.
+              You are about to confirm that you will donate blood for this request.
+              Your name and email will be shared with the requester.
             </p>
 
             <form onSubmit={handleConfirmDonation} className="space-y-4">
@@ -373,12 +385,7 @@ const BloodDonationRequestDetails = () => {
                     Donor Name
                   </span>
                 </label>
-                <input
-                  type="text"
-                  className="input input-bordered"
-                  value={donorNameDisplay}
-                  readOnly
-                />
+                <input type="text" className="input input-bordered" value={donorNameDisplay} readOnly />
               </div>
 
               <div className="form-control">
@@ -387,12 +394,7 @@ const BloodDonationRequestDetails = () => {
                     Donor Email
                   </span>
                 </label>
-                <input
-                  type="email"
-                  className="input input-bordered"
-                  value={donorEmailDisplay}
-                  readOnly
-                />
+                <input type="email" className="input input-bordered" value={donorEmailDisplay} readOnly />
               </div>
 
               {err && <p className="text-error text-xs mt-1">{err}</p>}

@@ -36,6 +36,8 @@ import SearchDonors from "../Pages/SearchDonors";
 import PublicDonationRequests from "../Pages/PublicDonationRequests";
 import BloodDonationRequestDetails from "../Pages/donation/BloodDonationRequestDetails";
 import FundingPage from "../Pages/FundingPage";
+import AboutUs from "../Pages/AboutUs";
+import PrivacyPolicy from "../Pages/PrivacyPolicy";
 // import DonationRequestDetails from "../Pages/donation/DonationRequestDetails";
 // import UpdateIssueModal from "../Pages/UpdateIssueModal";
 // import UpdateIssueModal from "../Pages/UpdateIssueModal";
@@ -80,9 +82,9 @@ const router = createBrowserRouter([
       {
         path: "/donation-requests/:id",
         element: (
-          <PrivatRoute>
+          
             <BloodDonationRequestDetails />
-          </PrivatRoute>
+          
         ),
       },
       {
@@ -91,6 +93,22 @@ const router = createBrowserRouter([
           <PrivatRoute>
             <FundingPage />
           </PrivatRoute>
+        ),
+      },
+      {
+        path: "/about-us",
+        element: (
+          
+            <AboutUs />
+        
+        ),
+      },
+      {
+        path: "/privacy-policy",
+        element: (
+          
+            <PrivacyPolicy />
+        
         ),
       },
       

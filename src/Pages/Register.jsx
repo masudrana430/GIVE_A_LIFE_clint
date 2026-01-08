@@ -672,6 +672,13 @@ const upazilaOptionsByDistrict = {
   ],
 };
 
+
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { app } from "../firebase/firebase.config";
+
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
 const Register = () => {
   const { createUser, updateUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -852,6 +859,42 @@ const Register = () => {
     setSelectedDistrict(value);
     setSelectedUpazila("");
   };
+
+   const handleGoogleSignin = async () => {
+      setErr("");
+      setToast(null);
+      setLoading(true);
+  
+      try {
+        await signInWithPopup(auth, googleProvider);
+  
+        // ✅ removed setUser?.(...) because setUser is not defined
+        // Your AuthProvider's onAuthStateChanged should sync the user automatically.
+  
+        setToast({
+          type: "success",
+          message: "Logged in with Google! Redirecting…",
+        });
+  
+        // ✅ redirect to Home page
+        navigate("/", { replace: true });
+        // If you want previous route instead:
+        // navigate(from, { replace: true });
+      } catch (error) {
+        const map = {
+          "auth/popup-closed-by-user": "Google sign-in popup was closed.",
+          "auth/account-exists-with-different-credential":
+            "Account exists with a different sign-in method.",
+        };
+        const msg = map[error.code] || error.message;
+        setErr(msg);
+        setToast({ type: "error", message: msg });
+      } finally {
+        setLoading(false);
+        setTimeout(() => setToast(null), 2500);
+      }
+    };
+  
 
   return (
     <section className="py-10 md:py-16 ">
@@ -1148,6 +1191,37 @@ const Register = () => {
                   disabled={loading}
                 >
                   {loading ? "Creating…" : "Create donor account"}
+                </button>
+
+                <p className="text-center font-semibold mt-4 text-xs md:text-sm">
+                  or
+                </p>
+
+                <button
+                  type="button"
+                  onClick={handleGoogleSignin}
+                  className="btn bg-white text-black border-[#e5e5e5] gap-2 rounded-full flex justify-center items-center w-full"
+                  disabled={loading}
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 533.5 544.3" aria-hidden="true">
+                    <path
+                      fill="#4285F4"
+                      d="M533.5 278.4c0-17.6-1.6-35.5-4.9-52.5H272v99.5h146.9c-6.3 34-25.4 62.8-54.1 82v68h87.4c51.2-47.2 81.3-116.7 81.3-197z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M272 544.3c73.6 0 135.3-24.3 180.4-66.9l-87.4-68c-24.3 16.4-55.3 26-93 26-71.5 0-132.2-48.3-153.9-113.3H27.1v71.2c45.1 89.4 137.7 150.9 244.9 150.9z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M118.1 322.1c-10.9-32.6-10.9-67.9 0-100.5V150.4H27.1c-39.1 77.9-39.1 170.1 0 248l91-71.3z"
+                    />
+                    <path
+                      fill="#EA4335"
+                      d="M272 107.7c40 0 76.2 13.8 104.7 40.9l78.5-78.5C407.1 24.7 345.5 0 272 0 164.8 0 72.2 61.6 27.1 150.4l91 71.2C139.9 156 200.6 107.7 272 107.7z"
+                    />
+                  </svg>
+                  Continue with Google
                 </button>
 
                 <p className="text-center text-xs md:text-sm mt-3">

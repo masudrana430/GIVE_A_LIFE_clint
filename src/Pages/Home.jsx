@@ -1,6 +1,5 @@
 import React from "react";
-// import Banner from "../Components/Banner/Banner";
-// import AppData from './AppData';
+
 import Container from "../Components/Container";
 import WinterHeroSwiper from "../Components/WinterHeroSwiper";
 
@@ -9,19 +8,20 @@ import hero1 from "../assets/Group.png"; // replace with your own images
 import hero2 from "../assets/Group 427320769.png";
 import hero3 from "../assets/Group (1).png";
 
-// import LoyalHearts from '../Components/LoyalHearts';
-// import ExpertVets from '../Components/ExpertVets';
-// import ExtraSection from '../Components/ExtraSection';
-// import LatestIssues from "./LatestIssues";
-// import CategorySection from "../Components/CategorySection";
-// import CommunityStats from "../Components/CommunityStats";
-// import VolunteerCTA from "../Components/VolunteerCTA";
+
 import ContactSection from "../Components/ContactSection";
 import FeaturedSection from "../Components/FeaturedSection";
-// import CommunityStats from '../Components/CommunityStats';
-// import { data } from 'react-router';
-// import CategorySection from '../Components/CategorySection';
-// import CommunityStats from '../Components/CommunityStats';
+import ServicesSection from "../Components/ServicesSection";
+import CategoriesSection from "../Components/CategoriesSection";
+import HighlightsSection from "../Components/HighlightsSection";
+import StatisticsSection from "../Components/StatisticsSection";
+import HowItWorksSection from "../Components/HowItWorksSection";
+import TestimonialsSection from "../Components/TestimonialsSection";
+import BlogPreviewSection from "../Components/BlogPreviewSection";
+import NewsletterSection from "../Components/NewsletterSection";
+import FAQSection from "../Components/FAQSection";
+import CTASection from "../Components/CTASection";
+import PartnersSection from "../Components/PartnersSection";
 
 const Home = () => {
   const slides = [
@@ -60,15 +60,20 @@ const Home = () => {
 
       <Container>
         <WinterHeroSwiper slides={slides} />
-        {/* <LatestIssues /> */}
-        {/* <CategorySection /> */}
-        {/* <CommunityStats
-          totals={{ users: 213, resolved: 145, pending: 32 }}
-          sinceText="this week"
-        /> */}
-        {/* <VolunteerCTA /> */}
+       
         <FeaturedSection />
         <ContactSection />
+        <ServicesSection />
+        <CategoriesSection />
+        <HighlightsSection />
+        <StatisticsSection />
+        <HowItWorksSection />
+        <TestimonialsSection />
+        <BlogPreviewSection />
+        <NewsletterSection />
+        <FAQSection />
+        <CTASection />
+        <PartnersSection />
       </Container>
     </div>
   );

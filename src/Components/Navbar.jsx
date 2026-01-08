@@ -98,6 +98,30 @@ const Navbar = () => {
             />
           ),
         },
+        {
+          to: "/about-us",
+          label: "About Us",
+          emoji: (
+            <Lottie
+              animationData={AddIssue}
+              loop
+              className="h-6 w-6 shrink-0"
+              style={{ margin: 0 }}
+            />
+          ),
+        },
+        {
+          to: "/privacy-policy",
+          label: "Privacy Policy",
+          emoji: (
+            <Lottie
+              animationData={AddIssue}
+              loop
+              className="h-6 w-6 shrink-0"
+              style={{ margin: 0 }}
+            />
+          ),
+        },
       ]
     : [
         {
@@ -116,6 +140,18 @@ const Navbar = () => {
         {
           to: "/donation-requests",
           label: "Donation Requests",
+          emoji: (
+            <Lottie
+              animationData={AddIssue}
+              loop
+              className="h-6 w-6 shrink-0"
+              style={{ margin: 0 }}
+            />
+          ),
+        },
+        {
+          to: "/about-us",
+          label: "About Us",
           emoji: (
             <Lottie
               animationData={AddIssue}
